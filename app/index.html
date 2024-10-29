@@ -5,20 +5,21 @@
     <title>Proyecto</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     {{content-for "head"}}
 
     <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
     <link integrity="" rel="stylesheet" href="{{rootURL}}assets/proyecto.css">
 
     {{content-for "head-footer"}}
+
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
     {{content-for "body"}}
-
+    <!--ruteo de la aplicacion-->
+    
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/proyecto.js"></script>
-
     {{content-for "body-footer"}}
   </body>
 </html>
