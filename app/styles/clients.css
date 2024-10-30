@@ -1,0 +1,38 @@
+.table-container {
+  margin: 50px auto;
+  width: 80%;
+  background-color: rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+  padding: 20px;
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container th,
+.table-container td {
+  padding: 10px;
+  text-align: left;
+}
+
+.table-container th {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.table-container td {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.table-container a {
+  color: #23a2f6;
+  text-decoration: none;
+}
+
+.table-container a:hover {
+  text-decoration: underline;
+}

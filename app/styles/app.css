@@ -1,5 +1,16 @@
-/* Ember supports plain CSS out of the box. More info: https://cli.emberjs.com/release/advanced-use/stylesheets/ */
-@import 'login.css';
-/* import tailwind from url*/
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+/* Importaciones existentes */
+@import "login.css";
+@import "clients.css";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+
+/* Aplicar la fuente globalmente */
+body, html {
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff; /* Si deseas aplicar un color de texto global */
+}
+
+/* También puedes aplicar la fuente a todos los elementos */
+* {
+    font-family: 'Poppins', sans-serif;
+}
