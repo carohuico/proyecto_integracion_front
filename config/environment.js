@@ -18,6 +18,12 @@ module.exports = function (environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
     },
+    breakpoints: {
+      mobile: '(max-width: 767px)',
+      tablet: '(min-width: 768px) and (max-width: 991px)',
+      desktop: '(min-width: 992px)',
+      wide: '(min-width: 1200px)',
+    }
   };
 
   if (environment === 'development') {
@@ -46,3 +52,4 @@ module.exports = function (environment) {
 
   return ENV;
 };
+

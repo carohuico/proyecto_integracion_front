@@ -1,16 +1,183 @@
-/* Importaciones existentes */
-@import "login.css";
-@import "clients.css";
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* Aplicar la fuente globalmente */
-body, html {
+/* Estilos globales */
+body, html, div {
     font-family: 'Poppins', sans-serif;
-    color: #ffffff; /* Si deseas aplicar un color de texto global */
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* También puedes aplicar la fuente a todos los elementos */
 * {
-    font-family: 'Poppins', sans-serif;
+    box-sizing: inherit;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.bg-dark {
+    background-color: #111518;
+}
+
+.text-white {
+    color: #ffffff;
+}
+
+.text-gray {
+    color: #9cacba;
+}
+
+.text-4xl {
+    font-size: 2.25rem;
+}
+
+.font-black {
+    font-weight: 900;
+}
+
+.leading-tight {
+    line-height: 1.25;
+}
+
+.tracking-tight {
+    letter-spacing: -0.033em;
+}
+
+.text-base {
+    font-size: 1rem;
+}
+
+.font-normal {
+    font-weight: 400;
+}
+
+.leading-normal {
+    line-height: 1.5;
+}
+
+.border-b {
+    border-bottom-width: 1px;
+}
+
+.border-gray {
+    border-color: #3b4954;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.py-3 {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+}
+
+.rounded-xl {
+    border-radius: 0.75rem;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.leading-normal {
+    line-height: 1.5;
+}
+
+.border-t {
+    border-top-width: 1px;
+}
+
+.h-72 {
+    height: 72px;
+}
+
+.min-w-84 {
+    min-width: 84px;
+}
+
+.max-w-480 {
+    max-width: 480px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.h-8 {
+    height: 2rem;
+}
+
+.bg-dark-gray {
+    background-color: #283139;
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+    .text-4xl {
+        font-size: 1.5rem;
+    }
+
+    .container {
+        padding: 0 10px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .table-container table {
+        width: 100%;
+    }
 }

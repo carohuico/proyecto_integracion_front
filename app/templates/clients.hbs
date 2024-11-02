@@ -1,85 +1,73 @@
-<html>
-  <body>
-    <div class="relative flex size-full min-h-screen flex-col bg-[#111518] dark group/design-root overflow-x-hidden" style='font-family: "Public Sans", "Noto Sans", sans-serif;'>
-      <div class="layout-container flex h-full grow flex-col">
-        {{navbar}}
-        <div class="px-40 flex flex-1 justify-center py-5">
-          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-            <div class="flex flex-wrap justify-between gap-3 p-4">
-              <div class="flex min-w-72 flex-col gap-3">
-                <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Lista de clientes</p>
-                <p class="text-[#9cacba] text-base font-normal leading-normal">Visualiza la información de tus clientes y sus cuentas.</p>
-              </div>
-            </div>
-            <div class="pb-3">
-              <div class="flex border-b border-[#3b4954] px-4 gap-8">
+<div class="relative flex size-full min-h-screen flex-col bg-dark overflow-x-hidden">
+  <div class="container flex h-full grow flex-col">
+    {{navbar}}
+    <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+      <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+        <div class="flex flex-wrap justify-between gap-3 p-4">
+          <div class="flex min-w-72 flex-col gap-3">
+            <p class="text-white text-4xl font-black leading-tight tracking-tight">Lista de clientes</p>
+            <p class="text-gray text-base font-normal leading-normal">Visualiza la información de tus clientes y sus cuentas.</p>
+          </div>
+        </div>
+        <div class="pb-3">
+            <div class="flex border-b border-gray pl-4 gap-8 justify-between items-center">
+              <div class="flex gap-8">
                 <a class="flex flex-col items-center justify-center border-b-[3px] border-b-white text-white pb-[13px] pt-4" href="#">
-                  <p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">All</p>
-                </a>
-                <a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#9cacba] pb-[13px] pt-4" href="#">
-                  <p class="text-[#9cacba] text-sm font-bold leading-normal tracking-[0.015em]">Past due</p>
+                  <p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">Todos</p>
                 </a>
               </div>
+              <!-- Botón alineado a la derecha -->
+              <div class="flex justify-end w-full">
+                <button type="button" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
+                  Agregar cliente
+                </button>
+              </div>
             </div>
-            <div class="px-4 py-3 @container">
-              <div class="flex overflow-hidden rounded-xl border border-[#3b4954] bg-[#111518]">
-                <table class="flex-1">
-                  <thead>
-                    <tr class="bg-[#1b2227]">
-                      <th class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-120 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">ID</th>
-                      <th class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-240 px-4 py-3 text-left text-white w-60 text-sm font-medium leading-normal">Nombre</th>
-                      <th class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-360 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">Límite</th>
-                      <th class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-480 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">
-                        Saldo actual
-                      </th>
-                      <th class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-600 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">Editar</th>
-                      <th class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-720 px-4 py-3 text-left text-white w-[400px] text-sm font-medium leading-normal">
-                        Eliminar
-                      </th>
+          </div>
+        <div class="flex flex-col">
+          <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+              <div class="overflow-hidden shadow-md sm:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-700 w-full">
+                  <thead class="bg-[#1b2227]">
+                    <tr>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">ID</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Nombre</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Límite</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Saldo actual</th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"></th>
+                      <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider"></th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr class="border-t border-t-[#3b4954]">
-                      <td class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-120 h-[72px] px-4 py-2 w-[400px] text-[#9cacba] text-sm font-normal leading-normal">
-                        0001
-                      </td>
-                      <td class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-360 h-[72px] px-4 py-2 w-[400px] text-[#9cacba] text-sm font-normal leading-normal">Carolina Huicochea</td>
-                      <td class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-480 h-[72px] px-4 py-2 w-[400px] text-[#9cacba] text-sm font-normal leading-normal">
-                        $2,000
-                      </td>
-                      <td class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-600 h-[72px] px-4 py-2 w-[400px] text-[#9cacba] text-sm font-normal leading-normal">
-                        $800
-                      </td>
-                      <td class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-240 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
-                        <button
-                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 bg-[#283139] text-white text-sm font-medium leading-normal w-full" type="button"
-                        >
-                          <span class="truncate">Current</span>
+                  <tbody class="bg-[#111518] divide-y divide-gray-700">
+                    <tr>
+                      <td class="px-4 py-2 text-sm text-gray">0001</td>
+                      <td class="px-4 py-2 text-sm text-gray">Carolina Huicochea</td>
+                      <td class="px-4 py-2 text-sm text-gray">$2,000</td>
+                      <td class="px-4 py-2 text-sm text-gray">$800</td>
+                      <td class="px-4 py-2 text-sm">
+                        <button class="flex items-center justify-center w-full h-8 px-4 text-sm font-medium text-white bg-dark-gray rounded-xl">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                          </svg>
                         </button>
                       </td>
-                      <td class="table-f5ae3648-5184-4350-abfd-902d920ca320-column-240 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
-                        <button
-                          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 bg-[#283139] text-white text-sm font-medium leading-normal w-full" type="button"
-                        >
-                          <span class="truncate">Current</span>
+                      <td class="px-4 py-2 text-sm">
+                        <button class="flex items-center justify-center w-full h-8 px-4 text-sm font-medium text-white bg-dark-gray rounded-xl">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                          </svg>
                         </button>
                       </td>
                     </tr>
+                    <!-- Repite las filas según sea necesario -->
                   </tbody>
                 </table>
               </div>
-              <style>
-                          @container(max-width:120px){.table-f5ae3648-5184-4350-abfd-902d920ca320-column-120{display: none;}}
-                @container(max-width:240px){.table-f5ae3648-5184-4350-abfd-902d920ca320-column-240{display: none;}}
-                @container(max-width:360px){.table-f5ae3648-5184-4350-abfd-902d920ca320-column-360{display: none;}}
-                @container(max-width:480px){.table-f5ae3648-5184-4350-abfd-902d920ca320-column-480{display: none;}}
-                @container(max-width:600px){.table-f5ae3648-5184-4350-abfd-902d920ca320-column-600{display: none;}}
-                @container(max-width:720px){.table-f5ae3648-5184-4350-abfd-902d920ca320-column-720{display: none;}}
-              </style>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </body>
-</html>
+  </div>
+</div>
