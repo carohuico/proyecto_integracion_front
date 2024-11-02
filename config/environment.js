@@ -23,7 +23,8 @@ module.exports = function (environment) {
       tablet: '(min-width: 768px) and (max-width: 991px)',
       desktop: '(min-width: 992px)',
       wide: '(min-width: 1200px)',
-    }
+      ultraWide: '(min-width: 1600px)',
+    },
   };
 
   if (environment === 'development') {
@@ -52,4 +53,3 @@ module.exports = function (environment) {
 
   return ENV;
 };
-
