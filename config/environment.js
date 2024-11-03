@@ -5,7 +5,7 @@ module.exports = function (environment) {
     modulePrefix: 'proyecto',
     environment,
     rootURL: '/',
-    locationType: 'history',
+    locationType: 'historial',
     EmberENV: {
       EXTEND_PROTOTYPES: false,
       FEATURES: {

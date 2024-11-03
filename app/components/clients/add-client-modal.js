@@ -27,17 +27,25 @@ export default class AddClientModalComponent extends Component {
   @action
   addClient(event) {
     event.preventDefault();
-    if(!this.name || !this.email || !this.phone) {
+    if (!this.name || !this.email || !this.phone) {
       window.alert('Favor de llenar todos los campos');
       return;
+    } else if (this.email.indexOf('@') === -1) {
+      window.alert('Favor de ingresar un correo válido');
+      return;
+    } 
+    if (isNaN(this.phone)) {  
+      window.alert('Favor de ingresar un número de teléfono válido');
+      return
     }
+
     let payload = {
       name: this.name,
       email: this.email,
-      phone: this.phone
+      phone: this.phone,
     };
     console.log(payload);
-    
+
     this.name = '';
     this.email = '';
     this.phone = '';
@@ -51,6 +59,6 @@ export default class AddClientModalComponent extends Component {
     setTimeout(() => {
       this.args.onClose();
       this.isClosing = false;
-    }, 300); 
+    }, 300);
   }
 }

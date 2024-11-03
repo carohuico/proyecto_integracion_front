@@ -10,10 +10,10 @@ export default class NavbarComponent extends Component {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-    @action
-    handleResize() {
-      if(window.innerWidth > 640) {
-        this.isMenuOpen = false;
-      }
+  @action
+  handleResize() {
+    if (window.innerWidth > 640) {
+      this.isMenuOpen = false;
     }
+  }
 }
