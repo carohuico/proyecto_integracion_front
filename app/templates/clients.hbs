@@ -64,10 +64,9 @@
     </div>
   </div>
   {{#if this.isDetailModalOpen}}
-      <Clients::ClientDetailModal @client={{this.selectedClient}} @onClose={{this.closeDetailModal}} @onEdit={{this.openEditModal}} @onDelete={{this.deleteClient}} />
+    <Clients::ClientDetailModal @client={{this.selectedClient}} @onClose={{this.closeDetailModal}} @onEdit={{this.openEditModal}} @onDelete={{this.deleteClient}} />
   {{/if}}
   {{#if this.isModalOpen}}
     <Clients::AddClientModal @onClose={{this.closeModal}} />
   {{/if}}
 </div>
-
