@@ -1,4 +1,3 @@
-// client.js
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
@@ -19,7 +18,7 @@ export default class ClientsController extends Controller {
   // Cargar clientes desde el backend
   async loadClients() {
     try {
-      let response = await fetch('http://34.29.77.59:5002/get_clientes'); // URL del servicio de lectura
+      let response = await fetch('http://127.0.0.1:5002/get_clientes'); // URL del servicio de lectura
       let data = await response.json();
       // nombre_1, nombre_2, calle, telefono_1, num_identificacion_fiscal, ofvta, poblacion, grupo_clientes, canal_distribucion, tipo_canal, gr_1, clasificacion, digito_control, bloqueo_pedido, cpag, c_distribucion, distrito, zona, central, fecha_registro, limite_credito
       this.clients = data.map(client => ({
@@ -44,10 +43,10 @@ export default class ClientsController extends Controller {
         zona: client.zona,
         central: client.central,
         fechaRegistro: client.fecha_registro,
-        limiteCredito: client.limite_credito,
+        limiteCredito: client.limite_credito
       }));
     } catch (error) {
-      console.error('Error cargando clientes:', error);
+      console.error('Error loading clients:', error);
     }
   }
 
@@ -86,51 +85,26 @@ export default class ClientsController extends Controller {
   }
 
   @action
-  async saveClient(updatedClient) {
-    try {
-      let response = await fetch(`http://<IP-de-tu-VM>:5003/update_cliente/${updatedClient.id}`, { // URL del servicio de actualización
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedClient),
-      });
-      if (response.ok) {
-        this.loadClients(); // Recargar clientes después de actualizar
-      }
-      this.closeEditModal();
-    } catch (error) {
-      console.error('Error actualizando cliente:', error);
-    }
-  }
-
-  @action
-  async deleteClient(client) {
-    try {
-      let response = await fetch(`http://<IP-de-tu-VM>:5004/delete_cliente/${client.id}`, { // URL del servicio de eliminación
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        this.clients = this.clients.filter(c => c.id !== client.id);
-      }
-      this.closeDetailModal();
-    } catch (error) {
-      console.error('Error eliminando cliente:', error);
-    }
-  }
-
-  @action
   async addClient(newClient) {
     try {
-      let response = await fetch('http://<IP-de-tu-VM>:5001/create_cliente', { // URL del servicio de creación
+      console.log(newClient);
+      let response = await fetch('http://127.0.0.1:5001/create_cliente', { // URL del servicio de creación
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newClient),
       });
       if (response.ok) {
-        this.loadClients(); // Recargar clientes después de agregar
+        this.loadClients(); 
       }
       this.closeModal();
     } catch (error) {
       console.error('Error agregando cliente:', error);
     }
+  }
+
+  @action
+  deleteClient(client) {
+    this.clients = this.clients.filter(c => c.id !== client.id);
+    this.closeDetailModal();
   }
 }

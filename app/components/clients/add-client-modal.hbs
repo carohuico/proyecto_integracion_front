@@ -1,27 +1,40 @@
 <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 {{if this.isClosing "modal-leave" "modal-enter"}}">
-  <div class="bg-[#1c1c1c] rounded-xl p-6 w-[512px] max-w-full">
+  <div class="bg-[#1c1c1c] rounded-xl p-6 w-[512px] max-w-full max-h-full overflow-y-auto">
     <div class="flex flex-col items-center">
       <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] text-center pb-3">Agregar Cliente</h2>
       <p class="text-white text-base font-normal leading-normal text-center pb-6">Llena los siguientes campos para agregar un nuevo cliente.</p>
 
       <form {{on "submit" this.addClient}} class="w-full">
         <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Nombre</label>
+          <label class="block text-white text-base font-medium leading-normal mb-2">Nombre(s)</label>
           <input
             type="text"
-            placeholder="Nombre completo"
-            class="w-full h-14 p-4 rounded-xl bg-[rgba(187,210,255,0.25)] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            {{on "input" this.updateName}}
+            placeholder="Nombre(s)"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateNombre1}}
+            {{!-- obligatorio --}}
+            required
           />
         </div>
 
         <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Email</label>
+          <label class="block text-white text-base font-medium leading-normal mb-2">Apellido</label>
           <input
             type="text"
-            placeholder="Correo electrónico"
-            class="w-full h-14 p-4 rounded-xl bg-[rgba(187,210,255,0.25)] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            {{on "input" this.updateEmail}}
+            placeholder="Apellido"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateNombre2}}
+            required
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Calle</label>
+          <input
+            type="text"
+            placeholder="Calle"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateCalle}}
           />
         </div>
 
@@ -29,15 +42,180 @@
           <label class="block text-white text-base font-medium leading-normal mb-2">Teléfono</label>
           <input
             type="text"
-            placeholder="Núm. de teléfono"
-            class="w-full h-14 p-4 rounded-xl bg-[rgba(187,210,255,0.25)] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            {{on "input" this.updatePhone}}
+            placeholder="Teléfono"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateTelefono}}
+            required
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Número de Identificación Fiscal</label>
+          <input
+            type="text"
+            placeholder="Número de Identificación Fiscal"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateNIF}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Oficina de ventas asignada</label>
+          <input
+            type="text"
+            placeholder="Oficina de ventas asignada"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateOfvta}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Población</label>
+          <input
+            type="text"
+            placeholder="Ciudad o población"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updatePoblacion}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Grupo de Clientes</label>
+          <input
+            type="text"
+            placeholder="Clasificación del cliente por grupo de negocio"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateGrupoClientes}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Canal de Distribución</label>
+          <input
+            type="text"
+            placeholder="Código del canal de distribución"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateCanalDistribucion}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Tipo de Canal</label>
+          <input
+            type="text"
+            placeholder="Tipo de canal (e.g., Tradicional, Canal Moderno)"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateTipoCanal}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">GR 1</label>
+          <input
+            type="text"
+            placeholder="Clasificación adicional del cliente"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateGR1}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Clasificación</label>
+          <input
+            type="text"
+            placeholder="Segmento o categoría"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateClasificacion}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Dígito de Control</label>
+          <input
+            type="text"
+            placeholder="Dígito de control para verificación de datos"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateDigitoControl}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Bloqueo de Pedido</label>
+          <input
+            type="text"
+            placeholder="Indicación de bloqueo de pedidos"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateBloqueoPedido}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">CPAG</label>
+          <input
+            type="text"
+            placeholder="Código de pago preferido"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateCPAG}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Centro de distribución</label>
+          <input
+            type="text"
+            placeholder="Centro de distribución asignado"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateCDistribucion}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Distrito</label>
+          <input
+            type="text"
+            placeholder="Distrito de operación"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateDistrito}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Zona</label>
+          <input
+            type="text"
+            placeholder="Zona de transporte asignada"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateZona}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Central</label>
+          <input
+            type="text"
+            placeholder="Código central"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateCentral}}
+          />
+        </div>
+
+        <div class="w-full mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">Límite de Crédito</label>
+          <input
+            type="number"
+            placeholder="Límite de Crédito"
+            {{!-- crear limite --}}
+            min="1000"
+            max="1000000"
+            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+            {{on "input" this.updateLimiteCredito}}
+            required
           />
         </div>
 
         <div class="flex justify-end gap-4">
           <button type="button" class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center" {{on "click" this.closeModal}}>Cancelar</button>
-          <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Agregar</button>
+          <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Añadir</button>
         </div>
       </form>
     </div>
