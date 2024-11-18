@@ -19,13 +19,13 @@ export default class LoginFormComponent extends Component {
   @action
   login(event) {
     event.preventDefault();
-    if(!this.username || !this.password) {
-        window.alert('Favor de llenar todos los campos');
-        return;
+    if (!this.username || !this.password) {
+      window.alert('Favor de llenar todos los campos');
+      return;
     }
     let payload = {
       username: this.username,
-      password: this.password
+      password: this.password,
     };
 
     //!TODO: llamada al servicio de autenticación

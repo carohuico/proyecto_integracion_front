@@ -21,6 +21,7 @@
     <div class="flex items-center gap-9">
       <a class="text-white text-sm font-medium leading-normal" href="#">Inicio</a>
       <a class="text-white text-sm font-medium leading-normal" href="/clients">Clientes</a>
+      <a class="text-white text-sm font-medium leading-normal" href="/creditos">Creditos</a>
       <a class="text-white text-sm font-medium leading-normal" href="/historial">Historial crediticio</a>
       <a class="text-white text-sm font-medium leading-normal" href="#">Analítica</a>
     </div>
@@ -36,7 +37,7 @@
       </button>
     </div>
   </div>
-  <!-- Botón de menú de hamburguesa -->
+  {{!-- Botón de menú de hamburguesa --}}
   <div class="md:hidden flex items-center">
     <button type="button" class="text-white focus:outline-none" {{on "click" this.toggleMenu}}>
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -45,11 +46,12 @@
     </button>
   </div>
 </header>
-<!-- Menú desplegable -->
+{{!-- Menú desplegable --}}
 {{#if this.isMenuOpen}}
   <div class="menu-enter absolute top-16 left-0 w-full bg-[#111518] text-white z-50 shadow-lg border-b border-solid border-b-[#283139]">
     <a class="block px-4 py-2 text-sm font-medium leading-normal" href="#">Inicio</a>
     <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/clients">Clientes</a>
+    <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/creditos">Creditos</a>
     <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/historial">Historial crediticio</a>
     <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/jaja">Analítica</a>
   </div>

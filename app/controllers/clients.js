@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // client.js
 import Controller from '@ember/controller';
 import { action } from '@ember/object';

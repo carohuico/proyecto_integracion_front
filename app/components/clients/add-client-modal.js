@@ -33,10 +33,10 @@ export default class AddClientModalComponent extends Component {
     } else if (this.email.indexOf('@') === -1) {
       window.alert('Favor de ingresar un correo válido');
       return;
-    } 
-    if (isNaN(this.phone)) {  
+    }
+    if (isNaN(this.phone)) {
       window.alert('Favor de ingresar un número de teléfono válido');
-      return
+      return;
     }
 
     let payload = {
