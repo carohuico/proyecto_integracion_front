@@ -10,18 +10,20 @@
           </div>
         </div>
         <div class="pb-3">
-          <div class="flex border-b border-gray pl-4 gap-8 justify-between items-center">
-            <div class="flex gap-8">
-              <a class="flex flex-col items-center justify-center border-b-[3px] border-b-white text-white pb-[13px] pt-4" href="#">
-                <p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">Todos</p>
-              </a>
-            </div>
-            <!-- Botón alineado a la derecha -->
-            <div class="flex justify-end w-full">
-              <button type="button" {{on "click" this.openModal}} class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
-                Agregar entrada
-              </button>
-            </div>
+          <!-- Botones de filtro -->
+          <div class="flex border-b border-gray pl-4 gap-8 justify-start">
+            <button {{on "click" (fn this.setFilter "todos")}}
+              class="{{if (eq this.filterType "todos") "border-b-[3px] border-b-white" "text-gray"}} text-white pb-[13px] pt-4 text-sm font-bold">
+              Todos
+            </button>
+            <button {{on "click" (fn this.setFilter "activos")}}
+              class="{{if (eq this.filterType "activos") "border-b-[3px] border-b-white" "text-gray"}} text-white pb-[13px] pt-4 text-sm font-bold">
+              Activos
+            </button>
+            <button {{on "click" (fn this.setFilter "pagados")}}
+              class="{{if (eq this.filterType "pagados") "border-b-[3px] border-b-white" "text-gray"}} text-white pb-[13px] pt-4 text-sm font-bold">
+              Pagados
+            </button>
           </div>
         </div>
         <!-- Formulario de búsqueda -->
@@ -81,7 +83,7 @@
                         </tr>
                       {{/each}}
                     {{else}}
-                      {{#each this.history as |entry|}}
+                      {{#each this.filteredResults as |entry|}}
                         <tr>
                           <td class="px-4 py-2 text-sm text-white">{{entry.id}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.estado}}</td>
