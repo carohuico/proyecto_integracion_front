@@ -1,245 +1,232 @@
-<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 {{if this.isClosing "modal-leave" "modal-enter"}}">
-  <div class="bg-[#1c1c1c] rounded-xl p-6 w-[512px] max-w-full max-h-full overflow-y-auto">
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 pt-10 pb-10 {{if this.isClosing "modal-leave" "modal-enter"}}">
+  <div class="bg-[#1c1c1c] rounded-xl p-6 max-w-full max-h-full overflow-y-auto">
     <div class="flex flex-col items-center">
-      <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] text-center pb-3">Editar Cliente</h2>
-      <p class="text-white text-base font-normal leading-normal text-center pb-6">Edita los siguientes campos para actualizar la información del cliente.</p>
+      <h2 class="text-white text-xl font-semibold text-center mb-4">Editar Cliente</h2>
 
       <form {{on "submit" this.saveClient}} class="w-full">
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Nombre(s)</label>
-          <input
-            type="text"
-            placeholder="Nombre(s)"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.nombre1}}
-            {{on "input" this.updateNombre1}}
-            required
-          />
+        <div class="grid grid-cols-2 gap-y-4 gap-x-6 w-full">
+          <!-- ID Cliente -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">ID Cliente</label>
+            <p class="text-white">{{this.args.client.id}}</p>
+          </div>
+
+          <!-- Fecha de Registro -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Fecha de Registro</label>
+            <p class="text-white">{{this.fechaRegistro}}</p>
+          </div>
+
+          <!-- Nombre Completo -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Nombre 1</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.nombre1}}
+              {{on "input" this.updateNombre1}}
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Nombre 2</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.nombre2}}
+              {{on "input" this.updateNombre2}}
+            />
+          </div>
+          
+          <!-- Número Fiscal -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Núm. Identificación Fiscal</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.nif}}
+              {{on "input" this.updateNIF}}
+            />
+          </div>
+
+          <!-- Teléfono -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Teléfono</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.telefono}}
+              {{on "input" this.updateTelefono}}
+            />
+          </div>
+
+          <!-- Límite de Crédito -->
+          <div class="col-span-2 flex flex-col items-center">
+            <label class="block text-sm font-medium text-gray-400">Límite de Crédito</label>
+            <input
+              type="number"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.limiteCredito}}
+              {{on "input" this.updateLimiteCredito}}
+            />
+          </div>
+
+          <!-- Calle -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Calle</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.calle}}
+              {{on "input" this.updateCalle}}
+            />
+          </div>
+
+          <!-- Oficina de Venta -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Oficina de Venta</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.ofvta}}
+              {{on "input" this.updateOfvta}}
+            />
+          </div>
+
+          <!-- Población -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Población</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.poblacion}}
+              {{on "input" this.updatePoblacion}}
+            />
+          </div>
+
+          <!-- Grupo de Clientes -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Grupo de Clientes</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.grupoClientes}}
+              {{on "input" this.updateGrupoClientes}}
+            />
+          </div>
+
+          <!-- Canal de Distribución -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Canal de Distribución</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.canalDistribucion}}
+              {{on "input" this.updateCanalDistribucion}}
+            />
+          </div>
+
+          <!-- Tipo de Canal -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Tipo de Canal</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.tipoCanal}}
+              {{on "input" this.updateTipoCanal}}
+            />
+          </div>
+
+          <!-- GR1 -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">GR1</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.gr1}}
+              {{on "input" this.updateGR1}}
+            />
+          </div>
+
+          <!-- Clasificación -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Clasificación</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.clasificacion}}
+              {{on "input" this.updateClasificacion}}
+            />
+          </div>
+
+          <!-- Dígito de Control -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Dígito de Control</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.digitoControl}}
+              {{on "input" this.updateDigitoControl}}
+            />
+          </div>
+
+          <!-- CPAG -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">CPAG</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.cpag}}
+              {{on "input" this.updateCPAG}}
+            />
+          </div>
+
+          <!-- CDistribución -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">CDistribución</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.cDistribucion}}
+              {{on "input" this.updateCDistribucion}}
+            />
+          </div>
+
+          <!-- Distrito -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Distrito</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.distrito}}
+              {{on "input" this.updateDistrito}}
+            />
+          </div>
+
+          <!-- Zona -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Zona</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.zona}}
+              {{on "input" this.updateZona}}
+            />
+          </div>
+
+          <!-- Central -->
+          <div>
+            <label class="block text-sm font-medium text-gray-400">Central</label>
+            <input
+              type="text"
+              class="w-full h-10 p-2 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              value={{this.central}}
+              {{on "input" this.updateCentral}}
+            />
+          </div>
         </div>
 
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Apellido</label>
-          <input
-            type="text"
-            placeholder="Apellido"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.nombre2}}
-            {{on "input" this.updateNombre2}}
-            required
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Calle</label>
-          <input
-            type="text"
-            placeholder="Calle"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.calle}}
-            {{on "input" this.updateCalle}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Teléfono</label>
-          <input
-            type="text"
-            placeholder="Teléfono"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.telefono}}
-            {{on "input" this.updateTelefono}}
-            required
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Número de Identificación Fiscal</label>
-          <input
-            type="text"
-            placeholder="Número de Identificación Fiscal"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.nif}}
-            {{on "input" this.updateNIF}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Ofvta</label>
-          <input
-            type="text"
-            placeholder="Ofvta"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.ofvta}}
-            {{on "input" this.updateOfvta}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Población</label>
-          <input
-            type="text"
-            placeholder="Población"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.poblacion}}
-            {{on "input" this.updatePoblacion}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Grupo de Clientes</label>
-          <input
-            type="text"
-            placeholder="Grupo de Clientes"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.grupoClientes}}
-            {{on "input" this.updateGrupoClientes}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Canal de Distribución</label>
-          <input
-            type="text"
-            placeholder="Canal de Distribución"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.canalDistribucion}}
-            {{on "input" this.updateCanalDistribucion}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Tipo de Canal</label>
-          <input
-            type="text"
-            placeholder="Tipo de Canal"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.tipoCanal}}
-            {{on "input" this.updateTipoCanal}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">GR 1</label>
-          <input
-            type="text"
-            placeholder="GR 1"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.gr1}}
-            {{on "input" this.updateGR1}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Clasificación</label>
-          <input
-            type="text"
-            placeholder="Clasificación"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.clasificacion}}
-            {{on "input" this.updateClasificacion}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Dígito de Control</label>
-          <input
-            type="text"
-            placeholder="Dígito de Control"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.digitoControl}}
-            {{on "input" this.updateDigitoControl}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Bloqueo de Pedido</label>
-          <input
-            type="text"
-            placeholder="Bloqueo de Pedido"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.bloqueoPedido}}
-            {{on "input" this.updateBloqueoPedido}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">CPAG</label>
-          <input
-            type="text"
-            placeholder="CPAG"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.cpag}}
-            {{on "input" this.updateCPAG}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">C Distribución</label>
-          <input
-            type="text"
-            placeholder="C Distribución"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.cDistribucion}}
-            {{on "input" this.updateCDistribucion}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Distrito</label>
-          <input
-            type="text"
-            placeholder="Distrito"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.distrito}}
-            {{on "input" this.updateDistrito}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Zona</label>
-          <input
-            type="text"
-            placeholder="Zona"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.zona}}
-            {{on "input" this.updateZona}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Central</label>
-          <input
-            type="text"
-            placeholder="Central"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.central}}
-            {{on "input" this.updateCentral}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Fecha de Registro</label>
-          <input
-            type="date"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.fechaRegistro}}
-            {{on "input" this.updateFechaRegistro}}
-          />
-        </div>
-
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Límite de Crédito</label>
-          <input
-            type="number"
-            placeholder="Límite de Crédito"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            value={{this.limiteCredito}}
-            {{on "input" this.updateLimiteCredito}}
-            required
-          />
-        </div>
-
-        <div class="flex justify-end gap-4">
+        <!-- Botones de acción -->
+        <div class="flex justify-end gap-4 mt-6">
           <button type="button" class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center" {{on "click" this.closeModal}}>Cancelar</button>
           <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Guardar</button>
         </div>

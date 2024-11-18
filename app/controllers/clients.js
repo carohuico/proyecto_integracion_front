@@ -67,14 +67,13 @@ export default class ClientsController extends Controller {
   @action
   closeDetailModal() {
     this.isDetailModalOpen = false;
-    this.selectedClient = null;
   }
 
   @action
   openEditModal(client) {
     this.selectedClient = client;
-    this.isDetailModalOpen = false; // Cerrar el modal de detalles
-    this.isEditModalOpen = true; // Abrir el modal de edición
+    console.log("Cliente seleccionado para edición:", this.selectedClient);
+    this.isEditModalOpen = true;
   }
 
   @action
@@ -104,24 +103,25 @@ export default class ClientsController extends Controller {
   }
 
   @action
-  async updateClient(updatedClient) {
-    try {
-      console.log(updatedClient);
-      let response = await fetch(`http://127.0.0.1:5003/update_cliente/${updatedClient.id}`, { // URL del servicio de actualización
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedClient),
-      });
-      if (response.ok) {
-        this.loadClients(); // Recargar clientes después de actualizar
-      } else {
-        console.error('Error en la respuesta del servidor:', response.statusText);
+    async updateClient(updatedClient) {
+      try {
+        let response = await fetch(`http://127.0.0.1:5003/update_cliente/${updatedClient.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedClient),
+        });
+
+        if (response.ok) {
+          this.loadClients(); 
+        } else {
+          console.error('Error en la respuesta del servidor:', response.statusText);
+        }
+
+        this.closeEditModal();
+      } catch (error) {
+        console.error('Error actualizando cliente:', error);
       }
-      this.closeEditModal();
-    } catch (error) {
-      console.error('Error actualizando cliente:', error);
     }
-  }
 
   @action
   async deleteClient(client) {

@@ -29,27 +29,30 @@ export default class EditClientModalComponent extends Component {
   constructor() {
     super(...arguments);
     if (this.args.client) {
-      this.nombre1 = this.args.client.nombre_1.split(' ')[0];
-      this.nombre2 = this.args.client.nombre_2.split(' ')[1] || '';
+      
+      this.nombre1 = this.args.client.nombre.split(' ')[0];
+      this.nombre2 = this.args.client.nombre.split(' ')[1] || '';
       this.calle = this.args.client.calle;
-      this.telefono = this.args.client.telefono_1;
-      this.nif = this.args.client.num_identificacion_fiscal;
+      this.telefono = this.args.client.telefono;
+      this.nif = this.args.client.nif;
       this.ofvta = this.args.client.ofvta;
       this.poblacion = this.args.client.poblacion;
-      this.grupoClientes = this.args.client.grupo_clientes;
-      this.canalDistribucion = this.args.client.canal_distribucion;
-      this.tipoCanal = this.args.client.tipo_canal;
+      this.grupoClientes = this.args.client.grupo;
+      this.canalDistribucion = this.args.client.canal;
+      this.tipoCanal = this.args.client.tipoCanal;
       this.gr1 = this.args.client.gr1;
       this.clasificacion = this.args.client.clasificacion;
-      this.digitoControl = this.args.client.digito_control;
-      this.bloqueoPedido = this.args.client.bloqueo_pedido;
+      this.digitoControl = this.args.client.digitoControl;
+      this.bloqueoPedido = this.args.client.bloqueoPedido;
       this.cpag = this.args.client.cpag;
-      this.cDistribucion = this.args.client.c_distribucion;
+      this.cDistribucion = this.args.client.cDistribucion;
       this.distrito = this.args.client.distrito;
       this.zona = this.args.client.zona;
       this.central = this.args.client.central;
-      this.fechaRegistro = this.args.client.fecha_registro;
-      this.limiteCredito = this.args.client.limite_credito;
+      this.fechaRegistro = this.args.client.fechaRegistro;
+      this.limiteCredito = this.args.client.limiteCredito;
+    } else {
+      console.log("No hay cliente");
     }
   }
 

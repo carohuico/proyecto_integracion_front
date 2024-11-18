@@ -11,11 +11,12 @@ export default class ClientDetailModalComponent extends Component {
     setTimeout(() => {
       this.args.onClose();
       this.isClosing = false;
-    }, 300); // Duración de la animación en milisegundos
+    }, 300); 
   }
 
   @action
   editClient() {
+    console.log("Edit client", this.args.client);
     this.args.onEdit(this.args.client);
     this.args.onClose();
   }
