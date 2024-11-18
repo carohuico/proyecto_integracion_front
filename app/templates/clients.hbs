@@ -69,4 +69,7 @@
   {{#if this.isModalOpen}}
     <Clients::AddClientModal @onClose={{this.closeModal}} @onSave={{this.addClient}} />
   {{/if}}
+  {{#if this.isEditModalOpen}}
+    <Clients::EditClientModal @client={{this.selectedClient}} @onClose={{this.closeEditModal}} @onSave={{this.updateClient}} />
+  {{/if}}
 </div>

@@ -16,13 +16,12 @@ export default class ClientDetailModalComponent extends Component {
 
   @action
   editClient() {
-    // Aquí se debería implementar la lógica para editar un cliente
-    this.closeModal();
+    this.args.onEdit(this.args.client);
+    this.args.onClose();
   }
 
   @action
   deleteClient() {
     this.args.onDelete(this.args.client);
-    this.closeModal();
   }
 }

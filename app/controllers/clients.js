@@ -20,10 +20,8 @@ export default class ClientsController extends Controller {
     try {
       let response = await fetch('http://127.0.0.1:5002/get_clientes'); // URL del servicio de lectura
       let data = await response.json();
-      // nombre_1, nombre_2, calle, telefono_1, num_identificacion_fiscal, ofvta, poblacion, grupo_clientes, canal_distribucion, tipo_canal, gr_1, clasificacion, digito_control, bloqueo_pedido, cpag, c_distribucion, distrito, zona, central, fecha_registro, limite_credito
       this.clients = data.map(client => ({
         id: client.id_cliente,
-        // concatenar nombre_1 y nombre_2
         nombre: `${client.nombre_1} ${client.nombre_2}`,
         calle: client.calle,
         telefono: client.telefono_1,
@@ -75,7 +73,8 @@ export default class ClientsController extends Controller {
   @action
   openEditModal(client) {
     this.selectedClient = client;
-    this.isEditModalOpen = true;
+    this.isDetailModalOpen = false; // Cerrar el modal de detalles
+    this.isEditModalOpen = true; // Abrir el modal de edición
   }
 
   @action
@@ -94,7 +93,9 @@ export default class ClientsController extends Controller {
         body: JSON.stringify(newClient),
       });
       if (response.ok) {
-        this.loadClients(); 
+        this.loadClients(); // Recargar clientes después de agregar
+      } else {
+        console.error('Error en la respuesta del servidor:', response.statusText);
       }
       this.closeModal();
     } catch (error) {
@@ -103,8 +104,40 @@ export default class ClientsController extends Controller {
   }
 
   @action
-  deleteClient(client) {
+  async updateClient(updatedClient) {
+    try {
+      console.log(updatedClient);
+      let response = await fetch(`http://127.0.0.1:5003/update_cliente/${updatedClient.id}`, { // URL del servicio de actualización
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedClient),
+      });
+      if (response.ok) {
+        this.loadClients(); // Recargar clientes después de actualizar
+      } else {
+        console.error('Error en la respuesta del servidor:', response.statusText);
+      }
+      this.closeEditModal();
+    } catch (error) {
+      console.error('Error actualizando cliente:', error);
+    }
+  }
+
+  @action
+  async deleteClient(client) {
     this.clients = this.clients.filter(c => c.id !== client.id);
+    try {
+      let response = await fetch(`http://127.0.0.1:5004/delete_cliente/${client.id}`, { // URL del servicio de eliminación
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        this.loadClients(); // Recargar clientes después de eliminar
+      } else {
+        console.error('Error en la respuesta del servidor:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error eliminando cliente:', error);
+    }
     this.closeDetailModal();
   }
 }

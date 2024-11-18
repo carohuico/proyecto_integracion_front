@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-export default class AddClientModalComponent extends Component {
+export default class EditClientModalComponent extends Component {
   @tracked nombre1 = '';
   @tracked nombre2 = '';
   @tracked calle = '';
@@ -25,6 +25,33 @@ export default class AddClientModalComponent extends Component {
   @tracked fechaRegistro = '';
   @tracked limiteCredito = '';
   @tracked isClosing = false;
+
+  constructor() {
+    super(...arguments);
+    if (this.args.client) {
+      this.nombre1 = this.args.client.nombre_1.split(' ')[0];
+      this.nombre2 = this.args.client.nombre_2.split(' ')[1] || '';
+      this.calle = this.args.client.calle;
+      this.telefono = this.args.client.telefono_1;
+      this.nif = this.args.client.num_identificacion_fiscal;
+      this.ofvta = this.args.client.ofvta;
+      this.poblacion = this.args.client.poblacion;
+      this.grupoClientes = this.args.client.grupo_clientes;
+      this.canalDistribucion = this.args.client.canal_distribucion;
+      this.tipoCanal = this.args.client.tipo_canal;
+      this.gr1 = this.args.client.gr1;
+      this.clasificacion = this.args.client.clasificacion;
+      this.digitoControl = this.args.client.digito_control;
+      this.bloqueoPedido = this.args.client.bloqueo_pedido;
+      this.cpag = this.args.client.cpag;
+      this.cDistribucion = this.args.client.c_distribucion;
+      this.distrito = this.args.client.distrito;
+      this.zona = this.args.client.zona;
+      this.central = this.args.client.central;
+      this.fechaRegistro = this.args.client.fecha_registro;
+      this.limiteCredito = this.args.client.limite_credito;
+    }
+  }
 
   @action
   updateNombre1(event) {
@@ -122,21 +149,20 @@ export default class AddClientModalComponent extends Component {
   }
 
   @action
+  updateFechaRegistro(event) {
+    this.fechaRegistro = event.target.value;
+  }
+
+  @action
   updateLimiteCredito(event) {
     this.limiteCredito = event.target.value;
   }
 
   @action
-  addClient(event) {
+  saveClient(event) {
     event.preventDefault();
-    let today = new Date();
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0');
-    let yyyy = today.getFullYear();
-    today = yyyy + '-' + mm + '-' + dd;
-    this.fechaRegistro = today;
-
-    let newClient = {
+    let updatedClient = {
+      id: this.args.client.id,
       nombre_1: this.nombre1,
       nombre_2: this.nombre2,
       calle: this.calle,
@@ -159,8 +185,7 @@ export default class AddClientModalComponent extends Component {
       fecha_registro: this.fechaRegistro,
       limite_credito: this.limiteCredito
     };
-
-    this.args.onSave(newClient);
+    this.args.onSave(updatedClient);
     this.closeModal();
   }
 
@@ -170,6 +195,6 @@ export default class AddClientModalComponent extends Component {
     setTimeout(() => {
       this.args.onClose();
       this.isClosing = false;
-    }, 300); 
+    }, 300); // Duración de la animación en milisegundos
   }
 }
