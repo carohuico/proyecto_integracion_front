@@ -11,8 +11,18 @@
 
       <div class="grid grid-cols-2 gap-4 w-full">
         <div class="mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">ID</label>
+          <label class="block text-white text-base font-medium leading-normal mb-2">ID Crédito</label>
           <p class="text-white">{{this.args.entry.id}}</p>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">ID Cliente</label>
+          <p class="text-white">{{this.args.entry.clienteId}}</p>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-white text-base font-medium leading-normal mb-2">ID Viaje</label>
+          <p class="text-white">{{this.args.entry.viaje}}</p>
         </div>
 
         <div class="mb-4">
@@ -35,15 +45,6 @@
           <p class="text-white">{{this.args.entry.fecha}}</p>
         </div>
 
-        <div class="mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Monto Pago</label>
-          <p class="text-white">{{this.args.entry.monto}}</p>
-        </div>
-
-        <div class="mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">ID Cliente</label>
-          <p class="text-white">{{this.args.entry.clienteId}}</p>
-        </div>
       </div>
 
       <div class="flex justify-end gap-4 w-full mt-4">
