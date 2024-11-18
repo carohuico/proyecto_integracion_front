@@ -18,7 +18,7 @@ export default class ClientsController extends Controller {
   // Cargar clientes desde el backend
   async loadClients() {
     try {
-      let response = await fetch('http://127.0.0.1:5002/get_clientes'); // URL del servicio de lectura
+      let response = await fetch('http://34.31.19.169:5002/get_clientes'); // URL del servicio de lectura
       let data = await response.json();
       // nombre_1, nombre_2, calle, telefono_1, num_identificacion_fiscal, ofvta, poblacion, grupo_clientes, canal_distribucion, tipo_canal, gr_1, clasificacion, digito_control, bloqueo_pedido, cpag, c_distribucion, distrito, zona, central, fecha_registro, limite_credito
       this.clients = data.map(client => ({
@@ -88,7 +88,7 @@ export default class ClientsController extends Controller {
   async addClient(newClient) {
     try {
       console.log(newClient);
-      let response = await fetch('http://127.0.0.1:5001/create_cliente', { // URL del servicio de creación
+      let response = await fetch('34.31.19.169:5001/create_cliente', { // URL del servicio de creación
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newClient),

@@ -7,11 +7,34 @@ export default class HistoryController extends Controller {
   @tracked isDetailModalOpen = false;
   @tracked isEditModalOpen = false;
   @tracked selectedEntry = null;
+  @tracked history = [];
 
-  @tracked creditHistory = [
-    // Aquí se deberían cargar los historiales de crédito desde la base de datos
-    { id: 1, clientName: 'Carolina Huicochea', date: '2023-01-01', amount: 2000, status: 'Paid' },
-  ];
+ // Cargar historial al iniciar el controlador
+  constructor() {
+    super(...arguments);
+    this.loadHistory();
+  }
+
+// Cargar historial desde el backend
+async loadHistory() {
+  try {
+    let response = await fetch('http://34.31.19.169:5013/api/historial-credito'); // Completar la URL del servicio de lectura
+    let data = await response.json();
+    this.history = data.map(entry => ({
+      id: entry.id_credito,
+      estado: entry.estado_credito,
+      pactado: entry.valor_pactado,
+      pagado: entry.valor_pagado,
+      fecha: entry.fecha_pago,
+      monto: entry.monto_pago,
+      clienteId: entry.id_cliente,
+    }));
+    //Mostrar solamente el primer historial
+    console.log(this.history);
+  } catch (error) {
+    console.error('Error loading history:', error);
+  }
+}
 
   @action
   openModal() {
