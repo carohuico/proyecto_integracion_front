@@ -130,7 +130,10 @@
     <Credit-history::HistoryDetailModal @entry={{this.selectedEntry}} @onClose={{this.closeDetailModal}} @onEdit={{this.openEditModal}} @onDelete={{this.deleteEntry}} />
   {{/if}}
   {{#if this.isModalOpen}}
-    <Credit-history::AddHistoryModal @onClose={{this.closeModal}} />
+  <Credit-history::AddHistoryModal
+    @onSave={{this.onSave}}
+    @onClose={{this.closeModal}}
+  />
   {{/if}}
   {{#if this.isEditModalOpen}}
     <Credit-history::EditCreditHistoryModal @entry={{this.selectedEntry}} @onClose={{this.closeEditModal}} @onSave={{this.saveEntry}} />

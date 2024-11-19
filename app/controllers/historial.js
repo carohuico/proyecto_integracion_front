@@ -15,6 +15,14 @@ export default class HistoryController extends Controller {
   @tracked filteredResults = [];
   @tracked filterType = 'todos'; // Puede ser 'todos', 'activos', 'pagados'
 
+  // Nuevo crédito
+  @tracked newCredit = {
+    id_cliente: '',
+    estado_credito: '',
+    valor_pactado: 'activo',
+    monto_pago: '',
+  };
+
   // Cargar historial al iniciar el controlador
   constructor() {
     super(...arguments);
@@ -39,6 +47,49 @@ export default class HistoryController extends Controller {
     } catch (error) {
       console.error('Error loading history:', error);
     }
+  }
+
+  // Guardar un nuevo crédito
+  @action
+  async saveNewCredit(event) {
+    event.preventDefault();
+
+    try {
+      let response = await fetch('http://34.172.213.233:5012/api/historial-credito', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.newCredit),
+      });
+
+      if(response.ok) {
+        let data = await response.json();
+        this.history.push({
+          id: data.id_credito,
+          viaje: data.id_viaje,
+          estado: data.estado_credito,
+          pactado: data.valor_pactado,
+          pagado: data.valor_pagado,
+          fecha: data.ultima_fecha_pago,
+          clienteId: data.id_cliente,
+        });
+        this.filteredResults = this.history; // Actualizar los resultados filtrados
+        this.closeModal();
+      } else {
+        let errorData = await response.json();
+        this.errorMessage = errorData.error || 'Hubo un problema al guardar el crédito.';
+      }
+    } catch (error) {
+      console.error('Error saving new credit:', error);
+      this.errorMessage = 'Hubo un problema al guardar el crédito.';
+    }
+  }
+
+  // Actualizar campos del nuevo crédito
+  @action
+  updateNewCreditField(field, event) {
+    this.newCredit[field] = event.target.value;
   }
 
   // Cambiar el filtro activo
@@ -187,5 +238,10 @@ export default class HistoryController extends Controller {
   deleteEntry(entry) {
     this.history = this.history.filter(e => e.id !== entry.id);
     this.closeDetailModal();
+  }
+
+  @action
+  async onSave(){
+    await this.loadHistory();
   }
 }
