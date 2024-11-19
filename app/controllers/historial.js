@@ -237,10 +237,20 @@ export default class HistoryController extends Controller {
   }
 
   @action
-  deleteEntry(entry) {
-    this.history = this.history.filter(e => e.id !== entry.id);
-    this.closeDetailModal();
+  async deleteEntry(entry) {
+      try {
+          await fetch(`http://34.172.213.233:5015/api/historial-credito/${entry.id}`, {
+              method: 'DELETE',
+          });
+          this.history = this.history.filter(e => e.id !== entry.id);
+          this.filteredResults = this.history; // Actualizar los resultados filtrados
+          alert("Crédito eliminado correctamente.");
+      } catch (error) {
+          console.error("Error al eliminar el crédito:", error);
+          alert("Ocurrió un error al intentar eliminar el crédito.");
+      }
   }
+
 
   @action
   async onSave(){

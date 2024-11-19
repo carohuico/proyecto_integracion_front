@@ -97,4 +97,23 @@ export default class AddCreditHistoryModalComponent extends Component {
       this.isClosing = false;
     }, 300); // Duración de la animación
   }
+
+  @action
+  async deleteEntry() {
+      const confirmation = window.confirm("¿Estás seguro de que deseas eliminar este crédito y todos los pagos asociados?");
+      if (confirmation) {
+          try {
+              await fetch(`http://34.172.213.233:5015/api/historial-credito/${this.args.entry.id}`, {
+                  method: 'DELETE',
+              });
+              this.args.onDelete(this.args.entry);
+              alert("Crédito eliminado correctamente.");
+          } catch (error) {
+              console.error("Error al eliminar el crédito:", error);
+              alert("Ocurrió un error al intentar eliminar el crédito.");
+          }
+          this.closeModal();
+      }
+  }
+
 }

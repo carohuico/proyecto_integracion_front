@@ -21,8 +21,23 @@ export default class CreditHistoryDetailModalComponent extends Component {
   }
 
   @action
-  deleteEntry() {
-    this.args.onDelete(this.args.entry);
-    this.closeModal();
+  async deleteEntry() {
+      const confirmation = window.confirm("¿Estás seguro de que deseas eliminar este crédito y todos los pagos asociados?");
+      if (confirmation) {
+        console.log("Confirmo eliminar");
+          try {
+              await fetch(`http://34.172.213.233:5015/api/historial-credito/${this.args.entry.id}`, {
+                  method: 'DELETE',
+              });
+              this.args.onDelete(this.args.entry); // Llama al método para actualizar la lista en el controlador
+              alert("Crédito eliminado correctamente.");
+          } catch (error) {
+              console.error("Error al eliminar el crédito:", error);
+              alert("Ocurrió un error al intentar eliminar el crédito.");
+          }
+          this.closeModal(); // Cierra el modal
+      } else {
+        console.log("Cancelo eliminar");
+      }
   }
 }
