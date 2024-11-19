@@ -138,4 +138,10 @@
   {{#if this.isEditModalOpen}}
     <Credit-history::EditCreditHistoryModal @entry={{this.selectedEntry}} @onClose={{this.closeEditModal}} @onSave={{this.saveEntry}} />
   {{/if}}
+  {{#if this.showNotification}}
+    <div 
+      style="position: fixed; top: 10%; left: 50%; transform: translateX(-50%); background-color: green; color: white; padding: 16px; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); text-align: center;">
+      {{this.notificationMessage}}
+    </div>
+  {{/if}}
 </div>

@@ -14,6 +14,8 @@ export default class HistoryController extends Controller {
   @tracked errorMessage = '';
   @tracked filteredResults = [];
   @tracked filterType = 'todos'; // Puede ser 'todos', 'activos', 'pagados'
+  @tracked notificationMessage = '';
+  @tracked showNotification = false;
 
   // Nuevo crédito
   @tracked newCredit = {
@@ -243,5 +245,17 @@ export default class HistoryController extends Controller {
   @action
   async onSave(){
     await this.loadHistory();
+    this.showSuccessNotification('Crédito guardado exitosamente.');
+  }
+
+  @action
+  showSuccessNotification(message) {
+    this.notificationMessage = message;
+    this.showNotification = true;
+
+    // Ocultar la notificación después de 3 segundos
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 5000);
   }
 }
