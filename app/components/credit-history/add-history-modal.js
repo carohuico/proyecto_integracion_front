@@ -4,11 +4,12 @@ import { tracked } from '@glimmer/tracking';
 
 export default class AddCreditHistoryModalComponent extends Component {
   @tracked clienteId = '';
-  @tracked idCredito = ''; // Este no se necesita porque se genera automáticamente en el backend
+  @tracked idCredito = '';
   @tracked estado = '';
   @tracked pactado = '';
   @tracked monto = '';
   @tracked idViaje = '';
+  @tracked fecha = '';
   @tracked isClosing = false;
 
   // Actualizar el ID del cliente
@@ -41,23 +42,30 @@ export default class AddCreditHistoryModalComponent extends Component {
     this.idViaje = event.target.value;
   }
 
+  // Actualizar la fecha
+  @action
+  updateFecha(event) {
+    this.fecha = event.target.value;
+  }
+
   // Guardar una nueva entrada
   @action
   async addEntry(event) {
     event.preventDefault();
 
     // Validar campos requeridos
-    if (!this.clienteId || !this.estado || !this.pactado || !this.monto) {
-      alert('Por favor, llena todos los campos requeridos.');
+    if (!this.clienteId || !this.estado || !this.pactado || !this.monto || !this.idViaje || !this.fecha) {
+      alert('Por favor, llena todos los campos. Si no hay monto inicial, ingresa 0.');
       return;
     }
 
     let newEntry = {
       id_cliente: this.clienteId,
-      id_viaje: this.idViaje || null,
+      id_viaje: this.idViaje,
       estado_credito: this.estado,
       valor_pactado: parseFloat(this.pactado),
       monto_pago: parseFloat(this.monto),
+      fecha_creacion: this.fecha,
     };
 
     console.log('Enviando datos al backend:', newEntry); // Log para depuración
