@@ -42,7 +42,7 @@ export default class HistoryController extends Controller {
         estado: entry.estado_credito,
         pactado: entry.valor_pactado,
         pagado: entry.valor_pagado,
-        fecha: entry.ultima_fecha_pago,
+        fecha: entry.fecha_creacion,
         clienteId: entry.id_cliente,
       }));
       this.filteredResults = this.history; // Inicialmente, mostrar todos los resultados
@@ -73,7 +73,7 @@ export default class HistoryController extends Controller {
           estado: data.estado_credito,
           pactado: data.valor_pactado,
           pagado: data.valor_pagado,
-          fecha: data.ultima_fecha_pago,
+          fecha: data.fecha_creacion,
           clienteId: data.id_cliente,
         });
         this.filteredResults = this.history; // Actualizar los resultados filtrados
@@ -153,7 +153,7 @@ export default class HistoryController extends Controller {
           estado: entry.estado_credito,
           pactado: entry.valor_pactado,
           pagado: entry.valor_pagado,
-          fecha: entry.ultima_fecha_pago,
+          fecha: entry.fecha_creacion,
           monto: entry.monto_pago,
           clienteId: entry.id_cliente,
         }));
