@@ -27,12 +27,7 @@
           </div>
 
           <div class="mb-4">
-            <label class="block text-white text-base font-medium leading-normal mb-2">Valor Pagado</label>
-            <input class="w-full p-2 rounded bg-gray-800 text-white" type="text" value={{this.editableFields.pagado}} oninput={{action (mut this.editableFields.pagado) value="target.value"}}>
-          </div>
-
-          <div class="mb-4">
-            <label class="block text-white text-base font-medium leading-normal mb-2">Fecha Pago</label>
+            <label class="block text-white text-base font-medium leading-normal mb-2">Fecha Crédito</label>
             <input class="w-full p-2 rounded bg-gray-800 text-white" type="date" value={{this.editableFields.fecha}} oninput={{action (mut this.editableFields.fecha) value="target.value"}}>
           </div>
         {{else}}
@@ -57,7 +52,7 @@
           </div>
 
           <div class="mb-4">
-            <label class="block text-white text-base font-medium leading-normal mb-2">Fecha Pago</label>
+            <label class="block text-white text-base font-medium leading-normal mb-2">Fecha Crédito</label>
             <p class="text-white">{{this.args.entry.fecha}}</p>
           </div>
         {{/if}}

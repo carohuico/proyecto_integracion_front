@@ -34,7 +34,7 @@ export default class HistoryController extends Controller {
   // Cargar historial desde el backend
   async loadHistory() {
     try {
-      let response = await fetch('http://35.188.171.63:5013/api/historial-credito');
+      let response = await fetch('http://34.172.213.102:5013/api/historial-credito');
       let data = await response.json();
       this.history = data.map(entry => ({
         id: entry.id_credito,
@@ -57,7 +57,7 @@ export default class HistoryController extends Controller {
     event.preventDefault();
 
     try {
-      let response = await fetch('http://35.188.171.63:5012/api/historial-credito', {
+      let response = await fetch('http://34.172.213.102:5012/api/historial-credito', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ export default class HistoryController extends Controller {
   @action
   async searchHistory(clienteId) {
     try {
-      let response = await fetch(`http://35.188.171.63:5013/api/historial-credito/${clienteId}`);
+      let response = await fetch(`http://34.172.213.102:5013/api/historial-credito/${clienteId}`);
       if (!response.ok) {
         if (response.status === 404) {
           this.searchResults = [];
@@ -239,7 +239,7 @@ export default class HistoryController extends Controller {
   @action
   async deleteEntry(entry) {
       try {
-          await fetch(`http://35.188.171.63:5015/api/historial-credito/${entry.id}`, {
+          await fetch(`http://34.172.213.102:5015/api/historial-credito/${entry.id}`, {
               method: 'DELETE',
           });
           this.history = this.history.filter(e => e.id !== entry.id);

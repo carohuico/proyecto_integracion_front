@@ -25,7 +25,7 @@ export default class CreditHistoryDetailModalComponent extends Component {
       clienteId: this.args.entry.clienteId,
       viaje: this.args.entry.viaje,
       pactado: this.args.entry.pactado,
-      pagado: this.args.entry.pagado,
+      //pagado: this.args.entry.pagado,
       fecha: formattedDate,
     };
   }
@@ -36,7 +36,7 @@ export default class CreditHistoryDetailModalComponent extends Component {
     event.preventDefault();
 
     // Validar campos requeridos
-    if (!this.editableFields.clienteId || !this.editableFields.viaje || !this.editableFields.pactado || !this.editableFields.pagado || !this.editableFields.fecha) {
+    if (!this.editableFields.clienteId || !this.editableFields.viaje || !this.editableFields.pactado /*|| !this.editableFields.pagado*/ || !this.editableFields.fecha) {
       alert('Por favor, llena todos los campos. Si no hay monto inicial, ingresa 0.');
       return;
     }
@@ -48,13 +48,13 @@ export default class CreditHistoryDetailModalComponent extends Component {
         id_cliente: parseInt(this.editableFields.clienteId, 10),
         id_viaje: parseInt(this.editableFields.viaje, 10),
         valor_pactado: parseFloat(this.editableFields.pactado).toFixed(2),
-        valor_pagado: parseFloat(this.editableFields.pagado).toFixed(2),
+        /*valor_pagado: parseFloat(this.editableFields.pagado).toFixed(2),*/
         fecha_creacion: this.editableFields.fecha,
       };
 
       console.log("Datos enviados al back", transformedFields);
 
-      let response = await fetch(`http://35.188.171.63:5014/api/historial-credito/${this.args.entry.id}`, {
+      let response = await fetch(`http://34.172.213.102:5014/api/historial-credito/${this.args.entry.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export default class CreditHistoryDetailModalComponent extends Component {
       if (confirmation) {
         console.log("Confirmo eliminar");
           try {
-              await fetch(`http://35.188.171.63:5015/api/historial-credito/${this.args.entry.id}`, {
+              await fetch(`http://34.172.213.102:5015/api/historial-credito/${this.args.entry.id}`, {
                   method: 'DELETE',
               });
               this.args.onDelete(this.args.entry); // Llama al método para actualizar la lista en el controlador
