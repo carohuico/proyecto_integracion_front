@@ -10,7 +10,13 @@ export default class HistoryController extends Controller {
 
   @tracked creditHistory = [
     // Aquí se deberían cargar los historiales de crédito desde la base de datos
-    { id: 1, clientName: 'Carolina Huicochea', date: '2023-01-01', amount: 2000, status: 'Paid' },
+    {
+      id: 1,
+      clientName: 'Carolina Huicochea',
+      date: '2023-01-01',
+      amount: 2000,
+      status: 'Paid',
+    },
   ];
 
   @action
@@ -49,7 +55,9 @@ export default class HistoryController extends Controller {
 
   @action
   saveEntry(updatedEntry) {
-    let entryIndex = this.creditHistory.findIndex(entry => entry.id === updatedEntry.id);
+    let entryIndex = this.creditHistory.findIndex(
+      (entry) => entry.id === updatedEntry.id,
+    );
     if (entryIndex !== -1) {
       this.creditHistory[entryIndex] = updatedEntry;
     }
@@ -58,7 +66,7 @@ export default class HistoryController extends Controller {
 
   @action
   deleteEntry(entry) {
-    this.creditHistory = this.creditHistory.filter(e => e.id !== entry.id);
+    this.creditHistory = this.creditHistory.filter((e) => e.id !== entry.id);
     this.closeDetailModal();
   }
 }

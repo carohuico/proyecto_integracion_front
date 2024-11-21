@@ -29,7 +29,6 @@ export default class EditClientModalComponent extends Component {
   constructor() {
     super(...arguments);
     if (this.args.client) {
-      
       this.nombre1 = this.args.client.nombre.split(' ')[0];
       this.nombre2 = this.args.client.nombre.split(' ')[1] || '';
       this.calle = this.args.client.calle;
@@ -52,7 +51,7 @@ export default class EditClientModalComponent extends Component {
       this.fechaRegistro = this.args.client.fechaRegistro;
       this.limiteCredito = this.args.client.limiteCredito;
     } else {
-      console.log("No hay cliente");
+      console.log('No hay cliente');
     }
   }
 
@@ -186,7 +185,7 @@ export default class EditClientModalComponent extends Component {
       zona: this.zona,
       central: this.central,
       fecha_registro: this.fechaRegistro,
-      limite_credito: this.limiteCredito
+      limite_credito: this.limiteCredito,
     };
     this.args.onSave(updatedClient);
     this.closeModal();

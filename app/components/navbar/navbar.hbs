@@ -24,19 +24,33 @@
       <a class="text-white text-sm font-medium leading-normal" href="/historial">Historial crediticio</a>
       <a class="text-white text-sm font-medium leading-normal" href="#">Analítica</a>
     </div>
-    <div class="flex gap-2">
+    <div class="flex gap-2 relative">
+  <button
+    class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+    type="button"
+    {{on "click" this.toggleDropdown}}
+  >
+    <div class="text-white" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+      </svg>
+    </div>
+  </button>
+
+  {{#if this.isDropdownOpen}}
+    <div class="absolute right-0 mt-2 w-48 bg-[#1c1c1c] border border-solid border-[#283139] rounded-lg shadow-lg z-50">
+      <a href="/profile" class="block px-4 py-2 text-sm text-white hover:bg-[#283139]">Perfil</a>
       <button
-        class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5" type="button"
+        class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#283139]"
+        {{on "click" this.logout}}
       >
-        <div class="text-white" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-          </svg>
-        </div>
+        Cerrar sesión
       </button>
     </div>
+  {{/if}}
+</div>
   </div>
-  <!-- Botón de menú de hamburguesa -->
+  {{!-- Botón de menú de hamburguesa --}}
   <div class="md:hidden flex items-center">
     <button type="button" class="text-white focus:outline-none" {{on "click" this.toggleMenu}}>
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +59,7 @@
     </button>
   </div>
 </header>
-<!-- Menú desplegable -->
+{{!-- Menú desplegable --}}
 {{#if this.isMenuOpen}}
   <div class="menu-enter absolute top-16 left-0 w-full bg-[#111518] text-white z-50 shadow-lg border-b border-solid border-b-[#283139]">
     <a class="block px-4 py-2 text-sm font-medium leading-normal" href="#">Inicio</a>

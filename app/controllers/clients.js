@@ -20,7 +20,7 @@ export default class ClientsController extends Controller {
     try {
       let response = await fetch('http://127.0.0.1:5002/get_clientes'); // URL del servicio de lectura
       let data = await response.json();
-      this.clients = data.map(client => ({
+      this.clients = data.map((client) => ({
         id: client.id_cliente,
         nombre: `${client.nombre_1} ${client.nombre_2}`,
         calle: client.calle,
@@ -41,7 +41,7 @@ export default class ClientsController extends Controller {
         zona: client.zona,
         central: client.central,
         fechaRegistro: client.fecha_registro,
-        limiteCredito: client.limite_credito
+        limiteCredito: client.limite_credito,
       }));
     } catch (error) {
       console.error('Error loading clients:', error);
@@ -72,7 +72,7 @@ export default class ClientsController extends Controller {
   @action
   openEditModal(client) {
     this.selectedClient = client;
-    console.log("Cliente seleccionado para edición:", this.selectedClient);
+    console.log('Cliente seleccionado para edición:', this.selectedClient);
     this.isEditModalOpen = true;
   }
 
@@ -86,7 +86,8 @@ export default class ClientsController extends Controller {
   async addClient(newClient) {
     try {
       console.log(newClient);
-      let response = await fetch('http://127.0.0.1:5001/create_cliente', { // URL del servicio de creación
+      let response = await fetch('http://127.0.0.1:5001/create_cliente', {
+        // URL del servicio de creación
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newClient),
@@ -94,7 +95,10 @@ export default class ClientsController extends Controller {
       if (response.ok) {
         this.loadClients(); // Recargar clientes después de agregar
       } else {
-        console.error('Error en la respuesta del servidor:', response.statusText);
+        console.error(
+          'Error en la respuesta del servidor:',
+          response.statusText,
+        );
       }
       this.closeModal();
     } catch (error) {
@@ -103,37 +107,50 @@ export default class ClientsController extends Controller {
   }
 
   @action
-    async updateClient(updatedClient) {
-      try {
-        let response = await fetch(`http://127.0.0.1:5003/update_cliente/${updatedClient.id}`, {
+  async updateClient(updatedClient) {
+    try {
+      let response = await fetch(
+        `http://127.0.0.1:5003/update_cliente/${updatedClient.id}`,
+        {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updatedClient),
-        });
+        },
+      );
 
-        if (response.ok) {
-          this.loadClients(); 
-        } else {
-          console.error('Error en la respuesta del servidor:', response.statusText);
-        }
-
-        this.closeEditModal();
-      } catch (error) {
-        console.error('Error actualizando cliente:', error);
+      if (response.ok) {
+        this.loadClients();
+      } else {
+        console.error(
+          'Error en la respuesta del servidor:',
+          response.statusText,
+        );
       }
+
+      this.closeEditModal();
+    } catch (error) {
+      console.error('Error actualizando cliente:', error);
     }
+  }
 
   @action
   async deleteClient(client) {
-    this.clients = this.clients.filter(c => c.id !== client.id);
+    this.clients = this.clients.filter((c) => c.id !== client.id);
     try {
-      let response = await fetch(`http://127.0.0.1:5004/delete_cliente/${client.id}`, { // URL del servicio de eliminación
-        method: 'DELETE',
-      });
+      let response = await fetch(
+        `http://127.0.0.1:5004/delete_cliente/${client.id}`,
+        {
+          // URL del servicio de eliminación
+          method: 'DELETE',
+        },
+      );
       if (response.ok) {
         this.loadClients(); // Recargar clientes después de eliminar
       } else {
-        console.error('Error en la respuesta del servidor:', response.statusText);
+        console.error(
+          'Error en la respuesta del servidor:',
+          response.statusText,
+        );
       }
     } catch (error) {
       console.error('Error eliminando cliente:', error);

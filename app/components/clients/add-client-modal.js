@@ -157,7 +157,7 @@ export default class AddClientModalComponent extends Component {
       zona: this.zona,
       central: this.central,
       fecha_registro: this.fechaRegistro,
-      limite_credito: this.limiteCredito
+      limite_credito: this.limiteCredito,
     };
 
     this.args.onSave(newClient);
@@ -170,6 +170,6 @@ export default class AddClientModalComponent extends Component {
     setTimeout(() => {
       this.args.onClose();
       this.isClosing = false;
-    }, 300); 
+    }, 300);
   }
 }

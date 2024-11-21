@@ -10,76 +10,76 @@
       <h2 class="text-white text-xl font-semibold text-center mb-4">Detalles del Cliente</h2>
 
       <div class="grid grid-cols-2 gap-y-4 gap-x-6 w-full">
-        <!-- ID Cliente -->
+        {{!-- ID Cliente --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">ID Cliente</label>
           <p class="text-white">{{this.args.client.id}}</p>
         </div>
 
-        <!-- Número Fiscal -->
+        {{!-- Número Fiscal --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Núm. Identificación Fiscal</label>
           <p class="text-white">{{this.args.client.nif}}</p>
         </div>
 
-        <!-- Nombre Completo -->
+        {{!-- Nombre Completo --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Nombre Completo</label>
           <p class="text-white">{{this.args.client.nombre}}</p>
         </div>
 
-        <!-- Fecha de Registro -->
+        {{!-- Fecha de Registro --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Fecha de Registro</label>
           <p class="text-white">{{this.args.client.fechaRegistro}}</p>
         </div>
 
-        <!-- Distrito -->
+        {{!-- Distrito --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Distrito</label>
           <p class="text-white">{{this.args.client.distrito}}</p>
         </div>
 
-        <!-- Zona -->
+        {{!-- Zona --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Zona</label>
           <p class="text-white">{{this.args.client.zona}}</p>
         </div>
 
-        <!-- Población -->
+        {{!-- Población --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Población</label>
           <p class="text-white">{{this.args.client.poblacion}}</p>
         </div>
 
-        <!-- Grupo Clientes -->
+        {{!-- Grupo Clientes --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Grupo Clientes</label>
           <p class="text-white">{{this.args.client.grupo}}</p>
         </div>
 
-        <!-- Calle -->
+        {{!-- Calle --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Calle</label>
           <p class="text-white">{{this.args.client.calle}}</p>
         </div>
 
-        <!-- Teléfono -->
+        {{!-- Teléfono --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Teléfono</label>
           <p class="text-white">{{this.args.client.telefono}}</p>
         </div>
 
-        <!-- Límite de Crédito -->
+        {{!-- Límite de Crédito --}}
         <div class="col-span-2 flex flex-col items-center">
           <label class="block text-sm font-medium text-gray-400">Límite de Crédito</label>
           <p class="text-lg font-semibold text-white">{{this.args.client.limiteCredito}}</p>
         </div>
       </div>
 
-      <!-- Botones de acción -->
+      {{!-- Botones de acción --}}
 <div class="flex justify-end gap-4 mt-6">
-  <!-- Editar Cliente -->
+  {{!-- Editar Cliente --}}
   <button type="button" class="relative inline-flex items-center justify-center p-2 text-sm font-medium text-gray-400 rounded-lg bg-gray-700 hover:bg-gray-600 hover:text-white" {{on "click" this.editClient}}>
     <span class="flex items-center gap-1">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -89,7 +89,7 @@
     </span>
   </button>
   
-  <!-- Eliminar Cliente -->
+  {{!-- Eliminar Cliente --}}
   <button type="button" class="relative inline-flex items-center justify-center p-2 text-sm font-medium text-gray-400 rounded-lg bg-gray-700 hover:bg-gray-600 hover:text-white" {{on "click" this.deleteClient}}>
     <span class="flex items-center gap-1">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

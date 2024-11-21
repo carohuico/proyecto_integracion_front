@@ -37,7 +37,7 @@ export default class AddCreditHistoryModalComponent extends Component {
       clientName: this.clientName,
       date: this.date,
       amount: this.amount,
-      status: this.status
+      status: this.status,
     };
     this.args.onSave(newEntry);
     this.closeModal();

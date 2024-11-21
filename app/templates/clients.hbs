@@ -16,12 +16,14 @@
                 <p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">Todos</p>
               </a>
             </div>
-            <!-- Botón alineado a la derecha -->
-            <div class="flex justify-end w-full">
-              <button type="button" {{on "click" this.openModal}} class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
-                Agregar cliente
-              </button>
-            </div>
+            {{!-- Botón alineado a la derecha --}}
+            {{#if this.auth.isAuthenticated}}
+                <div class="flex justify-end w-full">
+                  <button type="button" {{on "click" this.openModal}} class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
+                    Agregar cliente
+                  </button>
+                </div>
+            {{/if}}
           </div>
         </div>
         <div class="flex flex-col">
@@ -46,7 +48,7 @@
                         <td class="px-4 py-2 text-sm text-gray">{{client.telefono}}</td>
                         <td class="px-4 py-2 text-sm text-gray">{{client.limiteCredito}}</td>
                         <td class="px-4 py-2 text-sm text-center">
-                          <button {{on "click" (fn this.openDetailModal client)}} class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+                          <button class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800" type="button" {{on "click" (fn this.openDetailModal client)}}>
                             <span class="relative px-4 py-1 transition-all duration-300 ease-in-out bg-[#1b2227] rounded-md group-hover:bg-opacity-0 group-hover:opacity-100">
                               Ver más
                             </span>
