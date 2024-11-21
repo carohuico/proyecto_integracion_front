@@ -34,7 +34,7 @@ export default class HistoryController extends Controller {
   // Cargar historial desde el backend
   async loadHistory() {
     try {
-      let response = await fetch('http://34.172.213.233:5013/api/historial-credito');
+      let response = await fetch('http://35.188.171.63:5013/api/historial-credito');
       let data = await response.json();
       this.history = data.map(entry => ({
         id: entry.id_credito,
@@ -57,7 +57,7 @@ export default class HistoryController extends Controller {
     event.preventDefault();
 
     try {
-      let response = await fetch('http://34.172.213.233:5012/api/historial-credito', {
+      let response = await fetch('http://35.188.171.63:5012/api/historial-credito', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ export default class HistoryController extends Controller {
   @action
   async searchHistory(clienteId) {
     try {
-      let response = await fetch(`http://34.172.213.233:5013/api/historial-credito/${clienteId}`);
+      let response = await fetch(`http://35.188.171.63:5013/api/historial-credito/${clienteId}`);
       if (!response.ok) {
         if (response.status === 404) {
           this.searchResults = [];
@@ -239,7 +239,7 @@ export default class HistoryController extends Controller {
   @action
   async deleteEntry(entry) {
       try {
-          await fetch(`http://34.172.213.233:5015/api/historial-credito/${entry.id}`, {
+          await fetch(`http://35.188.171.63:5015/api/historial-credito/${entry.id}`, {
               method: 'DELETE',
           });
           this.history = this.history.filter(e => e.id !== entry.id);
@@ -266,6 +266,41 @@ export default class HistoryController extends Controller {
     // Ocultar la notificación después de 3 segundos
     setTimeout(() => {
       this.showNotification = false;
-    }, 5000);
+    }, 6000);
   }
+
+  /*@action
+  updateEntry(updatedEntry){
+    const index = this.history.findIndex(entry => entry.id === updatedEntry.id);
+    if(index !== -1){
+      this.history[index] = updatedEntry;
+    } else {
+      this.history.push(updatedEntry);
+    }
+    this.history = [...this.history];
+  }*/
+
+  async saveEntry(updatedEntry) {
+
+    // Aviso de que esta cargando el historial mientras se actualiza
+
+    // Encuentra el índice correspondiente y actualiza
+    let entryIndex = this.history.findIndex(entry => entry.id === updatedEntry.id);
+
+    if (entryIndex !== -1) {
+      this.history[entryIndex] = updatedEntry; // Actualiza la entrada existente
+    } else {
+      this.history.push(updatedEntry); // Añade una nueva entrada
+    }
+
+    // Forzar a Ember a detectar el cambio
+    this.history = [...this.history];
+
+    // Actualiza la lista de resultados filtrados
+    await this.loadHistory();
+
+    // Cierra el modal después de guardar
+    this.closeDetailModal();
+  }
+
 }

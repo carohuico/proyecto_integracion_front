@@ -127,7 +127,7 @@
     </div>
   </div>
   {{#if this.isDetailModalOpen}}
-    <Credit-history::HistoryDetailModal @entry={{this.selectedEntry}} @onClose={{this.closeDetailModal}} @onEdit={{this.openEditModal}} @onDelete={{this.deleteEntry}} />
+    <Credit-history::HistoryDetailModal @entry={{this.selectedEntry}} @onClose={{this.closeDetailModal}} @onEdit={{this.openEditModal}} @onDelete={{this.deleteEntry}} @onSave={{this.saveEntry}} />
   {{/if}}
   {{#if this.isModalOpen}}
   <Credit-history::AddHistoryModal
