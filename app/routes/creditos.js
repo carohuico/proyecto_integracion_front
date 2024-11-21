@@ -6,14 +6,14 @@ import fetch from 'fetch';
 export default class CreditosRoute extends Route {
   queryParams = {
     id_cliente: {
-      refreshModel: true // Esto asegura que el modelo se recargue cuando el parámetro cambie
+      refreshModel: true 
     }
   };
 
   async model(params) {
     try {
       const clienteId = params.id_cliente; // Obtenemos el ID del cliente desde los parámetros de la URL
-      let url = 'http://34.31.19.169:5010/api/creditos';
+      let url = 'http://35.188.171.63:5010/api/creditos';
 
       if (clienteId) {
         // Si el cliente ID está presente, modificamos la URL para hacer la búsqueda por ID de cliente

@@ -11,6 +11,7 @@ Router.map(function () {
   this.route('login');
   this.route('historial');
   this.route('creditos');
+  this.route('pagos');
 });
 
 export default Router;
