@@ -1,14 +1,14 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import url("tailwindcss/base");
+@import url("tailwindcss/components");
+@import url("tailwindcss/utilities");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 /* Estilos globales */
 body,
 html,
 div {
-  font-family: "Poppins", sans-serif;
-  color: #ffffff;
+  font-family: Poppins, sans-serif;
+  color: #fff;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -42,7 +42,7 @@ div {
 }
 
 .text-white {
-  color: #ffffff;
+  color: #fff;
 }
 
 .text-gray {
@@ -170,6 +170,7 @@ div {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -179,6 +180,7 @@ div {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -197,6 +199,7 @@ div {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -208,6 +211,7 @@ div {
     opacity: 1;
     transform: translateY(0);
   }
+
   to {
     opacity: 0;
     transform: translateY(-10px);
@@ -223,7 +227,7 @@ div {
 }
 
 /* Responsive styles */
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .text-4xl {
     font-size: 1.5rem;
   }
