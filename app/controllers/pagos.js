@@ -35,7 +35,7 @@ export default class PagosController extends Controller {
 
     try {
       // Primero realizamos la solicitud para obtener los pagos
-      const response = await fetch(`http://35.188.171.63:5017/api/pagos/${searchId}`);
+      const response = await fetch(`http://127.0.0.1:5017/api/pagos/${searchId}`);
       const data = await response.json();
       this.model = data; // Actualiza los créditos
       console.log("Datos cargados:", data);
@@ -80,7 +80,7 @@ export default class PagosController extends Controller {
       };
       console.log('Payload:', payload);
 
-      const response = await fetch('http://35.188.171.63:5009/api/pagos', {
+      const response = await fetch('http://127.0.0.1:5009/api/pagos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

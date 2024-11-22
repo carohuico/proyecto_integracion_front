@@ -26,17 +26,25 @@
         </div>
 
         <div class="flex justify-center gap-4">
-          <button type="submit" disabled={{this.isLoading}} class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
             {{#if this.isLoading}}
-              <svg aria-hidden="true" class="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                  <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-              </svg>
-              <span class="sr-only">Cargando...</span>
+              <div role="status">
+                  <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin m-5" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08157 50.5908C9.08157 73.419 27.1718 91.5092 50 91.5092C72.8282 91.5092 90.9184 73.419 90.9184 50.5908C90.9184 27.7626 72.8282 9.67241 50 9.67241C27.1718 9.67241 9.08157 27.7626 9.08157 50.5908Z" fill="currentColor"/>
+                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5538C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.723 75.2124 7.41289C69.5422 4.10285 63.2754 1.94025 56.7221 1.05127C51.7661 0.367181 46.7343 0.446843 41.806 1.27873C39.325 1.69328 37.861 4.19778 38.4981 6.62326C39.1353 9.04874 41.6305 10.4717 44.098 10.1071C47.8511 9.5046 51.6815 9.5267 55.4165 10.1693C60.864 11.0781 65.9921 13.1375 70.3966 16.1752C74.801 19.2129 78.3898 23.1565 80.8624 27.742C83.1155 31.986 84.684 36.6201 85.4952 41.444C85.9307 44.0108 88.4373 45.4781 90.863 44.841C93.2886 44.2039 94.756 41.7117 93.9676 39.0409Z" fill="url(#gradient)"/>
+                  </svg>
+                  <span class="sr-only">Loading...</span>
+              </div>
             {{else}}
-              Iniciar sesión
+              <button type="submit" disabled={{this.isLoading}} class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center m-5">
+                Iniciar sesión
+              </button>
             {{/if}}
-          </button>
         </div>
       </form>
     </div>

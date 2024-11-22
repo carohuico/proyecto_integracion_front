@@ -10,10 +10,11 @@ export default class CreditosRoute extends Route {
     }
   };
 
+  //TODO: Update en local sin llamar a la API. Se actualiza sólo cuando es successful
   async model(params) {
     try {
       const clienteId = params.id_cliente; // Obtenemos el ID del cliente desde los parámetros de la URL
-      let url = 'http://35.188.171.63:5010/api/creditos';
+      let url = 'http://127.0.0.1:5010/api/creditos';
 
       if (clienteId) {
         // Si el cliente ID está presente, modificamos la URL para hacer la búsqueda por ID de cliente

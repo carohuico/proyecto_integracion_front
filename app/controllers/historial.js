@@ -25,18 +25,20 @@ export default class HistoryController extends Controller {
   // Cargar historial desde el backend
   async loadHistory() {
     try {
-      let response = await fetch('http://34.31.19.169:5013/api/historial-credito');
+      let response = await fetch('http://127.0.0.1:5013/api/historial-credito'); //TODO: Compaginar
       let data = await response.json();
+      console.log('Data:', data[0]);
       this.history = data.map(entry => ({
         id: entry.id_credito,
         estado: entry.estado_credito,
         pactado: entry.valor_pactado,
         pagado: entry.valor_pagado,
-        fecha: entry.fecha_pago,
+        fecha: entry.fecha_pago, //! REVISAR 
         monto: entry.monto_pago,
         clienteId: entry.id_cliente,
       }));
       this.filteredResults = this.history; // Inicialmente, mostrar todos los resultados
+      console.log('Historial cargado:', this.history[0]);
     } catch (error) {
       console.error('Error loading history:', error);
     }
@@ -85,7 +87,7 @@ export default class HistoryController extends Controller {
   @action
   async searchHistory(clienteId) {
     try {
-      let response = await fetch(`http://34.31.19.169:5013/api/historial-credito/${clienteId}`);
+      let response = await fetch(`http://127.0.0.1:5013/api/historial-credito/${clienteId}`);
       if (!response.ok) {
         if (response.status === 404) {
           this.searchResults = [];
