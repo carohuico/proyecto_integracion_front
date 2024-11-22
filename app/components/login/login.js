@@ -8,6 +8,7 @@ export default class LoginFormComponent extends Component {
   @service router;
   @tracked username = '';
   @tracked password = '';
+  @tracked isLoading = false;
 
   @action
   updateUsername(event) {
@@ -22,6 +23,7 @@ export default class LoginFormComponent extends Component {
   @action
   async login(event) {
     event.preventDefault();
+    this.isLoading = true;
     if (!this.username || !this.password) {
       window.alert('Favor de llenar todos los campos');
       return;
@@ -54,11 +56,11 @@ export default class LoginFormComponent extends Component {
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('role', data.role);
 
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       if (data.role === 'admin') {
         this.router.transitionTo('clients');
-
       } else {
-        this.router.transitionTo('clients');
+        this.router.transitionTo('historial');
       }
       this.username = '';
       this.password = '';

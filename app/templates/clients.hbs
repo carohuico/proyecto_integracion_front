@@ -16,13 +16,14 @@
                 <p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">Todos</p>
               </a>
             </div>
-            {{!-- Botón alineado a la derecha --}}
             {{#if this.auth.isAuthenticated}}
+              {{#if (is-equal this.auth.userRole 'admin')}}
                 <div class="flex justify-end w-full">
                   <button type="button" {{on "click" this.openModal}} class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
                     Agregar cliente
                   </button>
                 </div>
+              {{/if}}
             {{/if}}
           </div>
         </div>
@@ -30,6 +31,22 @@
           <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div class="overflow-hidden shadow-md sm:rounded-lg">
+                {{#if this.isLoading}}
+                  <div class="flex justify-between mb-1">
+                    <span class="text-base font-medium text-white">Cargando Clientes</span>
+                    <span class="text-sm font-medium text-white">{{this.progress}}%</span>
+                  </div>
+                  <div class="w-full rounded-full h-2.5 bg-gray-700">
+                    <div class="bg-gradient-to-br from-pink-500 to-orange-400 h-2.5 rounded-full" style={{safe-style (concat 'width: ' this.progress '%')}}></div>
+                  </div>
+                {{else if this.error}}
+                  <div class="flex justify-between mb-1">
+                    <span class="text-base font-medium text-white">Error al cargar clientes</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                    <div class="bg-red-600 h-2.5 rounded-full" style="width: 100%"></div>
+                  </div>
+                {{else}}
                 <table class="min-w-full divide-y divide-gray-700 w-full">
                   <thead class="bg-[#1b2227]">
                     <tr>
@@ -58,6 +75,7 @@
                     {{/each}}
                   </tbody>
                 </table>
+                {{/if}}
               </div>
             </div>
           </div>

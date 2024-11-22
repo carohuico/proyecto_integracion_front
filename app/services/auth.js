@@ -1,24 +1,29 @@
 import Service from '@ember/service';
-import { inject as service } from '@ember/service'; // Importa la inyección de servicios
+import { inject as service } from '@ember/service';
 import jwtDecode from 'jwt-decode';
 
 export default class AuthService extends Service {
-  @service router; // Inyecta el servicio router
+  @service router;
 
   token = localStorage.getItem('authToken') || null;
+  role = localStorage.getItem('role') || null;
 
   get isAuthenticated() {
+    console.log('Token:', this.token);
     return !!this.token;
   }
 
   get userRole() {
     if (this.token) {
-      const decodedToken = jwtDecode(this.token);
-      console.log('Decoded Token:', decodedToken); 
-      return decodedToken.role;
+      try {
+        return this.role;
+      } catch (error) {
+        console.error('Error retrieving user role:', error);
+        return null;
+      }
     }
     return null;
-  }  
+  }
 
   login(token) {
     this.token = token;
@@ -32,7 +37,7 @@ export default class AuthService extends Service {
     }
 
     localStorage.removeItem('authToken');
-
+    localStorage.removeItem('role');
     this.router.transitionTo('login');
   }
 }

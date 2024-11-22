@@ -1,25 +1,69 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
+import { htmlSafe } from '@ember/template';
 import { tracked } from '@glimmer/tracking';
 
+let token = localStorage.getItem('authToken');
+
 export default class ClientsController extends Controller {
+  @service auth;
+  @service router;
+  
   @tracked isModalOpen = false;
   @tracked clients = [];
   @tracked selectedClient = null;
   @tracked isDetailModalOpen = false;
   @tracked isEditModalOpen = false;
+  @tracked isLoading = false;
+  @tracked progress = 0;
 
   constructor() {
     super(...arguments);
-    // Cargar clientes al iniciar el controlador
-    this.loadClients();
+    this.load();
   }
 
-  // Cargar clientes desde el backend
+  async load() {
+    await this.loadClients();
+  }
+
+  @action
   async loadClients() {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      console.error('Token no encontrado. Redirigiendo a la página de inicio de sesión.');
+      this.router.transitionTo('login');
+      return;
+    }
+
+    console.log('token:', token);
     try {
-      let response = await fetch('http://127.0.0.1:5002/get_clientes'); // URL del servicio de lectura
+      this.isLoading = true;
+      this.progress = 0;
+      let response = await fetch('http://127.0.0.1:5002/get_clientes', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        console.error('Error en la respuesta del servidor:', response);
+        return;
+      }
+
       let data = await response.json();
+      if (!Array.isArray(data)) {
+        console.error('Error: la respuesta no es una lista de clientes');
+        return;
+      }
+
+      for (let i = 0; i <= 100; i++) {
+        this.progress = i;
+        await new Promise((resolve) => setTimeout(resolve, 3)); 
+      }
+
       this.clients = data.map((client) => ({
         id: client.id_cliente,
         nombre: `${client.nombre_1} ${client.nombre_2}`,
@@ -45,6 +89,8 @@ export default class ClientsController extends Controller {
       }));
     } catch (error) {
       console.error('Error loading clients:', error);
+    } finally {
+      this.isLoading = false;
     }
   }
 
@@ -84,21 +130,27 @@ export default class ClientsController extends Controller {
 
   @action
   async addClient(newClient) {
+    if (!token) {
+      console.error('Token no encontrado. Redirigiendo a la página de inicio de sesión.');
+      this.router.transitionTo('login');
+      return;
+    }
+
     try {
       console.log(newClient);
       let response = await fetch('http://127.0.0.1:5001/create_cliente', {
-        // URL del servicio de creación
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify(newClient),
       });
       if (response.ok) {
+        alert('Cliente agregado correctamente');
         this.loadClients(); // Recargar clientes después de agregar
       } else {
-        console.error(
-          'Error en la respuesta del servidor:',
-          response.statusText,
-        );
+        console.error('Error en la respuesta del servidor:', response.statusText);
       }
       this.closeModal();
     } catch (error) {
@@ -108,29 +160,35 @@ export default class ClientsController extends Controller {
 
   @action
   async updateClient(updatedClient) {
-    try {
-      let response = await fetch(
-        `http://127.0.0.1:5003/update_cliente/${updatedClient.id}`,
-        {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedClient),
-        },
-      );
+      const token = localStorage.getItem('authToken');
+      console.log("token", token);
+      try {
+          let response = await fetch(
+              `http://127.0.0.1:5003/update_cliente/${updatedClient.id}`,
+              {
+                  method: 'PATCH',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${token}`
+                  },
+                  body: JSON.stringify(updatedClient)
+              }
+          );
 
-      if (response.ok) {
-        this.loadClients();
-      } else {
-        console.error(
-          'Error en la respuesta del servidor:',
-          response.statusText,
-        );
+          if (response.ok) {
+              alert('Cliente actualizado correctamente');
+              this.loadClients();
+          } else {
+              console.error(
+                  'Error en la respuesta del servidor:',
+                  response.statusText,
+              );
+          }
+
+          this.closeEditModal();
+      } catch (error) {
+          console.error('Error actualizando cliente:', error);
       }
-
-      this.closeEditModal();
-    } catch (error) {
-      console.error('Error actualizando cliente:', error);
-    }
   }
 
   @action
@@ -142,9 +200,11 @@ export default class ClientsController extends Controller {
         {
           // URL del servicio de eliminación
           method: 'DELETE',
+          'Authorization': `Bearer ${token}`
         },
       );
       if (response.ok) {
+        alert(`Cliente ${client.id} eliminado correctamente`);
         this.loadClients(); // Recargar clientes después de eliminar
       } else {
         console.error(
