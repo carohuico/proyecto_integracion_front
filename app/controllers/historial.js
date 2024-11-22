@@ -3,21 +3,141 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class HistoryController extends Controller {
+
   @tracked isModalOpen = false;
   @tracked isDetailModalOpen = false;
   @tracked isEditModalOpen = false;
   @tracked selectedEntry = null;
+  @tracked history = [];
+  @tracked searchResults = [];
+  @tracked clienteId = '';
+  @tracked errorMessage = '';
+  @tracked filteredResults = [];
+  @tracked filterType = 'todos'; // Puede ser 'todos', 'activos', 'pagados'
 
-  @tracked creditHistory = [
-    // Aquí se deberían cargar los historiales de crédito desde la base de datos
-    {
-      id: 1,
-      clientName: 'Carolina Huicochea',
-      date: '2023-01-01',
-      amount: 2000,
-      status: 'Paid',
-    },
-  ];
+  // Cargar historial al iniciar el controlador
+  constructor() {
+    super(...arguments);
+    this.loadHistory();
+  }
+
+  // Cargar historial desde el backend
+  async loadHistory() {
+    try {
+      let response = await fetch('http://34.31.19.169:5013/api/historial-credito');
+      let data = await response.json();
+      this.history = data.map(entry => ({
+        id: entry.id_credito,
+        estado: entry.estado_credito,
+        pactado: entry.valor_pactado,
+        pagado: entry.valor_pagado,
+        fecha: entry.fecha_pago,
+        monto: entry.monto_pago,
+        clienteId: entry.id_cliente,
+      }));
+      this.filteredResults = this.history; // Inicialmente, mostrar todos los resultados
+    } catch (error) {
+      console.error('Error loading history:', error);
+    }
+  }
+
+  // Cambiar el filtro activo
+  @action
+  setFilter(filterType) {
+    this.filterType = filterType;
+  
+    // Si hay un clienteId en el buscador, aplica el filtro a los resultados de búsqueda
+    if (this.clienteId.trim() !== '') {
+      // Recalcula los resultados de búsqueda directamente desde el historial general
+      const searchedData = this.history.filter(entry => entry.clienteId === parseInt(this.clienteId, 10));
+  
+      if (filterType === 'activos') {
+        this.searchResults = searchedData.filter(entry => entry.estado === 'activo');
+      } else if (filterType === 'pagados') {
+        this.searchResults = searchedData.filter(entry => entry.estado === 'pagado');
+      } else {
+        this.searchResults = searchedData; // Mostrar todo si el filtro es "todos"
+      }
+  
+      // Manejar el caso donde no haya resultados compatibles con el filtro
+      if (this.searchResults.length === 0) {
+        this.errorMessage = 'No se encontraron resultados para el ID y el filtro seleccionados.';
+      } else {
+        this.errorMessage = '';
+      }
+    } else {
+      // Si no hay búsqueda activa, aplica el filtro a los datos generales
+      if (filterType === 'activos') {
+        this.filteredResults = this.history.filter(entry => entry.estado === 'activo');
+      } else if (filterType === 'pagados') {
+        this.filteredResults = this.history.filter(entry => entry.estado === 'pagado');
+      } else {
+        this.filteredResults = this.history;
+      }
+      this.errorMessage = ''; // Limpiar cualquier mensaje de error
+    }
+  }
+  
+
+
+  // Buscar historial por ID de cliente
+  @action
+  async searchHistory(clienteId) {
+    try {
+      let response = await fetch(`http://34.31.19.169:5013/api/historial-credito/${clienteId}`);
+      if (!response.ok) {
+        if (response.status === 404) {
+          this.searchResults = [];
+          this.errorMessage = 'No se encontró historial para el cliente con el ID proporcionado.';
+        } else {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+      } else {
+        let data = await response.json();
+        let filteredData = data.map(entry => ({
+          id: entry.id_credito,
+          estado: entry.estado_credito,
+          pactado: entry.valor_pactado,
+          pagado: entry.valor_pagado,
+          fecha: entry.fecha_pago,
+          monto: entry.monto_pago,
+          clienteId: entry.id_cliente,
+        }));
+
+        // Filtrar los resultados de la búsqueda según el filtro activo
+        if (this.filterType === 'activos') {
+          filteredData = filteredData.filter(entry => entry.estado === 'activo');
+        } else if (this.filterType === 'pagados') {
+          filteredData = filteredData.filter(entry => entry.estado === 'pagado');
+        }
+
+        this.searchResults = filteredData;
+
+        // Manejar el caso donde no haya resultados compatibles con el filtro
+        if (this.searchResults.length === 0) {
+          this.errorMessage = 'No se encontraron resultados para el ID y el filtro seleccionados.';
+        } else {
+          this.errorMessage = '';
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching history:', error);
+      this.errorMessage = 'Hubo un problema al buscar el historial. Intente nuevamente.';
+    }
+  }
+
+  // Actualizar el cliente ID desde el formulario
+  @action
+  updateClienteId(event) {
+    this.clienteId = event.target.value;
+  }
+
+  // Manejar el evento de búsqueda
+  @action
+  async handleSearch(event) {
+    event.preventDefault();
+    await this.searchHistory(this.clienteId);
+  }
 
   @action
   openModal() {
@@ -55,18 +175,16 @@ export default class HistoryController extends Controller {
 
   @action
   saveEntry(updatedEntry) {
-    let entryIndex = this.creditHistory.findIndex(
-      (entry) => entry.id === updatedEntry.id,
-    );
+    let entryIndex = this.history.findIndex(entry => entry.id === updatedEntry.id);
     if (entryIndex !== -1) {
-      this.creditHistory[entryIndex] = updatedEntry;
+      this.history[entryIndex] = updatedEntry;
     }
     this.closeEditModal();
   }
 
   @action
   deleteEntry(entry) {
-    this.creditHistory = this.creditHistory.filter((e) => e.id !== entry.id);
+    this.history = this.history.filter(e => e.id !== entry.id);
     this.closeDetailModal();
   }
 }
