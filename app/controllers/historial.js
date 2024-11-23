@@ -49,7 +49,6 @@ export default class HistoryController extends Controller {
         pactado: entry.valor_pactado,
         pagado: entry.valor_pagado,
         fecha: entry.fecha_creacion,
-        fecha: entry.fecha_pago, //! REVISAR 
         monto: entry.monto_pago,
         clienteId: entry.id_cliente,
       }));
