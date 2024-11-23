@@ -1,56 +1,102 @@
 <header class="fixed top-0 left-0 w-full flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#283139] px-10 py-3 bg-[#111518] z-50">
   <div class="flex items-center gap-4 text-white">
-    <div class="size-4">
+    <div class="size-4 hover:animate-spin" onclick="location.href='/'" style="cursor: pointer;">
       <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0_6_330)">
+        <defs>
+          <linearGradient id="gradient1" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#ec4899" />
+            <stop offset="100%" stop-color="#f97316" />
+          </linearGradient>
+          <linearGradient id="gradient2" x1="48" y1="0" x2="0" y2="48" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#f97316" />
+            <stop offset="100%" stop-color="#ec4899" />
+          </linearGradient>
+        </defs>
+        <g clip-path="url(#clip0)">
           <path
             fill-rule="evenodd"
             clip-rule="evenodd"
-            d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
-            fill="currentColor"
-          ></path>
+            d="M24 1L46 24L24 47L2 24L24 1ZM21 35V13L10 24L21 35Z"
+            fill="url(#gradient1)"
+          />
+          <path
+            d="M26 35V13L37 24L26 35Z"
+            fill="url(#gradient2)"
+          />
         </g>
         <defs>
-          <clipPath id="clip0_6_330"><rect width="48" height="48" fill="white"></rect></clipPath>
+          <clipPath id="clip0">
+            <rect width="48" height="48" fill="white" />
+          </clipPath>
         </defs>
       </svg>
     </div>
-    <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Banco</h2>
+    <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]" onclick="location.href='/'" style="cursor: pointer;">CEA</h2>
   </div>
   <div class="hidden md:flex flex-1 justify-end gap-8">
-    <div class="flex items-center gap-9">
-      {{!--<a class="text-white text-sm font-medium leading-normal" href="#">Inicio</a> --}}
-      <a class="text-white text-sm font-medium leading-normal" href="/clients">Clientes</a>
-      <a class="text-white text-sm font-medium leading-normal" href="/creditos">Creditos</a>
-      <a class="text-white text-sm font-medium leading-normal" href="/pagos">Pagos</a>
-      <a class="text-white text-sm font-medium leading-normal" href="/historial">Historial Crediticio</a>
-      <a class="text-white text-sm font-medium leading-normal" href="#">Analítica</a>
-    </div>
-    <div class="flex gap-2 relative">
-  <button
-    class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
-    type="button"
-    {{on "click" this.toggleDropdown}}
-  >
-    <div class="text-white" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-      </svg>
-    </div>
-  </button>
-
-  {{#if this.isDropdownOpen}}
-    <div class="absolute right-0 mt-10 w-48 bg-[#1c1c1c] border border-solid border-[#283139] rounded-lg shadow-lg z-50">
-      <a href="/profile" class="block px-4 py-2 text-sm text-white hover:bg-[#283139]">Perfil</a>
-      <button
-        class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#283139]"
-        {{on "click" this.logout}}
-      >
-        Cerrar sesión
-      </button>
-    </div>
-  {{/if}}
-</div>
+    {{#if this.auth.isAuthenticated}}
+      <div class="flex items-center gap-9">
+        {{#if (is-equal this.auth.userRole 'admin')}}
+          <a class="text-white text-sm font-medium leading-normal" href="/clients">Clientes</a>
+          <a class="text-white text-sm font-medium leading-normal" href="/creditos">Creditos</a>
+          <a class="text-white text-sm font-medium leading-normal" href="/pagos">Pagos</a>
+          <a class="text-white text-sm font-medium leading-normal" href="/historial">Historial Crediticio</a>
+          <a class="text-white text-sm font-medium leading-normal" href="#">Analítica</a>
+        {{else}}
+          <a class="text-white text-sm font-medium leading-normal" href="/">Inicio</a>
+          <a class="text-white text-sm font-medium leading-normal" href="/creditos">Mis créditos</a>
+          <a class="text-white text-sm font-medium leading-normal" href="/historial">Historial de pagos</a>
+        {{/if}}
+      </div>
+      <div class="flex gap-2 relative">
+        <button
+          class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+          type="button"
+          {{on "click" this.toggleDropdown}}
+        >
+          <div class="text-white" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+          </div>
+        </button>
+        {{#if this.isDropdownOpen}}
+          <div class="absolute right-0 mt-10 w-48 bg-[#1c1c1c] border border-solid border-[#283139] rounded-lg shadow-lg z-50">
+            {{#if (is-equal this.auth.userRole 'normal')}}
+              <a href="/profile" class="block px-4 py-2 text-sm text-white hover:bg-[#283139]">Perfil</a>
+            {{/if}}
+            <button
+              class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#283139]" type="button" {{on "click" this.logout}}
+            >
+              Cerrar sesión
+            </button>
+          </div>
+        {{/if}}
+      </div>
+    {{else}}
+      <div class="flex gap-2 relative">
+        <button
+          class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5"
+          type="button"
+          {{on "click" this.toggleDropdown}}
+        >
+          <div class="text-white" data-icon="MagnifyingGlass" data-size="20px" data-weight="regular">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+          </div>
+        </button>
+        {{#if this.isDropdownOpen}}
+          <div class="absolute right-0 mt-10 w-48 bg-[#1c1c1c] border border-solid border-[#283139] rounded-lg shadow-lg z-50">
+            <button
+              class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#283139]" type="button" onclick="location.href='/login'"
+            >
+              Iniciar sesión
+            </button>
+          </div>
+        {{/if}}
+      </div>
+    {{/if}}
   </div>
   {{!-- Botón de menú de hamburguesa --}}
   <div class="md:hidden flex items-center">
@@ -66,8 +112,11 @@
   <div class="menu-enter absolute top-16 left-0 w-full bg-[#111518] text-white z-50 shadow-lg border-b border-solid border-b-[#283139]">
     <a class="block px-4 py-2 text-sm font-medium leading-normal" href="#">Inicio</a>
     <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/clients">Clientes</a>
-    <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/creditos">Creditos</a>
+    {{#if (is-equal this.auth.userRole 'admin')}}
+      <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/creditos">Creditos</a>
+      <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/pagos">Pagos</a>
+    {{/if}}
     <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/historial">Historial crediticio</a>
-    <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/jaja">Analítica</a>
+    <a class="block px-4 py-2 text-sm font-medium leading-normal" href="#">Analítica</a>
   </div>
 {{/if}}

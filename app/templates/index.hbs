@@ -2,25 +2,49 @@
   {{navbar/navbar}}
 
   <main class="flex-grow container mx-auto px-4 py-8 text-white">
+    <section class="mb-12 mt-20">
+      <h1 class="text-3xl font-bold mb-2">Gestión de Clientes y Créditos</h1>
+      <p class="text-gray-400">Herramienta robusta para la evaluación financiera y la optimización del riesgo crediticio.</p>
+    </section>
 
     <section class="mt-12">
-      <h3 class="text-2xl font-bold mb-4">Características</h3>
+      <h3 class="text-2xl font-bold mb-4">Insights financieros</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h4 class="text-xl font-bold mb-2">Característica 1</h4>
-          <p class="text-gray-700">Descripción de la característica 1.</p>
+        {{!-- Gráfico de Barras --}}
+        <div class="bg-[#1a1d21] p-6 rounded-lg shadow-md border-4 border-transparent hover:border-none transition-all relative">
+          <div class="absolute inset-0 -m-1 rounded-lg bg-gradient-to-br from-pink-500 to-orange-400 z-[-1]"></div>
+          <h4 class="text-xl font-bold mb-2">Clientes y Créditos</h4>
+          <p class="text-gray-400 mb-4">Número de clientes activos y créditos otorgados por mes o trimestre.</p>
+          <div class="chart-container">
+            {{!-- Placeholder del gráfico --}}
+            Gráfico de Barras
+          </div>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h4 class="text-xl font-bold mb-2">Característica 2</h4>
-          <p class="text-gray-700">Descripción de la característica 2.</p>
+
+        {{!-- Gráfico de Línea --}}
+        <div class="bg-[#1a1d21] p-6 rounded-lg shadow-md border-4 border-transparent hover:border-none transition-all relative ease-in-out">
+          <div class="absolute inset-0 -m-1 rounded-lg bg-gradient-to-br from-pink-500 to-orange-400 z-[-1]"></div>
+          <h4 class="text-xl font-bold mb-2">Créditos Atrasados</h4>
+          <p class="text-gray-400 mb-4">Evolución de los créditos atrasados y el monto adeudado en el tiempo por cliente.</p>
+          <div class="chart-container">
+            {{!-- Placeholder del gráfico --}}
+            Gráfico de Línea
+          </div>
+        </div>
+      </div>
+
+      {{!-- Gráfico de Resumen Financiero General --}}
+      <div class="mt-8 bg-[#1a1d21] p-6 rounded-lg shadow-md border-4 border-transparent hover:border-none transition-all relative">
+        <div class="absolute inset-0 -m-1 rounded-lg bg-gradient-to-br from-pink-500 to-orange-400 z-[-1]"></div>
+        <h4 class="text-xl font-bold mb-2">Resumen Financiero General</h4>
+        <p class="text-gray-400 mb-4">Métricas clave como total de créditos, monto promedio otorgado y porcentaje en mora.</p>
+        <div class="chart-container h-64">
+          {{!-- Placeholder del gráfico --}}
+          Resumen Financiero
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="w-full bg-[#111518] text-white py-4 mt-8 border-t border-solid border-[#283139]">
-    <div class="container mx-auto text-center">
-      <p>&copy; 2023 Mi Proyecto. Todos los derechos reservados.</p>
-    </div>
-  </footer>
+  {{footer/footer}}
 </div>

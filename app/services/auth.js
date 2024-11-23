@@ -1,15 +1,15 @@
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import jwtDecode from 'jwt-decode';
+import { tracked } from '@glimmer/tracking';
 
 export default class AuthService extends Service {
   @service router;
 
-  token = localStorage.getItem('authToken') || null;
-  role = localStorage.getItem('role') || null;
+  @tracked token = localStorage.getItem('authToken') || null;
+  @tracked role = localStorage.getItem('role') || null;
 
   get isAuthenticated() {
-    console.log('Token:', this.token);
     return !!this.token;
   }
 
@@ -28,6 +28,7 @@ export default class AuthService extends Service {
   login(token) {
     this.token = token;
     localStorage.setItem('authToken', token);
+    localStorage.setItem('role', this.role);
   }
 
   logout() {
@@ -38,6 +39,23 @@ export default class AuthService extends Service {
 
     localStorage.removeItem('authToken');
     localStorage.removeItem('role');
-    this.router.transitionTo('login');
+    this.token = null;
+    this.role = null;
+    alert('Sesión cerrada');
+    this.router.transitionTo('/');
+  }
+
+  updateUserRole() {
+    if (this.token) {
+      try {
+        const decodedToken = jwtDecode(this.token);
+        this.role = decodedToken.role;
+        localStorage.setItem('role', this.role);
+      } catch (error) {
+        console.error('Error retrieving user role:', error);
+        this.role = null;
+        localStorage.removeItem('role');
+      }
+    }
   }
 }

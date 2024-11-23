@@ -15,6 +15,8 @@ export default class HistoryController extends Controller {
   @tracked errorMessage = '';
   @tracked filteredResults = [];
   @tracked filterType = 'todos'; // Puede ser 'todos', 'activos', 'pagados'
+  @tracked progress = 0;
+  @tracked isLoading = false;
 
   // Cargar historial al iniciar el controlador
   constructor() {
@@ -25,6 +27,8 @@ export default class HistoryController extends Controller {
   // Cargar historial desde el backend
   async loadHistory() {
     try {
+      this.isLoading = true;
+      this.progress = 0;
       let response = await fetch('http://127.0.0.1:5013/api/historial-credito'); //TODO: Compaginar
       let data = await response.json();
       console.log('Data:', data[0]);
@@ -39,8 +43,14 @@ export default class HistoryController extends Controller {
       }));
       this.filteredResults = this.history; // Inicialmente, mostrar todos los resultados
       console.log('Historial cargado:', this.history[0]);
+      for (let i = 0; i <= 100; i++) {
+        this.progress = i;
+        await new Promise((resolve) => setTimeout(resolve, 20));
+      }
     } catch (error) {
       console.error('Error loading history:', error);
+    } finally {
+      this.isLoading = false;
     }
   }
 

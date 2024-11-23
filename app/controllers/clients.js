@@ -9,7 +9,7 @@ let token = localStorage.getItem('authToken');
 export default class ClientsController extends Controller {
   @service auth;
   @service router;
-  
+
   @tracked isModalOpen = false;
   @tracked clients = [];
   @tracked selectedClient = null;
@@ -31,7 +31,9 @@ export default class ClientsController extends Controller {
   async loadClients() {
     const token = localStorage.getItem('authToken');
     if (!token) {
-      console.error('Token no encontrado. Redirigiendo a la página de inicio de sesión.');
+      console.error(
+        'Token no encontrado. Redirigiendo a la página de inicio de sesión.',
+      );
       this.router.transitionTo('login');
       return;
     }
@@ -44,8 +46,8 @@ export default class ClientsController extends Controller {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (!response.ok) {
@@ -61,7 +63,7 @@ export default class ClientsController extends Controller {
 
       for (let i = 0; i <= 100; i++) {
         this.progress = i;
-        await new Promise((resolve) => setTimeout(resolve, 3)); 
+        await new Promise((resolve) => setTimeout(resolve, 3));
       }
 
       this.clients = data.map((client) => ({
@@ -131,7 +133,9 @@ export default class ClientsController extends Controller {
   @action
   async addClient(newClient) {
     if (!token) {
-      console.error('Token no encontrado. Redirigiendo a la página de inicio de sesión.');
+      console.error(
+        'Token no encontrado. Redirigiendo a la página de inicio de sesión.',
+      );
       this.router.transitionTo('login');
       return;
     }
@@ -142,7 +146,7 @@ export default class ClientsController extends Controller {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(newClient),
       });
@@ -150,7 +154,10 @@ export default class ClientsController extends Controller {
         alert('Cliente agregado correctamente');
         this.loadClients(); // Recargar clientes después de agregar
       } else {
-        console.error('Error en la respuesta del servidor:', response.statusText);
+        console.error(
+          'Error en la respuesta del servidor:',
+          response.statusText,
+        );
       }
       this.closeModal();
     } catch (error) {
@@ -160,35 +167,35 @@ export default class ClientsController extends Controller {
 
   @action
   async updateClient(updatedClient) {
-      const token = localStorage.getItem('authToken');
-      console.log("token", token);
-      try {
-          let response = await fetch(
-              `http://127.0.0.1:5003/update_cliente/${updatedClient.id}`,
-              {
-                  method: 'PATCH',
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'Authorization': `Bearer ${token}`
-                  },
-                  body: JSON.stringify(updatedClient)
-              }
-          );
+    const token = localStorage.getItem('authToken');
+    console.log('token', token);
+    try {
+      let response = await fetch(
+        `http://127.0.0.1:5003/update_cliente/${updatedClient.id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedClient),
+        },
+      );
 
-          if (response.ok) {
-              alert('Cliente actualizado correctamente');
-              this.loadClients();
-          } else {
-              console.error(
-                  'Error en la respuesta del servidor:',
-                  response.statusText,
-              );
-          }
-
-          this.closeEditModal();
-      } catch (error) {
-          console.error('Error actualizando cliente:', error);
+      if (response.ok) {
+        alert('Cliente actualizado correctamente');
+        this.loadClients();
+      } else {
+        console.error(
+          'Error en la respuesta del servidor:',
+          response.statusText,
+        );
       }
+
+      this.closeEditModal();
+    } catch (error) {
+      console.error('Error actualizando cliente:', error);
+    }
   }
 
   @action
@@ -200,7 +207,7 @@ export default class ClientsController extends Controller {
         {
           // URL del servicio de eliminación
           method: 'DELETE',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
       );
       if (response.ok) {

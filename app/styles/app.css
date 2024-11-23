@@ -186,6 +186,15 @@ div {
   }
 }
 
+.chart-container {
+  min-height: 200px; /* Asegura que todos tengan la misma altura */
+  display: flex;
+  align-items: center; /* Centra el contenido verticalmente */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  background-color: #1f2937; /* Fondo oscuro para los gráficos */
+  border-radius: 8px; /* Esquinas redondeadas */
+}
+
 .modal-enter {
   animation: fadeIn 0.3s forwards;
 }

@@ -1,4 +1,4 @@
-<!-- Template -->
+{{!-- Template --}}
 <div class="relative flex size-full min-h-screen flex-col bg-dark overflow-x-hidden mt-16">
   <div class="container flex h-full grow flex-col">
     {{navbar/navbar}}
@@ -33,7 +33,7 @@
           </div>
           <form {{on "submit" this.registrarPago}}>
             <div class="flex flex-col gap-4">
-              <!-- Campo de ID Crédito -->
+              {{!-- Campo de ID Crédito --}}
               <div>
                 <label for="idCredito" class="text-white">ID Crédito</label>
                 <input
@@ -45,7 +45,7 @@
                 />
               </div>
 
-              <!-- Campo de Fecha de Pago -->
+              {{!-- Campo de Fecha de Pago --}}
               <div>
                 <label for="fechaPago" class="text-white">Fecha de Pago</label>
                 <input
@@ -57,7 +57,7 @@
                 />
               </div>
 
-              <!-- Campo de Monto Pagado -->
+              {{!-- Campo de Monto Pagado --}}
               <div>
                 <label for="montoPago" class="text-white">Monto Pagado</label>
                 <input
@@ -92,7 +92,6 @@
                 class="text-black"
                 placeholder="Buscar por ID Cliente"
                 value={{this.searchId}} {{on "input" this.updateSearchId}}
-                class="text-black px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 type="button"
@@ -105,7 +104,7 @@
           </div>
         </div>
 
-      <!-- Tabla de Pagos -->
+      {{!-- Tabla de Pagos --}}
       <div class="mt-6">
         {{#if this.model.length}}
           <div class="overflow-x-auto">
