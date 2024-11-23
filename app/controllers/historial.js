@@ -72,7 +72,7 @@ export default class HistoryController extends Controller {
     event.preventDefault();
 
     try {
-      let response = await fetch('http://34.172.213.102:5012/api/historial-credito', {
+      let response = await fetch('http://127.0.0.1:5012/api/historial-credito', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
