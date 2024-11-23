@@ -1,52 +1,97 @@
-<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 {{if this.isClosing "modal-leave" "modal-enter"}}">
+<div 
+  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 {{if this.isClosing "modal-leave" "modal-enter"}}">
   <div class="bg-[#1c1c1c] rounded-xl p-6 w-[512px] max-w-full">
     <div class="flex flex-col items-center">
-      <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] text-center pb-3">Añadir Entrada</h2>
-      <p class="text-white text-base font-normal leading-normal text-center pb-6">Llena los siguientes campos para añadir una nueva entrada al historial de crédito.</p>
+      <!-- Título del Modal -->
+      <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] text-center pb-3">
+        Añadir Crédito
+      </h2>
+      <p class="text-white text-base font-normal leading-normal text-center pb-6">
+        Llena los siguientes campos para añadir un nuevo crédito.
+      </p>
 
+      <!-- Formulario -->
       <form {{on "submit" this.addEntry}} class="w-full">
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Nombre del Cliente</label>
-          <input
-            type="text"
-            placeholder="Nombre del Cliente"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            {{on "input" this.updateClientName}}
-          />
+        <!-- Fila 1: ID del Cliente y ID del Viaje -->
+        <div class="flex gap-4 mb-4">
+          <div class="w-1/2">
+            <label class="block text-white text-base font-medium leading-normal mb-2">ID del Cliente</label>
+            <input 
+              type="text"
+              placeholder="ID del Cliente"
+              class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              {{on "input" this.updateClienteId}}
+            />
+          </div>
+          <div class="w-1/2">
+            <label class="block text-white text-base font-medium leading-normal mb-2">ID del Viaje</label>
+            <input 
+              type="text"
+              placeholder="ID del Viaje"
+              class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              {{on "input" this.updateIdViaje}}
+            />
+          </div>
         </div>
 
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Fecha</label>
-          <input
-            type="date"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            {{on "input" this.updateDate}}
-          />
+        <!-- Fila 2: Estado y Valor Pactado -->
+        <div class="flex gap-4 mb-4">
+          <div class="w-1/2">
+            <label class="block text-white text-base font-medium leading-normal mb-2">Estado</label>
+            <input 
+              type="text"
+              placeholder="Estado"
+              class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              {{on "input" this.updateEstado}}
+            />
+          </div>
+          <div class="w-1/2">
+            <label class="block text-white text-base font-medium leading-normal mb-2">Valor Pactado</label>
+            <input 
+              type="number"
+              placeholder="Valor Pactado"
+              class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              {{on "input" this.updatePactado}}
+            />
+          </div>
         </div>
 
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Monto</label>
-          <input
-            type="number"
-            placeholder="Monto"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            {{on "input" this.updateAmount}}
-          />
+        <!-- Fila 3: Monto de Pago Inicial -->
+        <div class="flex gap-4 mb-4">
+          <div class="w-full">
+            <label class="block text-white text-base font-medium leading-normal mb-2">Monto de Pago Inicial</label>
+            <input 
+              type="number"
+              placeholder="Monto de Pago Inicial"
+              class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              {{on "input" this.updateMonto}}
+            />
+          </div>
+
+          <div class="w-full">
+            <label class="block text-white text-base font-medium leading-normal mb-2">Fecha de Crédito</label>
+            <input 
+              type="date"
+              placeholder="Fecha de Crédito"
+              class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
+              {{on "input" this.updateFecha}}
+            />
+          </div>
         </div>
 
-        <div class="w-full mb-4">
-          <label class="block text-white text-base font-medium leading-normal mb-2">Estado</label>
-          <input
-            type="text"
-            placeholder="Estado"
-            class="w-full h-14 p-4 rounded-xl bg-[#283139] text-white placeholder:text-[#9cacba] border-none focus:outline-none focus:ring-0"
-            {{on "input" this.updateStatus}}
-          />
-        </div>
-
+        <!-- Botones de Acción -->
         <div class="flex justify-end gap-4">
-          <button type="button" class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center" {{on "click" this.closeModal}}>Cancelar</button>
-          <button type="submit" class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Añadir</button>
+          <button 
+            type="button"
+            class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            {{on "click" this.closeModal}}>
+            Cancelar
+          </button>
+          <button 
+            type="submit"
+            class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+            Añadir
+          </button>
         </div>
       </form>
     </div>

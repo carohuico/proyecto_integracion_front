@@ -17,6 +17,16 @@ export default class HistoryController extends Controller {
   @tracked filterType = 'todos'; // Puede ser 'todos', 'activos', 'pagados'
   @tracked progress = 0;
   @tracked isLoading = false;
+  @tracked notificationMessage = '';
+  @tracked showNotification = false;
+
+  // Nuevo crédito
+  @tracked newCredit = {
+    id_cliente: '',
+    estado_credito: '',
+    valor_pactado: 'activo',
+    monto_pago: '',
+  };
 
   // Cargar historial al iniciar el controlador
   constructor() {
@@ -34,9 +44,11 @@ export default class HistoryController extends Controller {
       console.log('Data:', data[0]);
       this.history = data.map(entry => ({
         id: entry.id_credito,
+        viaje: entry.id_viaje,
         estado: entry.estado_credito,
         pactado: entry.valor_pactado,
         pagado: entry.valor_pagado,
+        fecha: entry.fecha_creacion,
         fecha: entry.fecha_pago, //! REVISAR 
         monto: entry.monto_pago,
         clienteId: entry.id_cliente,
@@ -52,6 +64,49 @@ export default class HistoryController extends Controller {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  // Guardar un nuevo crédito
+  @action
+  async saveNewCredit(event) {
+    event.preventDefault();
+
+    try {
+      let response = await fetch('http://34.172.213.102:5012/api/historial-credito', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.newCredit),
+      });
+
+      if(response.ok) {
+        let data = await response.json();
+        this.history.push({
+          id: data.id_credito,
+          viaje: data.id_viaje,
+          estado: data.estado_credito,
+          pactado: data.valor_pactado,
+          pagado: data.valor_pagado,
+          fecha: data.fecha_creacion,
+          clienteId: data.id_cliente,
+        });
+        this.filteredResults = this.history; // Actualizar los resultados filtrados
+        this.closeModal();
+      } else {
+        let errorData = await response.json();
+        this.errorMessage = errorData.error || 'Hubo un problema al guardar el crédito.';
+      }
+    } catch (error) {
+      console.error('Error saving new credit:', error);
+      this.errorMessage = 'Hubo un problema al guardar el crédito.';
+    }
+  }
+
+  // Actualizar campos del nuevo crédito
+  @action
+  updateNewCreditField(field, event) {
+    this.newCredit[field] = event.target.value;
   }
 
   // Cambiar el filtro activo
@@ -109,10 +164,11 @@ export default class HistoryController extends Controller {
         let data = await response.json();
         let filteredData = data.map(entry => ({
           id: entry.id_credito,
+          viaje: entry.id_viaje,
           estado: entry.estado_credito,
           pactado: entry.valor_pactado,
           pagado: entry.valor_pagado,
-          fecha: entry.fecha_pago,
+          fecha: entry.fecha_creacion,
           monto: entry.monto_pago,
           clienteId: entry.id_cliente,
         }));
@@ -196,8 +252,70 @@ export default class HistoryController extends Controller {
   }
 
   @action
-  deleteEntry(entry) {
-    this.history = this.history.filter(e => e.id !== entry.id);
+  async deleteEntry(entry) {
+      try {
+          await fetch(`http://34.172.213.102:5015/api/historial-credito/${entry.id}`, {
+              method: 'DELETE',
+          });
+          this.history = this.history.filter(e => e.id !== entry.id);
+          this.filteredResults = this.history; // Actualizar los resultados filtrados
+          alert("Crédito eliminado correctamente.");
+      } catch (error) {
+          console.error("Error al eliminar el crédito:", error);
+          alert("Ocurrió un error al intentar eliminar el crédito.");
+      }
+  }
+
+
+  @action
+  async onSave(){
+    await this.loadHistory();
+    this.showSuccessNotification('Crédito guardado exitosamente.');
+  }
+
+  @action
+  showSuccessNotification(message) {
+    this.notificationMessage = message;
+    this.showNotification = true;
+
+    // Ocultar la notificación después de 3 segundos
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 6000);
+  }
+
+  /*@action
+  updateEntry(updatedEntry){
+    const index = this.history.findIndex(entry => entry.id === updatedEntry.id);
+    if(index !== -1){
+      this.history[index] = updatedEntry;
+    } else {
+      this.history.push(updatedEntry);
+    }
+    this.history = [...this.history];
+  }*/
+
+  async saveEntry(updatedEntry) {
+
+    // Aviso de que esta cargando el historial mientras se actualiza
+
+    // Encuentra el índice correspondiente y actualiza
+    let entryIndex = this.history.findIndex(entry => entry.id === updatedEntry.id);
+
+    if (entryIndex !== -1) {
+      this.history[entryIndex] = updatedEntry; // Actualiza la entrada existente
+    } else {
+      this.history.push(updatedEntry); // Añade una nueva entrada
+    }
+
+    // Forzar a Ember a detectar el cambio
+    this.history = [...this.history];
+
+    // Actualiza la lista de resultados filtrados
+    await this.loadHistory();
+
+    // Cierra el modal después de guardar
     this.closeDetailModal();
   }
+
 }
