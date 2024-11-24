@@ -59,38 +59,46 @@ export default class CreditosController extends Controller {
     // Busca el crédito en la lista de créditos
     const creditoSeleccionado = this.model.find(credito => credito.id_credito === idCredito);
 
+    if(!creditoSeleccionado) {
+      console.error('No se encontró el crédito seleccionado');
+      return;
+    }
+
     // Verifica si se encontró el crédito seleccionado
-    if (creditoSeleccionado) {
       console.log('Obteniendo historial de pagos para el cliente con ID:', creditoSeleccionado.id_cliente); // ID del cliente del crédito seleccionado
 
       // Verifica si ya se cargaron los pagos para este crédito
-      const pagosGuardados = this.pagos.find(pago => pago.id_credito === idCredito);
-        if (pagosGuardados) {
-        this.pagos = pagosGuardados.pagos; // Si ya están cargados, solo los mostramos
-        this.historialPagosVisible = true;
+    const pagosGuardados = this.pagos.find(pago => pago.id_credito === idCredito);
+    if (pagosGuardados) {
+      console.log('Pagos previamente cargados:', pagosGuardados);
+      this.historialPagosVisible = true;
+      return;
+    }
+
+    try {
+      // Realiza la solicitud al backend
+      const response = await fetch(`http://35.202.214.44:5007/api/pagos/${creditoSeleccionado.id_cliente}`);
+      const data = await response.json();
+
+      if (!Array.isArray(data)) {
+        console.error('El backend no devolvió un array de pagos:', data.message || data);
+        alert('No se encontraron pagos para este cliente.');
         return;
-        }
+      }
 
-      try {
-        // Realiza la solicitud al backend para obtener el historial de pagos
-        const response = await fetch(`http://35.202.214.44:5007/api/pagos/${creditoSeleccionado.id_cliente}`);
-        const data = await response.json();
-        console.log('Historial de pagos:', data);
-
-        this.pagos = data.map(item => ({
+      // Mapeo de los datos a un formato uniforme
+      this.pagos = data.map(item => ({
         id_pago: item.id_pago,
         id_credito: item.id_credito,
         fecha_pago: item.fecha_pago,
-        monto_pago: item.monto_pago
-        }));
+        monto_pago: item.monto_pago,
+      }));
 
-        this.historialPagosVisible = true;  // Mostrar la modal
-            } catch (error) {
-        console.error('Error al obtener el historial de pagos:', error);
-        this.pagos = []; // Si hay error, vaciar los pagos
-      }
-    } else {
-      console.error('No se encontró el crédito seleccionado');
+      console.log('Historial de pagos cargado:', this.pagos);
+      this.historialPagosVisible = true;
+    } catch (error) {
+      console.error('Error al obtener el historial de pagos:', error);
+      alert('Hubo un problema al cargar el historial de pagos. Inténtalo nuevamente.');
     }
   }
 
