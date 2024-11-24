@@ -130,13 +130,16 @@ export default class CreditosController extends Controller {
 
       if (response.ok) {
         const updatedData = await response.json();
-        console.log('Crédito actualizado:', updatedData);
+        console.log('Crédito actualizado en el backend:', updatedData);
 
-        // Actualizar el modelo con el crédito modificado
-        const creditoIndex = this.model.findIndex(credito => credito.id_credito === idCredito);
-        if (creditoIndex !== -1) {
-          this.model[creditoIndex] = updatedData;
-        }
+        //Recargar los créditos desde el backend
+        console.log('Recargando créditos desde el backend...');
+        this.searchId = this.selectedCredito.id_cliente.toString(); // Actualizar el ID de cliente
+        await this.searchCreditos();
+
+        //Mostrar mensaje de éxito
+        alert('Crédito actualizado correctamente.');
+
         // Ocultar la modal después de actualizar
         this.isModalVisible = false;
       } else {
