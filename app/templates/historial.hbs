@@ -22,32 +22,46 @@
               Pagados
             </button>
           </div>
-          <!-- Botón "Agregar un nuevo registro" -->
+          
+        </div>
+         {{!-- Formulario de búsqueda --}}
+        <div class="pb-3">
+          <div class="flex items-center gap-4 justify-between rounded-lg bg-[#1b2227] p-4 shadow-lg">
+            <div class="relative w-full max-w-md">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    fill-rule="evenodd"
+                    d="M9 3a6 6 0 100 12A6 6 0 009 3zm-8 6a8 8 0 1115.27 5.24l4.23 4.23a1 1 0 01-1.42 1.42l-4.23-4.23A8 8 0 011 9z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              <input
+                type="text"
+                class="block w-full pl-10 pr-3 py-2 text-sm rounded-lg bg-[#2d343f] border border-gray-700 placeholder-gray-400 text-white focus:outline-none focus:ring focus:ring-orange-500 focus:border-orange-500"
+                placeholder="Buscar por ID de Cliente"
+                value={{this.clienteId}}
+                {{on "input" this.updateClienteId}}
+              />
+            </div>
+            <button
+              type="submit"
+              class="inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-white bg-gradient-to-br from-pink-500 to-orange-400 rounded-lg shadow-md hover:from-pink-600 hover:to-orange-500 focus:outline-none focus:ring focus:ring-pink-500"
+              {{on "click" this.handleSearch}}
+            >
+              Buscar
+            </button>
+          </div>
+        </div>
+
+        <!-- Botón "Agregar un nuevo registro" -->
           <div class="flex justify-end">
             <button type="button" {{on "click" this.openModal}}
               class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
               Agregar registro
             </button>
           </div>
-        </div>
-        {{!-- Formulario de búsqueda --}}
-        <div class="flex justify-between items-center mb-4">
-          <form {{on "submit" this.handleSearch}} class="flex gap-4">
-            <input
-              type="text"
-              placeholder="Buscar por ID de Cliente"
-              value={{this.clienteId}}
-              {{on "input" this.updateClienteId}}
-              class="text-black px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              type="submit"
-              class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
-            >
-              Buscar
-            </button>
-          </form>
-        </div>
 
         {{!-- Mensaje de error --}}
         {{#if this.errorMessage}}
@@ -107,8 +121,8 @@
                           <td class="px-4 py-2 text-sm text-white">{{entry.pagado}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.fecha}}</td>
                           <td class="px-4 py-2 text-sm text-center">
-                            <button {{on "click" (fn this.openDetailModal entry)}} class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-                              <span class="relative px-4 py-1 transition-all duration-300 ease-in-out bg-[#1b2227] rounded-md group-hover:bg-opacity-0 group-hover:opacity-100">
+                            <button {{on "click" (fn this.openDetailModal entry)}} class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+                              <span class="relative px-4 py-1 transition-all duration-300 ease-in-out bg-[#1b2227] rounded-md group-hover:bg-opacity-0 text-white">
                                 Ver más
                               </span>
                             </button>
@@ -130,8 +144,8 @@
                           <td class="px-4 py-2 text-sm text-white">{{entry.pagado}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.fecha}}</td>
                           <td class="px-4 py-2 text-sm text-center">
-                            <button {{on "click" (fn this.openDetailModal entry)}} class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-                              <span class="relative px-4 py-1 transition-all duration-300 ease-in-out bg-[#1b2227] rounded-md group-hover:bg-opacity-0 group-hover:opacity-100">
+                            <button {{on "click" (fn this.openDetailModal entry)}} class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+                              <span class="relative px-4 py-1 transition-all duration-300 ease-in-out bg-[#1b2227] rounded-md group-hover:bg-opacity-0 text-white">
                                 Ver más
                               </span>
                             </button>

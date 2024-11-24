@@ -10,7 +10,7 @@
         </div>
         <button
           type="button"
-          class="self-start bg-gradient-to-br from-green-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-white"
+          class="inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-white bg-gradient-to-br from-pink-500 to-orange-400 rounded-lg shadow-md hover:from-pink-600 hover:to-orange-500 focus:outline-none focus:ring focus:ring-pink-500"
           {{on "click" this.openPaymentModal}}
         >
           Registrar Pago
@@ -24,7 +24,7 @@
           <div class="flex justify-between items-center mb-4">
             <h2 class="text-white text-2xl font-semibold">Registrar Pago</h2>
             <button
-              class="text-white bg-red-500 hover:bg-red-600 font-semibold py-2 px-4 rounded-md"
+              class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               type="button"
               {{on "click" this.closePaymentModal}}
             >
@@ -73,7 +73,7 @@
             <div class="flex justify-end mt-4">
               <button
                 type="submit"
-                class="text-white bg-green-500 hover:bg-green-600 font-semibold py-2 px-4 rounded-md"
+                class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
               >
                 Confirmar
               </button>
@@ -83,24 +83,34 @@
       </div>
       {{/if}}
 
-      {{!-- Campo de búsqueda --}}
+        {{!-- Campo de búsqueda --}}
         <div class="pb-3">
-          <div class="flex pl-4 gap-8 justify-between items-center rounded-lg">
-            <div class="flex gap-8">
+          <div class="flex pl-4 gap-4 justify-between items-center rounded-lg bg-[#1b2227] p-4 shadow-lg">
+            <div class="relative w-full max-w-md">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    fill-rule="evenodd"
+                    d="M9 3a6 6 0 100 12A6 6 0 009 3zm-8 6a8 8 0 1115.27 5.24l4.23 4.23a1 1 0 01-1.42 1.42l-4.23-4.23A8 8 0 011 9z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
               <input
                 type="text"
-                class="text-black"
+                class="block w-full pl-10 pr-3 py-2 text-sm rounded-lg bg-[#2d343f] border border-gray-700 placeholder-gray-400 text-white focus:outline-none focus:ring focus:ring-orange-500 focus:border-orange-500"
                 placeholder="Buscar por ID Cliente"
-                value={{this.searchId}} {{on "input" this.updateSearchId}}
+                value={{this.searchId}}
+                {{on "input" this.updateSearchId}}
               />
-              <button
-                type="button"
-                class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
-                {{on "click" this.searchPagos}}
-              >
-                Buscar
-              </button>
             </div>
+            <button
+              type="button"
+              class="inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-white bg-gradient-to-br from-pink-500 to-orange-400 rounded-lg shadow-md hover:from-pink-600 hover:to-orange-500 focus:outline-none focus:ring focus:ring-pink-500"
+              {{on "click" this.searchCreditos}}
+            >
+              Buscar
+            </button>
           </div>
         </div>
 
