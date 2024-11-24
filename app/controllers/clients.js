@@ -42,7 +42,7 @@ export default class ClientsController extends Controller {
     try {
       this.isLoading = true;
       this.progress = 0;
-      let response = await fetch('http://35.202.214.44:5002/get_clientes', {
+      let response = await fetch('http://35.202.166.109:5002/get_clientes', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ export default class ClientsController extends Controller {
 
     try {
       console.log(newClient);
-      let response = await fetch('http://35.202.214.44:5001/create_cliente', {
+      let response = await fetch('http://35.202.166.109:5001/create_cliente', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -148,14 +148,13 @@ export default class ClientsController extends Controller {
       if (response.ok) {
         alert('Cliente agregado correctamente');
         this.loadClients(); // Recargar clientes después de agregar
-      }      
-      else if (response.status === 401) {
+      } else if (response.status === 401) {
         const responseData = await response.json();
-        if (responseData.message === "El token ha expirado") {
-            console.error('El token ha expirado.');
-            this.auth.logout();
-            this.router.transitionTo('login');
-            return;
+        if (responseData.message === 'El token ha expirado') {
+          console.error('El token ha expirado.');
+          this.auth.logout();
+          this.router.transitionTo('login');
+          return;
         }
       }
       this.closeModal();
@@ -170,7 +169,7 @@ export default class ClientsController extends Controller {
     console.log('token', token);
     try {
       let response = await fetch(
-        `http://35.202.214.44:5003/update_cliente/${updatedClient.id}`,
+        `http://335.202.166.109:5003/update_cliente/${updatedClient.id}`,
         {
           method: 'PATCH',
           headers: {
@@ -184,13 +183,13 @@ export default class ClientsController extends Controller {
       if (response.ok) {
         alert('Cliente actualizado correctamente');
         this.loadClients();
-      }else if (response.status === 401) {
+      } else if (response.status === 401) {
         const responseData = await response.json();
-        if (responseData.message === "El token ha expirado") {
-            console.error('El token ha expirado.');
-            this.auth.logout();
-            this.router.transitionTo('login');
-            return;
+        if (responseData.message === 'El token ha expirado') {
+          console.error('El token ha expirado.');
+          this.auth.logout();
+          this.router.transitionTo('login');
+          return;
         }
       } else {
         console.error(
@@ -210,26 +209,26 @@ export default class ClientsController extends Controller {
     this.clients = this.clients.filter((c) => c.id !== client.id);
     try {
       let response = await fetch(
-        `http://35.202.214.44:5004/delete_cliente/${client.id}`,
+        `http://35.202.166.109:5004/delete_cliente/${client.id}`,
         {
           // URL del servicio de eliminación
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
-          }
+          },
         },
       );
       if (response.ok) {
         alert(`Cliente ${client.id} eliminado correctamente`);
         this.loadClients(); // Recargar clientes después de eliminar
-      }else if (response.status === 401) {
+      } else if (response.status === 401) {
         const responseData = await response.json();
-        if (responseData.message === "El token ha expirado") {
-            console.error('El token ha expirado.');
-            this.auth.logout();
-            this.router.transitionTo('login');
-            return;
+        if (responseData.message === 'El token ha expirado') {
+          console.error('El token ha expirado.');
+          this.auth.logout();
+          this.router.transitionTo('login');
+          return;
         }
       } else {
         console.error(

@@ -14,18 +14,21 @@ export default class PagosRoute extends Route {
   async model(params) {
     try {
       const clienteId = params.id_cliente; // Obtén el ID del cliente desde los parámetros de la URL
-      let url = 'http://35.202.214.44:5016/api/pagos'; // URL del servicio para pagos
+      console.log('ID del cliente:', clienteId);
+      let url = 'http://35.202.166.109:5016/api/pagos'; // URL del servicio para pagos
 
       // Si se pasa un ID de cliente, agrega un parámetro de consulta
       if (clienteId) {
         url = `${url}?id_cliente=${clienteId}`;
+        console.log('URL:', url);
       }
 
       const response = await fetch(url);
-
+      console.log('Respuesta:', response);
       // Manejo de respuesta
       if (response.ok) {
         const data = await response.json();
+        console.log('Pagos:', data);
         return data; // Devuelve los datos obtenidos al template
       } else {
         throw new Error('Error al obtener los pagos');

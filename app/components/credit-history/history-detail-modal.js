@@ -7,7 +7,7 @@ let token = localStorage.getItem('authToken');
 
 export default class CreditHistoryDetailModalComponent extends Component {
   @service auth;
-  
+
   @tracked isClosing = false;
   @tracked isEditing = false;
   @tracked editableFields = {
@@ -20,10 +20,12 @@ export default class CreditHistoryDetailModalComponent extends Component {
 
   //Cambiar a modo edición
   @action
-  enableEditing(){
+  enableEditing() {
     this.isEditing = true;
 
-    const formattedDate = new Date(this.args.entry.fecha).toISOString().split('T')[0];
+    const formattedDate = new Date(this.args.entry.fecha)
+      .toISOString()
+      .split('T')[0];
 
     //Inicializar los campos editables con los valores actuales
     this.editableFields = {
@@ -41,13 +43,19 @@ export default class CreditHistoryDetailModalComponent extends Component {
     event.preventDefault();
 
     // Validar campos requeridos
-    if (!this.editableFields.clienteId || !this.editableFields.viaje || !this.editableFields.pactado /*|| !this.editableFields.pagado*/ || !this.editableFields.fecha) {
-      alert('Por favor, llena todos los campos. Si no hay monto inicial, ingresa 0.');
+    if (
+      !this.editableFields.clienteId ||
+      !this.editableFields.viaje ||
+      !this.editableFields.pactado /*|| !this.editableFields.pagado*/ ||
+      !this.editableFields.fecha
+    ) {
+      alert(
+        'Por favor, llena todos los campos. Si no hay monto inicial, ingresa 0.',
+      );
       return;
     }
 
     try {
-
       //Transformar los nombres de los campos para que coincidan con los de la API
       const transformedFields = {
         id_cliente: parseInt(this.editableFields.clienteId, 10),
@@ -57,40 +65,47 @@ export default class CreditHistoryDetailModalComponent extends Component {
         fecha_creacion: this.editableFields.fecha,
       };
 
-      console.log("Datos enviados al back", transformedFields);
+      console.log('Datos enviados al back', transformedFields);
 
-      let response = await fetch(`http://34.172.213.102:5014/api/historial-credito/${this.args.entry.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
+      let response = await fetch(
+        `http://35.202.166.109:5014/api/historial-credito/${this.args.entry.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(transformedFields),
         },
-        body: JSON.stringify(transformedFields),
-      });
+      );
 
       //console.log(response);
 
       if (response.ok) {
         const updatedEntry = await response.json();
-        alert("Crédito actualizado correctamente. Has clic en 'Aceptar' para ver los cambios, puede tardar un momento.");
+        alert(
+          "Crédito actualizado correctamente. Has clic en 'Aceptar' para ver los cambios, puede tardar un momento.",
+        );
         this.args.onSave(updatedEntry); // Llama al método para actualizar la lista en el controlador
         this.disableEditing();
       } else {
         const errorData = await response.json();
-        console.log("Error al actualizar el crédito:", errorData);
-        alert("Ocurrió un error al intentar actualizar el crédito.");
+        console.log('Error al actualizar el crédito:', errorData);
+        alert('Ocurrió un error al intentar actualizar el crédito.');
       }
     } catch (error) {
-      console.error("Error al conectar con el servidor:", error);
-      alert("Hubo un problema al conectarse con el servidor. Intenta nuevamente.");
+      console.error('Error al conectar con el servidor:', error);
+      alert(
+        'Hubo un problema al conectarse con el servidor. Intenta nuevamente.',
+      );
     }
   }
 
   //Cancelar la edición y volver a la vista de detalle
   @action
-  disableEditing(){
+  disableEditing() {
     this.isEditing = false;
   }
-  
+
   @action
   closeModal() {
     this.isClosing = true;
@@ -103,38 +118,42 @@ export default class CreditHistoryDetailModalComponent extends Component {
   //Eliminar un crédito
   @action
   async deleteEntry() {
-      const confirmation = window.confirm("¿Estás seguro de que deseas eliminar este crédito y todos los pagos asociados?");
-      if (confirmation) {
-        console.log("Confirmo eliminar");
-        console.log("tokeeeeeeeeen", token);
-          try {
-              const response = await fetch(`http://35.202.214.44:5015/api/historial-credito/${this.args.entry.id}`, {
-                  method: 'DELETE',
-                  headers: {
-                      'Content-Type': 'application/json',
-                      Autorization: `Bearer ${token}`,
-                  },
-              });
-              if (response.ok) {
-                alert("Crédito eliminado correctamente.");
-                this.args.onDelete(this.args.entry); // Llama al método para actualizar la lista en el controlador
-              }else if (response.status === 401) {
-                const responseData = await response.json();
-                if (responseData.message === "El token ha expirado") {
-                    console.error('El token ha expirado.');
-                    this.auth.logout();
-                    this.router.transitionTo('login');
-                    return;
-                }
-              }
-          } catch (error) {
-              console.error("Error al eliminar el crédito:", error);
-              alert("Ocurrió un error al intentar eliminar el crédito.");
+    const confirmation = window.confirm(
+      '¿Estás seguro de que deseas eliminar este crédito y todos los pagos asociados?',
+    );
+    if (confirmation) {
+      console.log('Confirmo eliminar');
+      console.log('tokeeeeeeeeen', token);
+      try {
+        const response = await fetch(
+          `http://35.202.166.109:5015/api/historial-credito/${this.args.entry.id}`,
+          {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              Autorization: `Bearer ${token}`,
+            },
+          },
+        );
+        if (response.ok) {
+          alert('Crédito eliminado correctamente.');
+          this.args.onDelete(this.args.entry); // Llama al método para actualizar la lista en el controlador
+        } else if (response.status === 401) {
+          const responseData = await response.json();
+          if (responseData.message === 'El token ha expirado') {
+            console.error('El token ha expirado.');
+            this.auth.logout();
+            this.router.transitionTo('login');
+            return;
           }
-          this.closeModal(); // Cierra el modal
-      } else {
-        console.log("Cancelo eliminar");
+        }
+      } catch (error) {
+        console.error('Error al eliminar el crédito:', error);
+        alert('Ocurrió un error al intentar eliminar el crédito.');
       }
+      this.closeModal(); // Cierra el modal
+    } else {
+      console.log('Cancelo eliminar');
+    }
   }
-
 }

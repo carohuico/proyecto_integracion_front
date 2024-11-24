@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 let token = localStorage.getItem('authToken');
 export default class AddCreditHistoryModalComponent extends Component {
   @service auth;
-  
+
   @tracked clienteId = '';
   @tracked idCredito = '';
   @tracked estado = '';
@@ -59,8 +59,17 @@ export default class AddCreditHistoryModalComponent extends Component {
 
     console.log('token:', token);
     // Validar campos requeridos
-    if (!this.clienteId || !this.estado || !this.pactado || !this.monto || !this.idViaje || !this.fecha) {
-      alert('Por favor, llena todos los campos. Si no hay monto inicial, ingresa 0.');
+    if (
+      !this.clienteId ||
+      !this.estado ||
+      !this.pactado ||
+      !this.monto ||
+      !this.idViaje ||
+      !this.fecha
+    ) {
+      alert(
+        'Por favor, llena todos los campos. Si no hay monto inicial, ingresa 0.',
+      );
       return;
     }
 
@@ -76,27 +85,30 @@ export default class AddCreditHistoryModalComponent extends Component {
     console.log('Enviando datos al backend:', newEntry); // Log para depuración
 
     try {
-      let response = await fetch('http://35.202.214.44:5012/api/historial-credito', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+      let response = await fetch(
+        'http://35.202.166.109:5012/api/historial-credito',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(newEntry),
         },
-        body: JSON.stringify(newEntry),
-      });
+      );
 
       if (response.ok) {
         let data = await response.json();
         console.log('Respuesta del backend:', data); // Log para validar respuesta
-        this.args.onSave(data); 
+        this.args.onSave(data);
         this.closeModal();
-      }else if (response.status === 401) {
+      } else if (response.status === 401) {
         const responseData = await response.json();
-        if (responseData.message === "El token ha expirado") {
-            console.error('El token ha expirado.');
-            this.auth.logout();
-            this.router.transitionTo('login');
-            return;
+        if (responseData.message === 'El token ha expirado') {
+          console.error('El token ha expirado.');
+          this.auth.logout();
+          this.router.transitionTo('login');
+          return;
         }
       } else {
         let errorData = await response.json();
@@ -105,10 +117,11 @@ export default class AddCreditHistoryModalComponent extends Component {
       }
     } catch (error) {
       console.error('Error de red o del servidor:', error);
-      alert('Hubo un problema al conectarse con el servidor. Intenta nuevamente.');
+      alert(
+        'Hubo un problema al conectarse con el servidor. Intenta nuevamente.',
+      );
     }
   }
-
 
   // Cerrar el modal
   @action
@@ -122,33 +135,37 @@ export default class AddCreditHistoryModalComponent extends Component {
 
   @action
   async deleteEntry() {
-      const confirmation = window.confirm("¿Estás seguro de que deseas eliminar este crédito y todos los pagos asociados?");
-      if (confirmation) {
-          try {
-              await fetch(`http://35.202.214.44:5015/api/historial-credito/${this.args.entry.id}`, {
-                  method: 'DELETE',
-                  headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: `Bearer ${token}`,
-                  },
-              });
-              if (response.status === 401) {
-                const responseData = await response.json();
-                if (responseData.message === "El token ha expirado") {
-                    console.error('El token ha expirado.');
-                    this.auth.logout();
-                    this.router.transitionTo('login');
-                    return;
-                }
-              }
-              this.args.onDelete(this.args.entry);
-              alert("Crédito eliminado correctamente.");
-          } catch (error) {
-              console.error("Error al eliminar el crédito:", error);
-              alert("Ocurrió un error al intentar eliminar el crédito.");
+    const confirmation = window.confirm(
+      '¿Estás seguro de que deseas eliminar este crédito y todos los pagos asociados?',
+    );
+    if (confirmation) {
+      try {
+        await fetch(
+          `http://35.202.166.109:5015/api/historial-credito/${this.args.entry.id}`,
+          {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        if (response.status === 401) {
+          const responseData = await response.json();
+          if (responseData.message === 'El token ha expirado') {
+            console.error('El token ha expirado.');
+            this.auth.logout();
+            this.router.transitionTo('login');
+            return;
           }
-          this.closeModal();
+        }
+        this.args.onDelete(this.args.entry);
+        alert('Crédito eliminado correctamente.');
+      } catch (error) {
+        console.error('Error al eliminar el crédito:', error);
+        alert('Ocurrió un error al intentar eliminar el crédito.');
       }
+      this.closeModal();
+    }
   }
-
 }

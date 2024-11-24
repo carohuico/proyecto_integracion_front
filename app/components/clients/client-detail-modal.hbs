@@ -1,6 +1,6 @@
 <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-auto" {{on "click" this.closeModal}}>
   <div class="bg-[#1c1c1c] rounded-xl p-6 w-[800px] max-w-full relative shadow-lg my-8">
-    <!-- Botón para cerrar el modal -->
+    {{!-- Botón para cerrar el modal --}}
     <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-white focus:outline-none" {{on "click" this.closeModal}}>
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -8,72 +8,72 @@
     </button>
 
     <div class="flex flex-col max-h-[90vh] overflow-y-auto">
-      <!-- Título -->
+      {{!-- Título --}}
       <h2 class="text-white text-xl font-semibold text-center mb-6">Detalles del Cliente</h2>
 
       <div class="grid grid-cols-3 gap-y-4 gap-x-6 w-full">
-        <!-- ID Cliente -->
+        {{!-- ID Cliente --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">ID Cliente</label>
           <p class="text-white">{{this.args.client.id}}</p>
         </div>
 
-        <!-- Nombre Completo -->
+        {{!-- Nombre Completo --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Nombre Completo</label>
           <p class="text-white">{{this.args.client.nombre}}</p>
         </div>
 
-        <!-- Núm. Identificación Fiscal -->
+        {{!-- Núm. Identificación Fiscal --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Núm. Identificación Fiscal</label>
           <p class="text-white">{{this.args.client.nif}}</p>
         </div>
 
-        <!-- Fecha de Registro -->
+        {{!-- Fecha de Registro --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Fecha de Registro</label>
           <p class="text-white">{{this.args.client.fechaRegistro}}</p>
         </div>
 
-        <!-- Distrito -->
+        {{!-- Distrito --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Distrito</label>
           <p class="text-white">{{this.args.client.distrito}}</p>
         </div>
 
-        <!-- Zona -->
+        {{!-- Zona --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Zona</label>
           <p class="text-white">{{this.args.client.zona}}</p>
         </div>
 
-        <!-- Población -->
+        {{!-- Población --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Población</label>
           <p class="text-white">{{this.args.client.poblacion}}</p>
         </div>
 
-        <!-- Grupo Clientes -->
+        {{!-- Grupo Clientes --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Grupo Clientes</label>
           <p class="text-white">{{this.args.client.grupo}}</p>
         </div>
 
-        <!-- Teléfono -->
+        {{!-- Teléfono --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Teléfono</label>
           <p class="text-white">{{this.args.client.telefono}}</p>
         </div>
 
-        <!-- Límite de Crédito -->
+        {{!-- Límite de Crédito --}}
         <div>
           <label class="block text-sm font-medium text-gray-400">Límite de Crédito</label>
           <p class="text-lg font-semibold text-white">{{this.args.client.limiteCredito}}</p>
         </div>
       </div>
 
-      <!-- Historial Crediticio -->
+      {{!-- Historial Crediticio --}}
       <h3 class="text-white text-lg font-semibold text-center">Historial Crediticio</h3>
       {{#if this.isLoadingHistorial}}
         <p class="text-gray-400 text-center">Cargando historial...</p>

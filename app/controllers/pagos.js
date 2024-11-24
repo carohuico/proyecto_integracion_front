@@ -5,7 +5,11 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 
+let id_cliente = localStorage.getItem('id_cliente');
+
 export default class PagosController extends Controller {
+  @service auth;
+
   @tracked searchId = '';  // Para almacenar el ID del cliente
   @tracked idCredito = '';
   @tracked montoPago = '';
@@ -19,26 +23,44 @@ export default class PagosController extends Controller {
   @action
   updateSearchId(event) {
    this.searchId = event.target.value;
+   console.log("ID de cliente:", this.searchId);
+  }
+
+  get userRole() {
+    return this.auth.userRole;
+  }
+
+  constructor() {
+    super(...arguments);
+    if (this.userRole === 'normal') {
+      this.searchPagos();
+    }
   }
 
   // Realizamos la transición para buscar créditos
   @action
   async searchPagos() {
-    const searchId = this.searchId.trim();
-
-    if (!searchId || isNaN(searchId)) {
-      console.log("Por favor, ingresa un ID de cliente válido.");
-      return;
-    }
-
-    console.log("Buscando pagos para el ID de cliente:", searchId);
+    let searchId = null;
 
     try {
+      if(this.auth.role === 'normal'){
+        this.searchId = id_cliente;
+        searchId = this.searchId;
+        console.log("Buscando pagos para el ID de cliente:", searchId);
+        console.log("ID:", this.searchId);
+      }else{
+        searchId = this.searchId.trim();
+        if (!searchId || isNaN(searchId)) {
+          console.log("Por favor, ingresa un ID de cliente válido.");
+          return;
+        }
+      }
       // Primero realizamos la solicitud para obtener los pagos
-      const response = await fetch(`http://35.202.214.44:5017/api/pagos/${searchId}`);
+      const response = await fetch(`http://35.202.166.109:5017/api/pagos/${searchId}`);
       const data = await response.json();
       this.model = data; // Actualiza los créditos
       console.log("Datos cargados:", data);
+      this.searchResults = data;
 
       // Ahora hacemos la transición a la ruta 'creditos' con el ID del cliente
       this.router.transitionTo('pagos', {
@@ -80,7 +102,7 @@ export default class PagosController extends Controller {
       };
       console.log('Payload:', payload);
 
-      const response = await fetch('http://35.202.214.44:5009/api/pagos', {
+      const response = await fetch('http://35.202.166.109:5009/api/pagos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

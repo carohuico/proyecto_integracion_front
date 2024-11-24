@@ -20,7 +20,7 @@ export default class LoginComponent extends Component {
         password: this.password,
       };
 
-      const response = await fetch('http://35.202.214.44:5000/login', { // Asegúrate de que la URL sea correcta
+      const response = await fetch('http://35.202.166.109:5000/login', { // Asegúrate de que la URL sea correcta
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,6 +40,8 @@ export default class LoginComponent extends Component {
 
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('role', data.role);
+      localStorage.setItem('id_cliente', data.id_cliente);
+      console.log('id_cliente:', data.id_cliente);
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
       if (data.role === 'admin') {
@@ -69,5 +71,10 @@ export default class LoginComponent extends Component {
   @action
   updatePassword(event) {
     this.password = event.target.value;
+  }
+
+  @action
+  goToRegister() {
+    this.router.transitionTo('register');
   }
 }

@@ -9,6 +9,7 @@ const Router = EmberRouter.extend({
 Router.map(function () {
   this.route('clients');
   this.route('login');
+  this.route('register'); 
   this.route('historial');
   this.route('creditos');
   this.route('pagos');

@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 let token = localStorage.getItem('authToken');
+let idCliente = localStorage.getItem('id_cliente');
 
 export default class HistoryController extends Controller {
   @service auth;
@@ -42,7 +43,16 @@ export default class HistoryController extends Controller {
     try {
       this.isLoading = true;
       this.progress = 0;
-      let response = await fetch('http://35.202.214.44:5013/api/historial-credito'); //TODO: Compaginar
+      let url = `http://35.202.166.109:5013/api/historial-credito/${idCliente}`;
+      if (this.auth.userRole === 'admin') {
+        url = 'http://35.202.166.109:5013/api/historial-credito'; 
+      }
+
+      let response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Error al cargar el historial crediticio');
+      }
+
       let data = await response.json();
       console.log('Data:', data[0]);
       this.history = data.map(entry => ({
@@ -73,7 +83,7 @@ export default class HistoryController extends Controller {
     event.preventDefault();
     console.log("token", token);
     try {
-      let response = await fetch('http://35.202.214.44:5012/api/historial-credito', {
+      let response = await fetch('http://35.202.166.109:5012/api/historial-credito', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -154,7 +164,7 @@ export default class HistoryController extends Controller {
   @action
   async searchHistory(clienteId) {
     try {
-      let response = await fetch(`http://35.202.214.44:5013/api/historial-credito/${clienteId}`);
+      let response = await fetch(`http://35.202.166.109:5013/api/historial-credito/${clienteId}`);
       if (!response.ok) {
         if (response.status === 404) {
           this.searchResults = [];
@@ -256,7 +266,7 @@ export default class HistoryController extends Controller {
   @action
   async deleteEntry(entry) {
       try {
-          let response = await fetch(`http://35.202.214.44:5015/api/historial-credito/${entry.id}`, {
+          let response = await fetch(`http://35.202.166.109:5015/api/historial-credito/${entry.id}`, {
               method: 'DELETE',
               Authorization: `Bearer ${token}`,
           });

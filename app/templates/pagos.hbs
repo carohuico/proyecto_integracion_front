@@ -4,17 +4,16 @@
     {{navbar/navbar}}
     <div class="layout-content-container flex flex-col max-w-[2560px] flex-1">
       <div class="flex flex-wrap justify-between gap-3 p-4">
-        <div class="flex min-w-72 flex-col gap-3">
-          <p class="text-white text-4xl font-black leading-tight tracking-tight">Lista de Pagos</p>
-          <p class="text-gray text-base font-normal leading-normal">Consulta el historial de pagos y su información detallada.</p>
-        </div>
-        <button
-          type="button"
-          class="self-start bg-gradient-to-br from-green-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-white"
-          {{on "click" this.openPaymentModal}}
-        >
-          Registrar Pago
-        </button>
+        <div class="flex items-center justify-between mt-4 w-full">
+              <p class="text-white text-4xl font-black leading-tight tracking-tight">Pagos</p>
+              {{#if (is-equal this.auth.userRole 'admin')}}
+                <button type="button" {{on "click" this.openModal}}
+                  class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 justify-end align-center">
+                  Agregar registro
+                </button>
+              {{/if}}
+            </div>
+            <p class="text-white text-lg font-normal leading-normal">Aquí puedes ver tu historial de pagos.</p>
       </div>
 
       {{!-- Modal de Registro de Pago --}}
@@ -84,59 +83,98 @@
       {{/if}}
 
       {{!-- Campo de búsqueda --}}
-        <div class="pb-3">
-          <div class="flex pl-4 gap-8 justify-between items-center rounded-lg">
-            <div class="flex gap-8">
-              <input
-                type="text"
-                class="text-black"
-                placeholder="Buscar por ID Cliente"
-                value={{this.searchId}} {{on "input" this.updateSearchId}}
-              />
-              <button
-                type="button"
-                class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
-                {{on "click" this.searchPagos}}
-              >
-                Buscar
-              </button>
-            </div>
-          </div>
+        {{#if (is-equal this.auth.userRole "admin")}}
+        <div class="flex justify-between items-center mb-4">
+          <form class="flex gap-4">
+            <input
+              type="text"
+              placeholder="Buscar por ID de Cliente"
+              value={{this.searchId}}
+              {{on "input" this.updateSearchId}}
+              class="text-black px-3 py-0 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            />
+            <button
+              type="button"
+              {{on "click" this.searchPagos}}
+              class="text-white py-2 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
+            >
+              Buscar
+            </button>
+          </form>
         </div>
+        {{/if}}
 
       {{!-- Tabla de Pagos --}}
-      <div class="mt-6">
-        {{#if this.model.length}}
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-700">
-              <thead class="bg-[#1b2227]">
-                <tr>
-                  <th class="px-4 py-3 text-left text-sm font-semibold text-white">ID Pago</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold text-white">ID Crédito</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold text-white">ID Cliente</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold text-white">Cliente</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold text-white">Fecha de Pago</th>
-                  <th class="px-4 py-3 text-left text-sm font-semibold text-white">Monto Pagado</th>
-                </tr>
-              </thead>
-              <tbody class="bg-[#111518] divide-y divide-gray-700">
-                {{#each this.model as |pago|}}
-                  <tr>
-                    <td class="px-4 py-3 text-sm text-white">{{pago.id_pago}}</td>
-                    <td class="px-4 py-3 text-sm text-white">{{pago.id_credito}}</td>
-                    <td class="px-4 py-3 text-sm text-white">{{pago.id_cliente}}</td>
-                    <td class="px-4 py-3 text-sm text-white">{{pago.nombre_cliente}}</td>
-                    <td class="px-4 py-3 text-sm text-white">{{pago.fecha_pago}}</td>
-                    <td class="px-4 py-3 text-sm text-white">{{pago.monto_pago}}</td>
-                  </tr>
-                {{/each}}
-              </tbody>
-            </table>
-          </div>
-        {{else}}
-          <p class="text-white text-center mt-4">No se encontraron pagos.</p>
-        {{/if}}
+<div class="mt-6">
+  {{#if (is-equal this.auth.userRole 'admin')}}
+    {{#if this.model.length}}
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-700">
+          <thead class="bg-[#1b2227]">
+            <tr>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">ID Pago</th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">ID Crédito</th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">ID Cliente</th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">Cliente</th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">Fecha de Pago</th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">Monto Pagado</th>
+            </tr>
+          </thead>
+          <tbody class="bg-[#111518] divide-y divide-gray-700">
+            {{#each this.model as |pago|}}
+              <tr>
+                <td class="px-4 py-3 text-sm text-white">{{pago.id_pago}}</td>
+                <td class="px-4 py-3 text-sm text-white">{{pago.id_credito}}</td>
+                <td class="px-4 py-3 text-sm text-white">{{pago.id_cliente}}</td>
+                <td class="px-4 py-3 text-sm text-white">{{pago.nombre_cliente}}</td>
+                <td class="px-4 py-3 text-sm text-white">{{pago.fecha_pago}}</td>
+                <td class="px-4 py-3 text-sm text-white">{{pago.monto_pago}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
       </div>
+    {{else}}
+      <p class="text-white text-center mt-4">No se encontraron pagos.</p>
+    {{/if}}
+  {{else}}
+    {{!-- Búsqueda de Pagos para usuarios normales --}}
+    {{#if this.isLoading}}
+      <p class="text-white text-center mt-4">Cargando pagos...</p>
+    {{else if this.error}}
+      <p class="text-red-500 text-center mt-4">Error: {{this.error}}</p>
+    {{else if this.searchResults.length}}
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-700">
+          <thead class="bg-[#1b2227]">
+            <tr>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">ID Pago</th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">ID Crédito</th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">ID Cliente</th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">Cliente</th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">Fecha de Pago</th>
+              <th class="px-4 py-3 text-left text-sm font-semibold text-white">Monto Pagado</th>
+            </tr>
+          </thead>
+          <tbody class="bg-[#111518] divide-y divide-gray-700">
+            {{#each this.searchResults as |pago|}}
+              <tr>
+                <td class="px-4 py-3 text-sm text-white">{{pago.id_pago}}</td>
+                <td class="px-4 py-3 text-sm text-white">{{pago.id_credito}}</td>
+                <td class="px-4 py-3 text-sm text-white">{{pago.id_cliente}}</td>
+                <td class="px-4 py-3 text-sm text-white">{{pago.nombre_cliente}}</td>
+                <td class="px-4 py-3 text-sm text-white">{{pago.fecha_pago}}</td>
+                <td class="px-4 py-3 text-sm text-white">{{pago.monto_pago}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    {{else}}
+      <p class="text-white text-center mt-4">No se encontraron pagos.</p>
+    {{/if}}
+  {{/if}}
+</div>
     </div>
   </div>
 </div>
