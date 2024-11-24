@@ -63,7 +63,7 @@
               <div class="overflow-hidden shadow-md sm:rounded-lg">
                 {{#if this.isLoading}}
                   <div class="flex justify-between mb-1">
-                    <span class="text-base font-medium text-white">Cargando Clientes</span>
+                    <span class="text-base font-medium text-white">Cargando historial</span>
                     <span class="text-sm font-medium text-white">{{this.progress}}%</span>
                   </div>
                   <div class="w-full rounded-full h-2.5 bg-gray-700">
@@ -71,7 +71,7 @@
                   </div>
                 {{else if this.error}}
                   <div class="flex justify-between mb-1">
-                    <span class="text-base font-medium text-white">Error al cargar clientes</span>
+                    <span class="text-base font-medium text-white">Error al cargar historial</span>
                   </div>
                   <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                     <div class="bg-red-600 h-2.5 rounded-full" style="width: 100%"></div>
@@ -93,12 +93,17 @@
                   <tbody class="bg-[#111518] divide-y divide-gray-700">
                     {{#if this.searchResults.length}}
                       {{#each this.searchResults as |entry|}}
+                      {{log this.searchResults.estado}}
                         <tr>
                           <td class="px-4 py-2 text-sm text-white">{{entry.id}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.clienteId}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.viaje}}</td>
-                          <td class="px-4 py-2 text-sm text-white">{{entry.estado}}</td>
-                          <td class="px-4 py-2 text-sm text-white">{{entry.pactado}}</td>
+                          {{!-- si es "activo" que salga en verde, si es pagado en gris --}}
+                          {{#if (eq entry.estado 'activo')}}
+                            <td class="px-4 py-2 text-sm text-green-400">{{entry.estado}}</td>
+                          {{else}}
+                            <td class="px-4 py-2 text-sm text-gray-500">{{entry.estado}}</td>
+                          {{/if}}
                           <td class="px-4 py-2 text-sm text-white">{{entry.pagado}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.fecha}}</td>
                           <td class="px-4 py-2 text-sm text-center">
@@ -116,7 +121,11 @@
                           <td class="px-4 py-2 text-sm text-white">{{entry.id}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.clienteId}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.viaje}}</td>
-                          <td class="px-4 py-2 text-sm text-white">{{entry.estado}}</td>
+                          {{#if (eq entry.estado 'activo')}}
+                            <td class="px-4 py-2 text-sm text-green-400">{{entry.estado}}</td>
+                          {{else}}
+                            <td class="px-4 py-2 text-sm text-gray-500">{{entry.estado}}</td>
+                          {{/if}}
                           <td class="px-4 py-2 text-sm text-white">{{entry.pactado}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.pagado}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.fecha}}</td>

@@ -1,8 +1,12 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 
+let token = localStorage.getItem('authToken');
 export default class AddCreditHistoryModalComponent extends Component {
+  @service auth;
+  
   @tracked clienteId = '';
   @tracked idCredito = '';
   @tracked estado = '';
@@ -53,6 +57,7 @@ export default class AddCreditHistoryModalComponent extends Component {
   async addEntry(event) {
     event.preventDefault();
 
+    console.log('token:', token);
     // Validar campos requeridos
     if (!this.clienteId || !this.estado || !this.pactado || !this.monto || !this.idViaje || !this.fecha) {
       alert('Por favor, llena todos los campos. Si no hay monto inicial, ingresa 0.');
@@ -71,10 +76,11 @@ export default class AddCreditHistoryModalComponent extends Component {
     console.log('Enviando datos al backend:', newEntry); // Log para depuración
 
     try {
-      let response = await fetch('http://35.188.171.63:5012/api/historial-credito', {
+      let response = await fetch('http://35.202.214.44:5012/api/historial-credito', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(newEntry),
       });
@@ -84,6 +90,14 @@ export default class AddCreditHistoryModalComponent extends Component {
         console.log('Respuesta del backend:', data); // Log para validar respuesta
         this.args.onSave(data); 
         this.closeModal();
+      }else if (response.status === 401) {
+        const responseData = await response.json();
+        if (responseData.message === "El token ha expirado") {
+            console.error('El token ha expirado.');
+            this.auth.logout();
+            this.router.transitionTo('login');
+            return;
+        }
       } else {
         let errorData = await response.json();
         console.error('Error del backend:', errorData.error);
@@ -111,9 +125,22 @@ export default class AddCreditHistoryModalComponent extends Component {
       const confirmation = window.confirm("¿Estás seguro de que deseas eliminar este crédito y todos los pagos asociados?");
       if (confirmation) {
           try {
-              await fetch(`http://35.188.171.63:5015/api/historial-credito/${this.args.entry.id}`, {
+              await fetch(`http://35.202.214.44:5015/api/historial-credito/${this.args.entry.id}`, {
                   method: 'DELETE',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      Authorization: `Bearer ${token}`,
+                  },
               });
+              if (response.status === 401) {
+                const responseData = await response.json();
+                if (responseData.message === "El token ha expirado") {
+                    console.error('El token ha expirado.');
+                    this.auth.logout();
+                    this.router.transitionTo('login');
+                    return;
+                }
+              }
               this.args.onDelete(this.args.entry);
               alert("Crédito eliminado correctamente.");
           } catch (error) {

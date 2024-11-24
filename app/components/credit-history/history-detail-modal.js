@@ -1,8 +1,13 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
+
+let token = localStorage.getItem('authToken');
 
 export default class CreditHistoryDetailModalComponent extends Component {
+  @service auth;
+  
   @tracked isClosing = false;
   @tracked isEditing = false;
   @tracked editableFields = {
@@ -101,12 +106,27 @@ export default class CreditHistoryDetailModalComponent extends Component {
       const confirmation = window.confirm("¿Estás seguro de que deseas eliminar este crédito y todos los pagos asociados?");
       if (confirmation) {
         console.log("Confirmo eliminar");
+        console.log("tokeeeeeeeeen", token);
           try {
-              await fetch(`http://34.172.213.102:5015/api/historial-credito/${this.args.entry.id}`, {
+              const response = await fetch(`http://35.202.214.44:5015/api/historial-credito/${this.args.entry.id}`, {
                   method: 'DELETE',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      Autorization: `Bearer ${token}`,
+                  },
               });
-              this.args.onDelete(this.args.entry); // Llama al método para actualizar la lista en el controlador
-              alert("Crédito eliminado correctamente.");
+              if (response.ok) {
+                alert("Crédito eliminado correctamente.");
+                this.args.onDelete(this.args.entry); // Llama al método para actualizar la lista en el controlador
+              }else if (response.status === 401) {
+                const responseData = await response.json();
+                if (responseData.message === "El token ha expirado") {
+                    console.error('El token ha expirado.');
+                    this.auth.logout();
+                    this.router.transitionTo('login');
+                    return;
+                }
+              }
           } catch (error) {
               console.error("Error al eliminar el crédito:", error);
               alert("Ocurrió un error al intentar eliminar el crédito.");

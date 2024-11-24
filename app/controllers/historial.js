@@ -1,9 +1,13 @@
 /* eslint-disable prettier/prettier */
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
+let token = localStorage.getItem('authToken');
+
 export default class HistoryController extends Controller {
+  @service auth;
 
   @tracked isModalOpen = false;
   @tracked isDetailModalOpen = false;
@@ -27,7 +31,6 @@ export default class HistoryController extends Controller {
     valor_pactado: 'activo',
     monto_pago: '',
   };
-
   // Cargar historial al iniciar el controlador
   constructor() {
     super(...arguments);
@@ -39,7 +42,7 @@ export default class HistoryController extends Controller {
     try {
       this.isLoading = true;
       this.progress = 0;
-      let response = await fetch('http://127.0.0.1:5013/api/historial-credito'); //TODO: Compaginar
+      let response = await fetch('http://35.202.214.44:5013/api/historial-credito'); //TODO: Compaginar
       let data = await response.json();
       console.log('Data:', data[0]);
       this.history = data.map(entry => ({
@@ -49,7 +52,6 @@ export default class HistoryController extends Controller {
         pactado: entry.valor_pactado,
         pagado: entry.valor_pagado,
         fecha: entry.fecha_creacion,
-        monto: entry.monto_pago,
         clienteId: entry.id_cliente,
       }));
       this.filteredResults = this.history; // Inicialmente, mostrar todos los resultados
@@ -69,12 +71,13 @@ export default class HistoryController extends Controller {
   @action
   async saveNewCredit(event) {
     event.preventDefault();
-
+    console.log("token", token);
     try {
-      let response = await fetch('http://127.0.0.1:5012/api/historial-credito', {
+      let response = await fetch('http://35.202.214.44:5012/api/historial-credito', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(this.newCredit),
       });
@@ -151,7 +154,7 @@ export default class HistoryController extends Controller {
   @action
   async searchHistory(clienteId) {
     try {
-      let response = await fetch(`http://127.0.0.1:5013/api/historial-credito/${clienteId}`);
+      let response = await fetch(`http://35.202.214.44:5013/api/historial-credito/${clienteId}`);
       if (!response.ok) {
         if (response.status === 404) {
           this.searchResults = [];
@@ -253,15 +256,23 @@ export default class HistoryController extends Controller {
   @action
   async deleteEntry(entry) {
       try {
-          await fetch(`http://34.172.213.102:5015/api/historial-credito/${entry.id}`, {
+          let response = await fetch(`http://35.202.214.44:5015/api/historial-credito/${entry.id}`, {
               method: 'DELETE',
+              Authorization: `Bearer ${token}`,
           });
+          if (response.status === 401) {
+            const responseData = await response.json();
+            if (responseData.message === "El token ha expirado") {
+                console.error('El token ha expirado.');
+                this.auth.logout();
+                this.router.transitionTo('login');
+                return;
+            }
+          }
           this.history = this.history.filter(e => e.id !== entry.id);
           this.filteredResults = this.history; // Actualizar los resultados filtrados
-          alert("Crédito eliminado correctamente.");
       } catch (error) {
           console.error("Error al eliminar el crédito:", error);
-          alert("Ocurrió un error al intentar eliminar el crédito.");
       }
   }
 
