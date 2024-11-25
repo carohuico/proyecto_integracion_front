@@ -3,10 +3,21 @@
     {{navbar/navbar}}
     <div class="layout-content-container flex flex-col max-w-[2560px] flex-1">
       <div class="layout-content-container flex flex-col max-w-[2560px] flex-1">
-        <div class="flex flex-wrap justify-between gap-3 p-4">
-          <div class="flex min-w-72 flex-col gap-3">
-            <p class="text-white text-4xl font-black leading-tight tracking-tight">Lista de clientes</p>
-            <p class="text-gray text-base font-normal leading-normal">Visualiza la información de tus clientes y sus cuentas.</p>
+        <div class="flex flex-wrap justify-between gap-3 pt-4">
+          <div class="flex flex-col gap-3 w-full">
+            <div class="flex items-center justify-between mt-4 w-full">
+              <p class="text-white text-4xl font-black leading-tight tracking-tight w-full">Lista de clientes</p>
+              {{#if this.auth.isAuthenticated}}
+                  <div class="flex justify-end w-full">
+                    <button type="button" {{on "click" this.openModal}} class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
+                      Agregar cliente
+                    </button>
+                  </div>
+              {{/if}}
+            </div>
+            {{#if (is-equal this.auth.userRole "admin")}}
+                <p class="text-gray text-base font-normal leading-normal">Visualiza la información detallada de tus clientes</p>
+            {{/if}}
           </div>
         </div>
         <div class="pb-3">
@@ -16,13 +27,6 @@
                 <p class="text-white text-sm font-bold leading-normal tracking-[0.015em]">Todos</p>
               </a>
             </div>
-            {{#if this.auth.isAuthenticated}}
-                <div class="flex justify-end w-full">
-                  <button type="button" {{on "click" this.openModal}} class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
-                    Agregar cliente
-                  </button>
-                </div>
-            {{/if}}
           </div>
         </div>
         <div class="flex flex-col">

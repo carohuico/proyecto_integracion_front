@@ -6,6 +6,7 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 
 let id_cliente = localStorage.getItem('id_cliente');
+let token = localStorage.getItem('authToken');
 
 export default class PagosController extends Controller {
   @service auth;
@@ -56,7 +57,23 @@ export default class PagosController extends Controller {
         }
       }
       // Primero realizamos la solicitud para obtener los pagos
-      const response = await fetch(`http://35.202.166.109:5017/api/pagos/${searchId}`);
+      const response = await fetch(`http://35.202.166.109:5017/api/pagos/${searchId}`,
+      {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 401) {
+        const responseData = await response.json();
+        if (responseData.message === 'El token ha expirado') {
+          console.error('El token ha expirado.');
+          this.auth.logout();
+          this.router.transitionTo('login');
+          return;
+        }
+      }
+
       const data = await response.json();
       this.model = data; // Actualiza los créditos
       console.log("Datos cargados:", data);
@@ -108,6 +125,7 @@ export default class PagosController extends Controller {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
       });
@@ -117,6 +135,12 @@ export default class PagosController extends Controller {
       }
 
       const responseData = await response.json();
+      if (responseData.message === 'El token ha expirado') {
+        console.error('El token ha expirado.');
+        this.auth.logout();
+        this.router.transitionTo('login');
+        return;
+      }
       alert(responseData.message || 'Pago registrado con éxito');
       this.send('refreshModel');
       this.closePaymentModal(); 

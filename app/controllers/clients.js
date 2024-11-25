@@ -43,7 +43,6 @@ export default class ClientsController extends Controller {
       this.isLoading = true;
       this.progress = 0;
       let response = await fetch('http://35.202.166.109:5002/get_clientes', {
-      let response = await fetch('http://35.202.166.109:5002/get_clientes', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

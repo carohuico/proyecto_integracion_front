@@ -19,9 +19,27 @@ export default class PagosRoute extends Route {
       // Si se pasa un ID de cliente, agrega un parámetro de consulta
       if (clienteId) {
         url = `${url}?id_cliente=${clienteId}`;
+      }else{
+        url = `${url}?id_cliente=`;
       }
 
-      const response = await fetch(url);
+      const response = await fetch(url,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+      });
+      if (response.status === 401) {
+        const responseData = await response.json();
+        if (responseData.message === 'El token ha expirado') {
+          console.error('El token ha expirado.');
+          this.auth.logout();
+          this.router.transitionTo('login');
+          return;
+        }
+      }
 
       // Manejo de respuesta
       if (response.ok) {

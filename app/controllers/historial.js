@@ -57,12 +57,12 @@ export default class HistoryController extends Controller {
       console.log('Data:', data[0]);
       this.history = data.map(entry => ({
         id: entry.id_credito,
+        clienteId: entry.id_cliente,
         viaje: entry.id_viaje,
         estado: entry.estado_credito,
         pactado: entry.valor_pactado,
         pagado: entry.valor_pagado,
         fecha: entry.fecha_creacion,
-        clienteId: entry.id_cliente,
       }));
       this.filteredResults = this.history; // Inicialmente, mostrar todos los resultados
       console.log('Historial cargado:', this.history[0]);
@@ -105,6 +105,14 @@ export default class HistoryController extends Controller {
         });
         this.filteredResults = this.history; // Actualizar los resultados filtrados
         this.closeModal();
+      }else if (response.status === 401) {
+        const responseData = await response.json();
+        if (responseData.message === 'El token ha expirado') {
+          console.error('El token ha expirado.');
+          this.auth.logout();
+          this.router.transitionTo('login');
+          return;
+        }
       } else {
         let errorData = await response.json();
         this.errorMessage = errorData.error || 'Hubo un problema al guardar el crédito.';
@@ -164,6 +172,7 @@ export default class HistoryController extends Controller {
   @action
   async searchHistory(clienteId) {
     try {
+      console.log('Buscando historial para el cliente con ID:', clienteId);
       let response = await fetch(`http://35.202.166.109:5013/api/historial-credito/${clienteId}`);
       if (!response.ok) {
         if (response.status === 404) {
@@ -174,6 +183,7 @@ export default class HistoryController extends Controller {
         }
       } else {
         let data = await response.json();
+        console.log('Datosss encontrados:', data);
         let filteredData = data.map(entry => ({
           id: entry.id_credito,
           viaje: entry.id_viaje,
@@ -181,10 +191,8 @@ export default class HistoryController extends Controller {
           pactado: entry.valor_pactado,
           pagado: entry.valor_pagado,
           fecha: entry.fecha_creacion,
-          monto: entry.monto_pago,
-          clienteId: entry.id_cliente,
+          clienteId: clienteId,
         }));
-
         // Filtrar los resultados de la búsqueda según el filtro activo
         if (this.filterType === 'activos') {
           filteredData = filteredData.filter(entry => entry.estado === 'activo');
@@ -211,6 +219,7 @@ export default class HistoryController extends Controller {
   @action
   updateClienteId(event) {
     this.clienteId = event.target.value;
+    console.log('Cliente ID:', this.clienteId);
   }
 
   // Manejar el evento de búsqueda

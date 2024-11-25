@@ -37,14 +37,14 @@
     {{#if this.auth.isAuthenticated}}
       <div class="flex items-center gap-9">
         {{#if (is-equal this.auth.userRole 'admin')}}
-          <a class="text-white text-sm font-medium leading-normal" href="/clients">Clientes</a>
-          <a class="text-white text-sm font-medium leading-normal" href="/creditos">Creditos</a>
-          <a class="text-white text-sm font-medium leading-normal" href="/pagos">Pagos</a>
-          <a class="text-white text-sm font-medium leading-normal" href="/historial">Historial Crediticio</a>
-          <a class="text-white text-sm font-medium leading-normal" href="#">Analítica</a>
+          <LinkTo @route="clients" class="text-white text-sm font-medium leading-normal">Clientes</LinkTo>
+          <LinkTo @route="creditos" class="text-white text-sm font-medium leading-normal">Créditos</LinkTo>
+          <LinkTo @route="pagos" class="text-white text-sm font-medium leading-normal">Pagos</LinkTo>
+          <LinkTo @route="historial" class="text-white text-sm font-medium leading-normal">Historial Crediticio</LinkTo>
+          {{!-- <LinkTo @route="analitica" class="text-white text-sm font-medium leading-normal">Analítica</LinkTo> --}}
         {{else}}
-          <a class="text-white text-sm font-medium leading-normal" href="/">Inicio</a>
-          <a class="text-white text-sm font-medium leading-normal" href="/creditos">Mis créditos</a>
+          <LinkTo @route="index" class="text-white text-sm font-medium leading-normal">Inicio</LinkTo>
+          <LinkTo @route="historial" class="text-white text-sm font-medium leading-normal">Mis Créditos</LinkTo>
         {{/if}}
       </div>
       <div class="flex gap-2 relative">
@@ -85,9 +85,9 @@
         {{#if this.isDropdownOpen}}
           <div class="absolute right-0 mt-10 w-48 bg-[#1c1c1c] border border-solid border-[#283139] rounded-lg shadow-lg z-50">
             <button
-              class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#283139]" type="button" onclick="location.href='/login'"
+              class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#283139]" type="button" 
             >
-              Iniciar sesión
+                <LinkTo @route="login" class="block px-4 text-sm font-medium leading-normal">Iniciar sesión</LinkTo>
             </button>
           </div>
         {{/if}}
@@ -106,13 +106,17 @@
 {{!-- Menú desplegable --}}
 {{#if this.isMenuOpen}}
   <div class="menu-enter absolute top-16 left-0 w-full bg-[#111518] text-white z-50 shadow-lg border-b border-solid border-b-[#283139]">
-    <a class="block px-4 py-2 text-sm font-medium leading-normal" href="#">Inicio</a>
-    <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/clients">Clientes</a>
+    <LinkTo @route="index" class="block px-4 py-2 text-sm font-medium leading-normal">Inicio</LinkTo>
+    <LinkTo @route="creditos" class="block px-4 py-2 text-sm font-medium leading-normal">Mis Créditos</LinkTo>
     {{#if (is-equal this.auth.userRole 'admin')}}
-      <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/creditos">Creditos</a>
-      <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/pagos">Pagos</a>
+      <LinkTo @route="clients" class="block px-4 py-2 text-sm font-medium leading-normal">Clientes</LinkTo>
+      <LinkTo @route="creditos" class="block px-4 py-2 text-sm font-medium leading-normal">Créditos</LinkTo>
+      <LinkTo @route="pagos" class="block px-4 py-2 text-sm font-medium leading-normal">Pagos</LinkTo>
+      <LinkTo @route="historial" class="block px-4 py-2 text-sm font-medium leading-normal">Historial Crediticio</LinkTo>
+      {{!-- <LinkTo @route="analitica" class="block px-4 py-2 text-sm font-medium leading-normal">Analítica</LinkTo> --}}
+    {{else}}
+      <LinkTo @route="index" class="block px-4 py-2 text-sm font-medium leading-normal">Inicio</LinkTo>
+      <LinkTo @route="creditos" class="block px-4 py-2 text-sm font-medium leading-normal">Mis Créditos</LinkTo>
     {{/if}}
-    <a class="block px-4 py-2 text-sm font-medium leading-normal" href="/historial">Historial crediticio</a>
-    <a class="block px-4 py-2 text-sm font-medium leading-normal" href="#">Analítica</a>
   </div>
 {{/if}}

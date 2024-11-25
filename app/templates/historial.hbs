@@ -35,26 +35,34 @@
             </button>
           </div>
         </div>
-        {{!-- Formulario de búsqueda --}}
         {{#if (is-equal this.auth.userRole "admin")}}
-        <div class="flex justify-between items-center mb-4">
-          <form {{on "submit" this.handleSearch}} class="flex gap-4">
-            <input
-              type="text"
-              placeholder="Buscar por ID de Cliente"
-              value={{this.clienteId}}
-              {{on "input" this.updateClienteId}}
-              class="text-black px-3 py-0 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-            <button
-              type="submit"
-              class="text-white py-2 bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
-            >
-              Buscar
-            </button>
-          </form>
-        </div>
-        {{/if}}
+            <div class="pb-3">
+            <div class="flex pl-4 gap-4 justify-between items-center rounded-lg bg-[#1b2227] p-4 shadow-lg w-full">
+              <div class="flex-grow relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                  </svg>
+                </span>
+                <form {{on "submit" this.handleSearch}} class="flex gap-4 w-full">
+                  <input
+                    type="text"
+                    class="block w-full pl-10 pr-3 py-2 text-sm rounded-lg bg-[#2d343f] border border-gray-700 placeholder-gray-400 text-white focus:outline-none focus:ring focus:ring-pink-500 focus:border-orange-500"
+                    placeholder="Buscar por ID Cliente"
+                    value={{this.clienteId}}
+                    {{on "input" this.updateClienteId}}
+                  />
+                  <button
+                    type="submit"
+                    class="inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-gray-300 bg-gray-700 rounded-lg shadow-md hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-500"
+                  >
+                    Buscar
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+      {{/if}}
 
         {{!-- Mensaje de error --}}
         {{#if this.errorMessage}}
@@ -118,6 +126,7 @@
                           {{else}}
                             <td class="px-4 py-2 text-sm text-gray-500">{{entry.estado}}</td>
                           {{/if}}
+                          <td class="px-4 py-2 text-sm text-white">{{entry.pactado}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.pagado}}</td>
                           <td class="px-4 py-2 text-sm text-white">{{entry.fecha}}</td>
                           {{#if (is-equal this.auth.userRole "admin")}}

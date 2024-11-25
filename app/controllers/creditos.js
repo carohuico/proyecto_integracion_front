@@ -43,16 +43,30 @@ export default class CreditosController extends Controller {
     const searchId = this.searchId.trim();
 
     if (!searchId || isNaN(searchId)) {
-      console.log("Por favor, ingresa un ID de cliente válido.");
-      return;
+      this.router.transitionTo('creditos', {
+        queryParams: { id_cliente: searchId },
+      });
     }
 
     console.log("Buscando créditos para el ID:", searchId);
 
     try {
       // Primero realizamos la solicitud para obtener los créditos
-      const response = await fetch(`http://35.202.166.109:5006/api/creditos/${searchId}`);
-      const response = await fetch(`http://35.202.166.109:5006/api/creditos/${searchId}`);
+      const response = await fetch(`http://35.202.166.109:5006/api/creditos/${searchId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.status === 401) {
+          const responseData = await response.json();
+          if (responseData.message === 'El token ha expirado') {
+            console.error('El token ha expirado.');
+            this.auth.logout();
+            this.router.transitionTo('login');
+            return;
+          }
+        }
       const data = await response.json();
       this.model = data; // Actualiza los créditos
       console.log("Datos cargados:", data);
@@ -91,7 +105,21 @@ export default class CreditosController extends Controller {
 
     try {
       // Realiza la solicitud al backend
-      const response = await fetch(`http://35.202.166.109:5007/api/pagos/${creditoSeleccionado.id_cliente}`);
+      const response = await fetch(`http://35.202.166.109:5007/api/pagos/${creditoSeleccionado.id_cliente}`, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.status === 401) {
+          const responseData = await response.json();
+          if (responseData.message === 'El token ha expirado') {
+            console.error('El token ha expirado.');
+            this.auth.logout();
+            this.router.transitionTo('login');
+            return;
+          }
+        }
       const data = await response.json();
 
       if (!Array.isArray(data)) {
@@ -132,12 +160,20 @@ export default class CreditosController extends Controller {
     console.log('Datos a enviar en la solicitud PUT:', updatedCredito); 
 
     try {
-      console.log("token", token);
+      const token = localStorage.getItem('authToken'); // Obtener el token aquí
+      if (!token) {
+        console.error('Token no encontrado en localStorage');
+        this.auth.logout();
+        this.router.transitionTo('login');
+        return;
+      }
+      console.log("tokeN", token);
       // Hacemos una solicitud PUT para actualizar el crédito
       const response = await fetch(`http://35.202.166.109:5005/api/creditos/${idCredito}/actualizar`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(updatedCredito),
       });
@@ -156,6 +192,14 @@ export default class CreditosController extends Controller {
 
         // Ocultar la modal después de actualizar
         this.isModalVisible = false;
+      }else if (response.status === 401) {
+        const responseData = await response.json();
+        if (responseData.message === 'El token ha expirado') {
+          console.error('El token ha expirado.');
+          this.auth.logout();
+          this.router.transitionTo('login');
+          return;
+        }
       } else {
         console.error('Error al actualizar el crédito:', response.statusText);
       }
@@ -255,12 +299,27 @@ actualizarCampo(campo, event) {
   @action
   async verificarCliente(id_cliente) {
     try {
-      const response = await fetch(`http://35.202.166.109:5008/api/clientes/${id_cliente}`);
+      console.log("tokek", token);
+      const response = await fetch(`http://35.202.166.109:5002/get_cliente/${id_cliente}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.ok) {
         const cliente = await response.json();
         console.log("Cliente encontrado:", cliente);
         return true; // Cliente válido
-      } else {
+      }else if (response.status === 401) {
+        const responseData = await response.json();
+        if (responseData.message === 'El token ha expirado') {
+          console.error('El token ha expirado.');
+          this.auth.logout();
+          this.router.transitionTo('login');
+          return;
+        }
+      }  else {
         console.error("Cliente no encontrado");
         alert("El cliente especificado no existe. Verifica el ID.");
         return false;
@@ -304,6 +363,7 @@ actualizarCampo(campo, event) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           id_cliente,
@@ -320,7 +380,15 @@ actualizarCampo(campo, event) {
         alert('Crédito creado correctamente.'); // Mostrar mensaje de éxito
         this.ocultarModalNuevoCredito(); // Ocultar la modal
         this.resetNuevoCredito(); // Restablecer los valores del nuevo crédito
-        this.searchCreditos(); // Recargar los créditos
+        window.location.reload();
+      }else if (response.status === 401) {
+        const responseData = await response.json();
+        if (responseData.message === 'El token ha expirado') {
+          console.error('El token ha expirado.');
+          this.auth.logout();
+          this.router.transitionTo('login');
+          return;
+        }
       } else {
         const error = await response.json();
         console.error('Error al crear el crédito:', error);
