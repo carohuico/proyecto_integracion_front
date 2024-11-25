@@ -35,7 +35,7 @@ export default class PagosController extends Controller {
 
     try {
       // Primero realizamos la solicitud para obtener los pagos
-      const response = await fetch(`http://35.202.214.44:5017/api/pagos/${searchId}`);
+      const response = await fetch(`http://35.202.166.109:5017/api/pagos/${searchId}`);
       const data = await response.json();
       this.model = data; // Actualiza los créditos
       console.log("Datos cargados:", data);
@@ -53,6 +53,7 @@ export default class PagosController extends Controller {
   // Al abrir el modal, configuramos la fecha por defecto
   @action
   openPaymentModal() {
+    console.log('Botón presionado'); // Agrega esta línea
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0]; // Formato YYYY-MM-DD
     this.fechaPago = formattedDate;  // Establecer la fecha actual
@@ -80,7 +81,7 @@ export default class PagosController extends Controller {
       };
       console.log('Payload:', payload);
 
-      const response = await fetch('http://35.202.214.44:5009/api/pagos', {
+      const response = await fetch('http://35.202.166.109:5009/api/pagos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

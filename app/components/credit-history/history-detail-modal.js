@@ -108,7 +108,7 @@ export default class CreditHistoryDetailModalComponent extends Component {
         console.log("Confirmo eliminar");
         console.log("tokeeeeeeeeen", token);
           try {
-              const response = await fetch(`http://35.202.214.44:5015/api/historial-credito/${this.args.entry.id}`, {
+              const response = await fetch(`http://35.202.166.109:5015/api/historial-credito/${this.args.entry.id}`, {
                   method: 'DELETE',
                   headers: {
                       'Content-Type': 'application/json',

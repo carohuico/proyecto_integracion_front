@@ -38,7 +38,7 @@ export default class CreditosController extends Controller {
 
     try {
       // Primero realizamos la solicitud para obtener los créditos
-      const response = await fetch(`http://35.202.214.44:5006/api/creditos/${searchId}`);
+      const response = await fetch(`http://35.202.166.109:5006/api/creditos/${searchId}`);
       const data = await response.json();
       this.model = data; // Actualiza los créditos
       console.log("Datos cargados:", data);
@@ -77,7 +77,7 @@ export default class CreditosController extends Controller {
 
     try {
       // Realiza la solicitud al backend
-      const response = await fetch(`http://35.202.214.44:5007/api/pagos/${creditoSeleccionado.id_cliente}`);
+      const response = await fetch(`http://35.202.166.109:5007/api/pagos/${creditoSeleccionado.id_cliente}`);
       const data = await response.json();
 
       if (!Array.isArray(data)) {
@@ -120,7 +120,7 @@ export default class CreditosController extends Controller {
 
     try {
       // Hacemos una solicitud PUT para actualizar el crédito
-      const response = await fetch(`http://35.202.214.44:5005/api/creditos/${idCredito}/actualizar`, {
+      const response = await fetch(`http://35.202.166.109:5005/api/creditos/${idCredito}/actualizar`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -76,7 +76,7 @@ export default class AddCreditHistoryModalComponent extends Component {
     console.log('Enviando datos al backend:', newEntry); // Log para depuración
 
     try {
-      let response = await fetch('http://35.202.214.44:5012/api/historial-credito', {
+      let response = await fetch('http://35.202.166.109:5012/api/historial-credito', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export default class AddCreditHistoryModalComponent extends Component {
       const confirmation = window.confirm("¿Estás seguro de que deseas eliminar este crédito y todos los pagos asociados?");
       if (confirmation) {
           try {
-              await fetch(`http://35.202.214.44:5015/api/historial-credito/${this.args.entry.id}`, {
+              await fetch(`http://35.202.166.109:5015/api/historial-credito/${this.args.entry.id}`, {
                   method: 'DELETE',
                   headers: {
                       'Content-Type': 'application/json',
