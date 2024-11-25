@@ -5,7 +5,10 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
+let token = localStorage.getItem('authToken');
 export default class CreditosController extends Controller {
+  @service auth;
+
   @tracked searchId = '';  // Para almacenar el ID del cliente
   @tracked model = []; // Aquí se guardarán los créditos
   @tracked pagos = []; // Aquí se guardarán los pagos de un crédito
@@ -108,9 +111,9 @@ export default class CreditosController extends Controller {
       valor_pagado: this.nuevoValorPagado
     };
     console.log('Datos a enviar en la solicitud PUT:', updatedCredito); 
-    
 
     try {
+      console.log("token", token);
       // Hacemos una solicitud PUT para actualizar el crédito
       const response = await fetch(`http://35.202.166.109:5005/api/creditos/${idCredito}/actualizar`, {
         method: 'PUT',

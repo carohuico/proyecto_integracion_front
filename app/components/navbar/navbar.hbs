@@ -45,7 +45,6 @@
         {{else}}
           <a class="text-white text-sm font-medium leading-normal" href="/">Inicio</a>
           <a class="text-white text-sm font-medium leading-normal" href="/creditos">Mis créditos</a>
-          <a class="text-white text-sm font-medium leading-normal" href="/pagos">Historial de pagos</a>
         {{/if}}
       </div>
       <div class="flex gap-2 relative">
@@ -62,9 +61,6 @@
         </button>
         {{#if this.isDropdownOpen}}
           <div class="absolute right-0 mt-10 w-48 bg-[#1c1c1c] border border-solid border-[#283139] rounded-lg shadow-lg z-50">
-            {{#if (is-equal this.auth.userRole 'normal')}}
-              <a href="/profile" class="block px-4 py-2 text-sm text-white hover:bg-[#283139]">Perfil</a>
-            {{/if}}
             <button
               class="block w-full text-left px-4 py-2 text-sm text-white hover:bg-[#283139]" type="button" {{on "click" this.logout}}
             >
