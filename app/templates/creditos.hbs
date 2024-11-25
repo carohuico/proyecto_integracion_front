@@ -39,6 +39,98 @@
             </button>
           </div>
         </div>
+
+        <div class="flex justify-end gap-4 p-4">
+          <button
+            type="button"
+            class="inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-white bg-gradient-to-br from-pink-500 to-orange-400 rounded-lg shadow-md hover:from-pink-600 hover:to-orange-500 focus:outline-none focus:ring focus:ring-pink-500"
+            {{on "click" this.mostrarModalNuevoCredito}}
+          >
+            Registrar Crédito
+          </button>
+        </div>
+
+        {{!-- Modal de Registrar Crédito --}}
+        {{#if this.mostrarCreditoModal}}
+          <div class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-[#1b2227] p-6 rounded-lg shadow-lg w-4/5 sm:w-1/3">
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-white text-2xl font-semibold">Registrar Crédito</h2>
+                <button
+                  type="button"
+                  class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  {{on "click" this.ocultarModalNuevoCredito}}
+                >
+                  Cerrar
+                </button>
+              </div>
+              <form {{on "submit" this.guardarNuevoCredito}}>
+                <div class="flex flex-col gap-4">
+                  {{!-- Campos del formulario --}}
+                  <div>
+                    <label for="idCliente" class="text-white">ID Cliente</label>
+                    <input
+                      id="idCliente"
+                      type="number"
+                      class="text-black w-full p-2 rounded-md"
+                      value={{this.nuevoCredito.id_cliente}}
+                      {{on "input" (action "actualizarNuevoCredito" "id_cliente")}}
+                    />
+                  </div>
+                  <div>
+                    <label for="idViaje" class="text-white">ID Viaje</label>
+                    <input
+                      id="idViaje"
+                      type="number"
+                      class="text-black w-full p-2 rounded-md"
+                      value={{this.nuevoCredito.id_viaje}}
+                      {{on "input" (action "actualizarNuevoCredito" "id_viaje")}}
+                    />
+                  </div>
+                  <div>
+                    <label for="valorPactado" class="text-white">Valor Pactado</label>
+                    <input
+                      id="valorPactado"
+                      type="number"
+                      class="text-black w-full p-2 rounded-md"
+                      value={{this.nuevoCredito.valor_pactado}}
+                      {{on "input" (action "actualizarNuevoCredito" "valor_pactado")}}
+                    />
+                  </div>
+                  <div>
+                    <label for="montoPago" class="text-white">Monto Pago Inicial</label>
+                    <input
+                      id="montoPago"
+                      type="number"
+                      class="text-black w-full p-2 rounded-md"
+                      value={{this.nuevoCredito.valor_pagado}}
+                      {{on "input" (action "actualizarNuevoCredito" "valor_pagado")}}
+                    />
+                  </div>
+                  <div>
+                    <label for="fechaCreacion" class="text-white">Fecha de Creación</label>
+                    <input
+                      id="fechaCreacion"
+                      type="date"
+                      class="text-black w-full p-2 rounded-md"
+                      value={{this.nuevoCredito.fecha_creacion}}
+                      {{on "input" (action "actualizarNuevoCredito" "fecha_creacion")}}
+                    />
+                  </div>
+                </div>
+                <div class="flex justify-end mt-4">
+                  <button
+                    type="button"
+                    class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    {{on "click" this.guardarNuevoCredito}}
+                  >
+                    Confirmar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        {{/if}}
   
         {{!-- Tabla de resultados --}}
         <div class="flex flex-col">

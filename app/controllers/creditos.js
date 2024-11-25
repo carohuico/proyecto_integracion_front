@@ -14,7 +14,17 @@ export default class CreditosController extends Controller {
   @tracked isModalVisible = false; // Controla la visibilidad de la modal de actualización
   @tracked nuevoValorPactado = ''; // Valor del nuevo valor pactado
   @tracked nuevoValorPagado = ''; // Valor del nuevo valor pagado (agregado)
+  @tracked mostrarCreditoModal = false;
+  @tracked nuevoCredito = {
+    id_cliente: '',
+    valor_pactado: '',
+    valor_pagado: 0,
+    fecha_creacion: '',
+    id_viaje: '',
+  };
+
   @service router; // Inyectamos el servicio router
+  
 
   queryParams = ['id_cliente']; // Establecer query param
 
@@ -172,7 +182,7 @@ export default class CreditosController extends Controller {
   }
 
   @action
-async confirmarActualizacion(event) {
+  async confirmarActualizacion(event) {
   event.preventDefault();
   console.log('Confirmando actualización con los siguientes valores:');
   
@@ -208,5 +218,113 @@ actualizarCampo(campo, event) {
   @action
   ocultarModalActualizar() {
     this.isModalVisible = false;  // Ocultar la modal
+  }
+
+  // Acción para mostrar la modal de nuevo crédito
+  @action
+  mostrarModalNuevoCredito() {
+    this.mostrarCreditoModal = true; // Mostrar la modal
+  }
+
+  // Acción para ocultar la modal de nuevo crédito
+  @action
+  ocultarModalNuevoCredito() {
+    this.mostrarCreditoModal = false; // Ocultar la modal
+  }
+
+  @action
+  actualizarNuevoCredito(field, event) {
+    this.nuevoCredito[field] = event.target.value;
+    console.log(`Campo actualizado: ${field}, Valor: ${event.target.value}`);
+  }
+
+  resetNuevoCredito() {
+    this.nuevoCredito = {
+      id_cliente: '',
+      valor_pactado: '',
+      valor_pagado: '',
+      fecha_creacion: '',
+      id_viaje: '',
+    };
+  }
+
+  @action
+  async verificarCliente(id_cliente) {
+    try {
+      const response = await fetch(`http://35.202.166.109:5008/api/clientes/${id_cliente}`);
+      if (response.ok) {
+        const cliente = await response.json();
+        console.log("Cliente encontrado:", cliente);
+        return true; // Cliente válido
+      } else {
+        console.error("Cliente no encontrado");
+        alert("El cliente especificado no existe. Verifica el ID.");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error al verificar el cliente:", error);
+      alert("Error al verificar el cliente. Inténtalo de nuevo.");
+      return false;
+    }
+  }
+
+
+  @action
+  async guardarNuevoCredito() {
+
+    // Validación de los datos
+    const { id_cliente, valor_pactado, valor_pagado, fecha_creacion, id_viaje } = this.nuevoCredito;
+
+    const valorPactadoNum = parseFloat(valor_pactado);
+    const valorPagadoNum = parseFloat(valor_pagado);
+
+
+    if (!id_cliente || !valorPactadoNum || !valorPagadoNum || !fecha_creacion || !id_viaje) {
+      alert('Por favor, completa todos los campos. Si no realiza un pago inicial el campo valor pagado debe ser 0.');
+      return;
+    }
+
+    const clienteExiste = await this.verificarCliente(id_cliente);
+    if (!clienteExiste) return; // Detener si el cliente no existe
+
+    console.log('Datos a enviar al backend:', {
+      id_cliente,
+      valor_pactado: valorPactadoNum,
+      valor_pagado: valorPagadoNum,
+      fecha_creacion,
+      id_viaje
+    });
+
+    try {
+      const response = await fetch('http://35.202.166.109:5008/api/creditos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id_cliente,
+          valor_pactado: valorPactadoNum,
+          valor_pagado: valorPagadoNum,
+          fecha_creacion,
+          id_viaje
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Crédito creado:', data);
+        alert('Crédito creado correctamente.'); // Mostrar mensaje de éxito
+        this.ocultarModalNuevoCredito(); // Ocultar la modal
+        this.resetNuevoCredito(); // Restablecer los valores del nuevo crédito
+        this.searchCreditos(); // Recargar los créditos
+      } else {
+        const error = await response.json();
+        console.error('Error al crear el crédito:', error);
+        alert(`Error al guardar el crédito: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error al crear el crédito:', error);
+      alert('Hubo un problema al crear el crédito. Inténtalo nuevamente.');
+    }
   }
 }
