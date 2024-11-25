@@ -43,6 +43,7 @@ export default class ClientsController extends Controller {
       this.isLoading = true;
       this.progress = 0;
       let response = await fetch('http://35.202.166.109:5002/get_clientes', {
+      let response = await fetch('http://35.202.166.109:5002/get_clientes', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -169,7 +170,7 @@ export default class ClientsController extends Controller {
     console.log('token', token);
     try {
       let response = await fetch(
-        `http://335.202.166.109:5003/update_cliente/${updatedClient.id}`,
+        `http://35.202.166.109:5003/update_cliente/${updatedClient.id}`,
         {
           method: 'PATCH',
           headers: {

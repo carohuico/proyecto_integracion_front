@@ -75,6 +75,7 @@ export default class PagosController extends Controller {
   // Al abrir el modal, configuramos la fecha por defecto
   @action
   openPaymentModal() {
+    console.log('Botón presionado'); // Agrega esta línea
     const today = new Date();
     const formattedDate = today.toISOString().split('T')[0]; // Formato YYYY-MM-DD
     this.fechaPago = formattedDate;  // Establecer la fecha actual

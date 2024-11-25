@@ -17,7 +17,17 @@ export default class CreditosController extends Controller {
   @tracked isModalVisible = false; // Controla la visibilidad de la modal de actualización
   @tracked nuevoValorPactado = ''; // Valor del nuevo valor pactado
   @tracked nuevoValorPagado = ''; // Valor del nuevo valor pagado (agregado)
+  @tracked mostrarCreditoModal = false;
+  @tracked nuevoCredito = {
+    id_cliente: '',
+    valor_pactado: '',
+    valor_pagado: 0,
+    fecha_creacion: '',
+    id_viaje: '',
+  };
+
   @service router; // Inyectamos el servicio router
+  
 
   queryParams = ['id_cliente']; // Establecer query param
 
@@ -42,6 +52,7 @@ export default class CreditosController extends Controller {
     try {
       // Primero realizamos la solicitud para obtener los créditos
       const response = await fetch(`http://35.202.166.109:5006/api/creditos/${searchId}`);
+      const response = await fetch(`http://35.202.166.109:5006/api/creditos/${searchId}`);
       const data = await response.json();
       this.model = data; // Actualiza los créditos
       console.log("Datos cargados:", data);
@@ -62,38 +73,46 @@ export default class CreditosController extends Controller {
     // Busca el crédito en la lista de créditos
     const creditoSeleccionado = this.model.find(credito => credito.id_credito === idCredito);
 
+    if(!creditoSeleccionado) {
+      console.error('No se encontró el crédito seleccionado');
+      return;
+    }
+
     // Verifica si se encontró el crédito seleccionado
-    if (creditoSeleccionado) {
       console.log('Obteniendo historial de pagos para el cliente con ID:', creditoSeleccionado.id_cliente); // ID del cliente del crédito seleccionado
 
       // Verifica si ya se cargaron los pagos para este crédito
-      const pagosGuardados = this.pagos.find(pago => pago.id_credito === idCredito);
-        if (pagosGuardados) {
-        this.pagos = pagosGuardados.pagos; // Si ya están cargados, solo los mostramos
-        this.historialPagosVisible = true;
+    const pagosGuardados = this.pagos.find(pago => pago.id_credito === idCredito);
+    if (pagosGuardados) {
+      console.log('Pagos previamente cargados:', pagosGuardados);
+      this.historialPagosVisible = true;
+      return;
+    }
+
+    try {
+      // Realiza la solicitud al backend
+      const response = await fetch(`http://35.202.166.109:5007/api/pagos/${creditoSeleccionado.id_cliente}`);
+      const data = await response.json();
+
+      if (!Array.isArray(data)) {
+        console.error('El backend no devolvió un array de pagos:', data.message || data);
+        alert('No se encontraron pagos para este cliente.');
         return;
-        }
+      }
 
-      try {
-        // Realiza la solicitud al backend para obtener el historial de pagos
-        const response = await fetch(`http://35.202.166.109:5007/api/pagos/${creditoSeleccionado.id_cliente}`);
-        const data = await response.json();
-        console.log('Historial de pagos:', data);
-
-        this.pagos = data.map(item => ({
+      // Mapeo de los datos a un formato uniforme
+      this.pagos = data.map(item => ({
         id_pago: item.id_pago,
         id_credito: item.id_credito,
         fecha_pago: item.fecha_pago,
-        monto_pago: item.monto_pago
-        }));
+        monto_pago: item.monto_pago,
+      }));
 
-        this.historialPagosVisible = true;  // Mostrar la modal
-            } catch (error) {
-        console.error('Error al obtener el historial de pagos:', error);
-        this.pagos = []; // Si hay error, vaciar los pagos
-      }
-    } else {
-      console.error('No se encontró el crédito seleccionado');
+      console.log('Historial de pagos cargado:', this.pagos);
+      this.historialPagosVisible = true;
+    } catch (error) {
+      console.error('Error al obtener el historial de pagos:', error);
+      alert('Hubo un problema al cargar el historial de pagos. Inténtalo nuevamente.');
     }
   }
 
@@ -125,13 +144,16 @@ export default class CreditosController extends Controller {
 
       if (response.ok) {
         const updatedData = await response.json();
-        console.log('Crédito actualizado:', updatedData);
+        console.log('Crédito actualizado en el backend:', updatedData);
 
-        // Actualizar el modelo con el crédito modificado
-        const creditoIndex = this.model.findIndex(credito => credito.id_credito === idCredito);
-        if (creditoIndex !== -1) {
-          this.model[creditoIndex] = updatedData;
-        }
+        //Recargar los créditos desde el backend
+        console.log('Recargando créditos desde el backend...');
+        this.searchId = this.selectedCredito.id_cliente.toString(); // Actualizar el ID de cliente
+        await this.searchCreditos();
+
+        //Mostrar mensaje de éxito
+        alert('Crédito actualizado correctamente.');
+
         // Ocultar la modal después de actualizar
         this.isModalVisible = false;
       } else {
@@ -164,7 +186,7 @@ export default class CreditosController extends Controller {
   }
 
   @action
-async confirmarActualizacion(event) {
+  async confirmarActualizacion(event) {
   event.preventDefault();
   console.log('Confirmando actualización con los siguientes valores:');
   
@@ -200,5 +222,113 @@ actualizarCampo(campo, event) {
   @action
   ocultarModalActualizar() {
     this.isModalVisible = false;  // Ocultar la modal
+  }
+
+  // Acción para mostrar la modal de nuevo crédito
+  @action
+  mostrarModalNuevoCredito() {
+    this.mostrarCreditoModal = true; // Mostrar la modal
+  }
+
+  // Acción para ocultar la modal de nuevo crédito
+  @action
+  ocultarModalNuevoCredito() {
+    this.mostrarCreditoModal = false; // Ocultar la modal
+  }
+
+  @action
+  actualizarNuevoCredito(field, event) {
+    this.nuevoCredito[field] = event.target.value;
+    console.log(`Campo actualizado: ${field}, Valor: ${event.target.value}`);
+  }
+
+  resetNuevoCredito() {
+    this.nuevoCredito = {
+      id_cliente: '',
+      valor_pactado: '',
+      valor_pagado: '',
+      fecha_creacion: '',
+      id_viaje: '',
+    };
+  }
+
+  @action
+  async verificarCliente(id_cliente) {
+    try {
+      const response = await fetch(`http://35.202.166.109:5008/api/clientes/${id_cliente}`);
+      if (response.ok) {
+        const cliente = await response.json();
+        console.log("Cliente encontrado:", cliente);
+        return true; // Cliente válido
+      } else {
+        console.error("Cliente no encontrado");
+        alert("El cliente especificado no existe. Verifica el ID.");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error al verificar el cliente:", error);
+      alert("Error al verificar el cliente. Inténtalo de nuevo.");
+      return false;
+    }
+  }
+
+
+  @action
+  async guardarNuevoCredito() {
+
+    // Validación de los datos
+    const { id_cliente, valor_pactado, valor_pagado, fecha_creacion, id_viaje } = this.nuevoCredito;
+
+    const valorPactadoNum = parseFloat(valor_pactado);
+    const valorPagadoNum = parseFloat(valor_pagado);
+
+
+    if (!id_cliente || !valorPactadoNum || !valorPagadoNum || !fecha_creacion || !id_viaje) {
+      alert('Por favor, completa todos los campos. Si no realiza un pago inicial el campo valor pagado debe ser 0.');
+      return;
+    }
+
+    const clienteExiste = await this.verificarCliente(id_cliente);
+    if (!clienteExiste) return; // Detener si el cliente no existe
+
+    console.log('Datos a enviar al backend:', {
+      id_cliente,
+      valor_pactado: valorPactadoNum,
+      valor_pagado: valorPagadoNum,
+      fecha_creacion,
+      id_viaje
+    });
+
+    try {
+      const response = await fetch('http://35.202.166.109:5008/api/creditos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id_cliente,
+          valor_pactado: valorPactadoNum,
+          valor_pagado: valorPagadoNum,
+          fecha_creacion,
+          id_viaje
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Crédito creado:', data);
+        alert('Crédito creado correctamente.'); // Mostrar mensaje de éxito
+        this.ocultarModalNuevoCredito(); // Ocultar la modal
+        this.resetNuevoCredito(); // Restablecer los valores del nuevo crédito
+        this.searchCreditos(); // Recargar los créditos
+      } else {
+        const error = await response.json();
+        console.error('Error al crear el crédito:', error);
+        alert(`Error al guardar el crédito: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error al crear el crédito:', error);
+      alert('Hubo un problema al crear el crédito. Inténtalo nuevamente.');
+    }
   }
 }

@@ -11,24 +11,126 @@
   
         {{!-- Campo de búsqueda --}}
         <div class="pb-3">
-          <div class="flex pl-4 gap-8 justify-between items-center rounded-lg">
-            <div class="flex gap-8">
+          <div class="flex pl-4 gap-4 justify-between items-center rounded-lg bg-[#1b2227] p-4 shadow-lg">
+            <div class="relative w-full max-w-md">
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    fill-rule="evenodd"
+                    d="M9 3a6 6 0 100 12A6 6 0 009 3zm-8 6a8 8 0 1115.27 5.24l4.23 4.23a1 1 0 01-1.42 1.42l-4.23-4.23A8 8 0 011 9z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
               <input
                 type="text"
-                class="text-black"
+                class="block w-full pl-10 pr-3 py-2 text-sm rounded-lg bg-[#2d343f] border border-gray-700 placeholder-gray-400 text-white focus:outline-none focus:ring focus:ring-pink-500 focus:border-orange-500"
                 placeholder="Buscar por ID Cliente"
-                value={{this.searchId}} {{on "input" this.updateSearchId}}
+                value={{this.searchId}}
+                {{on "input" this.updateSearchId}}
               />
-              <button
-                type="button"
-                class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
-                {{on "click" this.searchCreditos}}
-              >
-                Buscar
-              </button>
             </div>
+            <button
+              type="button"
+              class="inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-white bg-gradient-to-br from-pink-500 to-orange-400 rounded-lg shadow-md hover:from-pink-600 hover:to-orange-500 focus:outline-none focus:ring focus:ring-pink-500"
+              {{on "click" this.searchCreditos}}
+            >
+              Buscar
+            </button>
           </div>
         </div>
+
+        <div class="flex justify-end gap-4 p-4">
+          <button
+            type="button"
+            class="inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-white bg-gradient-to-br from-pink-500 to-orange-400 rounded-lg shadow-md hover:from-pink-600 hover:to-orange-500 focus:outline-none focus:ring focus:ring-pink-500"
+            {{on "click" this.mostrarModalNuevoCredito}}
+          >
+            Registrar Crédito
+          </button>
+        </div>
+
+        {{!-- Modal de Registrar Crédito --}}
+        {{#if this.mostrarCreditoModal}}
+          <div class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-[#1b2227] p-6 rounded-lg shadow-lg w-4/5 sm:w-1/3">
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-white text-2xl font-semibold">Registrar Crédito</h2>
+                <button
+                  type="button"
+                  class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  {{on "click" this.ocultarModalNuevoCredito}}
+                >
+                  Cerrar
+                </button>
+              </div>
+              <form {{on "submit" this.guardarNuevoCredito}}>
+                <div class="flex flex-col gap-4">
+                  {{!-- Campos del formulario --}}
+                  <div>
+                    <label for="idCliente" class="text-white">ID Cliente</label>
+                    <input
+                      id="idCliente"
+                      type="number"
+                      class="text-black w-full p-2 rounded-md"
+                      value={{this.nuevoCredito.id_cliente}}
+                      {{on "input" (action "actualizarNuevoCredito" "id_cliente")}}
+                    />
+                  </div>
+                  <div>
+                    <label for="idViaje" class="text-white">ID Viaje</label>
+                    <input
+                      id="idViaje"
+                      type="number"
+                      class="text-black w-full p-2 rounded-md"
+                      value={{this.nuevoCredito.id_viaje}}
+                      {{on "input" (action "actualizarNuevoCredito" "id_viaje")}}
+                    />
+                  </div>
+                  <div>
+                    <label for="valorPactado" class="text-white">Valor Pactado</label>
+                    <input
+                      id="valorPactado"
+                      type="number"
+                      class="text-black w-full p-2 rounded-md"
+                      value={{this.nuevoCredito.valor_pactado}}
+                      {{on "input" (action "actualizarNuevoCredito" "valor_pactado")}}
+                    />
+                  </div>
+                  <div>
+                    <label for="montoPago" class="text-white">Monto Pago Inicial</label>
+                    <input
+                      id="montoPago"
+                      type="number"
+                      class="text-black w-full p-2 rounded-md"
+                      value={{this.nuevoCredito.valor_pagado}}
+                      {{on "input" (action "actualizarNuevoCredito" "valor_pagado")}}
+                    />
+                  </div>
+                  <div>
+                    <label for="fechaCreacion" class="text-white">Fecha de Creación</label>
+                    <input
+                      id="fechaCreacion"
+                      type="date"
+                      class="text-black w-full p-2 rounded-md"
+                      value={{this.nuevoCredito.fecha_creacion}}
+                      {{on "input" (action "actualizarNuevoCredito" "fecha_creacion")}}
+                    />
+                  </div>
+                </div>
+                <div class="flex justify-end mt-4">
+                  <button
+                    type="button"
+                    class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    {{on "click" this.guardarNuevoCredito}}
+                  >
+                    Confirmar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        {{/if}}
   
         {{!-- Tabla de resultados --}}
         <div class="flex flex-col">
@@ -63,7 +165,7 @@
                             {{!-- Botón Ver más --}}
                             <button
                             type="button"
-                            class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200"
+                            class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 focus:ring-4 focus:outline-none focus:ring-pink-200"
                             {{on "click" (fn this.verHistorialPagos credito.id_credito)}}
                             >
                             <span class="relative px-4 py-1 transition-all duration-300 ease-in-out bg-[#1b2227] rounded-md group-hover:bg-opacity-0 group-hover:opacity-100">
@@ -73,7 +175,7 @@
 
                             <button
                             type="button"
-                            class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200"
+                            class="relative inline-flex items-center justify-center p-0.5 mb-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 focus:ring-4 focus:outline-none focus:ring-pink-200"
                             {{on "click" (fn this.mostrarModalActualizar credito.id_credito)}}
                             >
                             <span class="relative px-4 py-1 transition-all duration-300 ease-in-out bg-[#1b2227] rounded-md group-hover:bg-opacity-0 group-hover:opacity-100">
@@ -100,7 +202,7 @@
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-white text-2xl font-semibold">Actualizar Crédito</h2>
         <button
-          class="text-white bg-red-500 hover:bg-red-600 font-semibold py-2 px-4 rounded-md" type="button" {{on "click" this.ocultarModalActualizar}}
+          class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button" {{on "click" this.ocultarModalActualizar}}
         >
           Cerrar
         </button>
@@ -132,7 +234,7 @@
         <div class="flex justify-end mt-4">
           <button
             type="submit"
-            class="text-white bg-green-500 hover:bg-green-600 font-semibold py-2 px-4 rounded-md"
+            class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
           >
             Confirmar
           </button>
@@ -150,7 +252,7 @@
               <div class="flex justify-between items-center mb-4">
                 <h2 class="text-white text-2xl font-semibold">Historial de Pagos</h2>
                 <button
-                  class="text-white bg-red-500 hover:bg-red-600 font-semibold py-2 px-4 rounded-md" type="button" {{on "click" this.ocultarHistorialPagos}}
+                  class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button" {{on "click" this.ocultarHistorialPagos}}
                 >
                   Cerrar
                 </button>
