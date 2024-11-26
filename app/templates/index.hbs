@@ -86,12 +86,11 @@
           </div>
         </div>
       </div>
-      {{#unless this.isAuthenticated}}
-        <Graficos::ResumenFinanciero @totalCreditos={{this.totalCreditos}} @montoPromedioOtorgado={{this.montoPromedioOtorgado}} @porcentajeCreditosEnDemora={{this.porcentajeCreditosEnDemora}} />
+      {{#if this.isAuthenticated}}
+        <Graficos::MapaImpacto />
       {{else}}
-        <p class="text-gray-400 mt-8">Falta mapita</p>
-      {{/unless}}
-      
+        <Graficos::ResumenFinanciero @totalCreditos={{this.totalCreditos}} @montoPromedioOtorgado={{this.montoPromedioOtorgado}} @porcentajeCreditosEnDemora={{this.porcentajeCreditosEnDemora}} />
+      {{/if}}      
     </section>
   </main>
   {{footer/footer}}

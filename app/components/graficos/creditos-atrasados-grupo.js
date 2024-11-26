@@ -17,6 +17,7 @@ export default class GraficosCreditosAtrasadosGrupoComponent extends Component {
     }
 
     try {
+      console.log('Cargando datos para el gráfico de créditos atrasados por grupo...');
       // Realizar la solicitud al backend
       const response = await fetch('http://35.202.166.109:5011/api/creditos-atrasados-grupo', {
         method: 'GET',
