@@ -20,10 +20,12 @@ export default class ClientDetailModalComponent extends Component {
     this.isLoadingHistorial = true;
     this.error = null;
     try {
-      let response = await fetch(`http://35.202.166.109:5013/api/historial-credito/${this.args.client.id}`);
+      let response = await fetch(
+        `http://35.202.166.109:5013/api/historial-credito/${this.args.client.id}`,
+      );
       if (!response.ok) {
         throw new Error('Error al cargar el historial crediticio');
-      }else if (response.status === 401) {
+      } else if (response.status === 401) {
         const responseData = await response.json();
         if (responseData.message === 'El token ha expirado') {
           console.error('El token ha expirado.');

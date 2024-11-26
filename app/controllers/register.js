@@ -49,7 +49,14 @@ export default class RegisterController extends Controller {
     this.isLoading = true;
     try {
       //validar
-      if (this.nombre === '' || this.apellido === '' || this.telefono === '' || this.nif === '' || this.username === '' || this.password === '') {
+      if (
+        this.nombre === '' ||
+        this.apellido === '' ||
+        this.telefono === '' ||
+        this.nif === '' ||
+        this.username === '' ||
+        this.password === ''
+      ) {
         window.alert('Campos faltantes');
         this.isLoading = false;
         return;
@@ -91,30 +98,30 @@ export default class RegisterController extends Controller {
       let response2 = await fetch('http://35.202.166.109:5001/create_cliente', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            id_cliente: id,
-            nombre_1: this.nombre,
-            nombre_2: this.apellido,
-            telefono_1: this.telefono,
-            num_identificacion_fiscal: this.nif,
-            fecha_registro: this.fechaRegistro,
-            limite_credito: 5000,
+          id_cliente: id,
+          nombre_1: this.nombre,
+          nombre_2: this.apellido,
+          telefono_1: this.telefono,
+          num_identificacion_fiscal: this.nif,
+          fecha_registro: this.fechaRegistro,
+          limite_credito: 5000,
         }),
-    });
-    if (response2.ok) {
+      });
+      if (response2.ok) {
         alert('Cliente agregado correctamente');
-    } else {
+      } else {
         throw new Error('Error al agregar cliente');
-    }
-    this.nombre = '';
-    this.apellido = '';
-    this.telefono = '';
-    this.nif = '';
-    this.username = '';
-    this.password = '';
-        
+      }
+      this.nombre = '';
+      this.apellido = '';
+      this.telefono = '';
+      this.nif = '';
+      this.username = '';
+      this.password = '';
+
       // Redirigir al usuario a la página de inicio de sesión
       this.router.transitionTo('login');
     } catch (error) {

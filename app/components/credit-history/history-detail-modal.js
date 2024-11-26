@@ -56,7 +56,7 @@ export default class CreditHistoryDetailModalComponent extends Component {
     }
 
     try {
-      console.log("tokennnnn", token);
+      console.log('tokennnnn', token);
       //Transformar los nombres de los campos para que coincidan con los de la API
       const transformedFields = {
         id_cliente: parseInt(this.editableFields.clienteId, 10),
@@ -89,7 +89,7 @@ export default class CreditHistoryDetailModalComponent extends Component {
         );
         this.args.onSave(updatedEntry); // Llama al método para actualizar la lista en el controlador
         this.disableEditing();
-      }else if (response.status === 401) {
+      } else if (response.status === 401) {
         const responseData = await response.json();
         if (responseData.message === 'El token ha expirado') {
           console.error('El token ha expirado.');

@@ -20,7 +20,8 @@ export default class LoginComponent extends Component {
         password: this.password,
       };
 
-      const response = await fetch('http://35.202.166.109:5000/login', { // Asegúrate de que la URL sea correcta
+      const response = await fetch('http://35.202.166.109:5000/login', {
+        // Asegúrate de que la URL sea correcta
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,12 +46,12 @@ export default class LoginComponent extends Component {
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
       if (data.role === 'admin') {
-        this.router.transitionTo('clients').then(() => {
-          window.location.reload(); 
+        this.router.transitionTo('/').then(() => {
+          window.location.reload();
         });
       } else {
-        this.router.transitionTo('historial').then(() => {
-          window.location.reload(); 
+        this.router.transitionTo('/').then(() => {
+          window.location.reload();
         });
       }
       this.username = '';
@@ -59,7 +60,7 @@ export default class LoginComponent extends Component {
       console.error('Error de red:', error);
       window.alert('Error de red, favor de intentar más tarde');
     } finally {
-      this.isLoading = false; 
+      this.isLoading = false;
     }
   }
 
