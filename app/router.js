@@ -12,6 +12,7 @@ Router.map(function () {
   this.route('historial');
   this.route('creditos');
   this.route('pagos');
+  this.route('reportes');
 });
 
 export default Router;

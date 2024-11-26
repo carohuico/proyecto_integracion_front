@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
@@ -20,7 +21,7 @@ export default class LoginComponent extends Component {
         password: this.password,
       };
 
-      const response = await fetch('http://127.0.0.1:5000/login', { // Asegúrate de que la URL sea correcta
+      const response = await fetch('http://35.202.166.109:5000/login', { // Asegúrate de que la URL sea correcta
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

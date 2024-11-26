@@ -1,0 +1,40 @@
+<div class="relative flex size-full min-h-screen flex-col bg-dark overflow-x-hidden mt-16">
+    <div class="container flex h-full grow flex-col">
+      {{navbar/navbar}}
+  
+      <div class="layout-content-container flex flex-col max-w-[2560px] flex-1">
+        <div class="flex flex-wrap justify-between gap-3 p-4">
+          <div class="flex min-w-72 flex-col gap-3">
+            <p class="text-white text-4xl font-black leading-tight tracking-tight">Reportes</p>
+            <p class="text-gray text-base font-normal leading-normal">Consulta un tipo de reporte.</p>
+          </div>
+        </div>
+  
+        <!-- Dropdown de Reportes -->
+        <div class="mb-4">
+          <select class="px-4 py-2 bg-gray-700 text-white rounded" {{on "change" this.cargarReporte}}>
+            <option value="pagos-atrasados">Selecciona un reporte</option>
+            <option value="pagos-atrasados">Créditos Atrasados</option>
+            <option value="creditos-activos">Créditos Activos</option>
+            <option value="reporte-cliente">Actividad Financiera del Cliente</option>
+            <option value="resumen-financiero">Resumen Financiero</option>
+          </select>
+        </div>
+  
+        <!-- Componentes de Reportes -->
+        {{#if (eq this.reporteSeleccionado "pagos-atrasados")}}
+          <PagosAtrasados @creditos={{this.pagos}} />
+        {{else if (eq this.reporteSeleccionado "creditos-activos")}}
+          <CreditosActivos @creditosActivos={{this.creditosActivos}} />
+        {{else if (eq this.reporteSeleccionado "reporte-cliente")}}
+            <ReporteCliente
+                @reporteCliente={{this.reporteCliente}}
+                @obtenerReporteCliente={{this.obtenerReporteCliente}}
+            />
+        {{else if (eq this.reporteSeleccionado "resumen-financiero")}}
+          <ResumenFinanciero @resumen={{this.resumen}} />
+        {{/if}}
+      </div>
+    </div>
+  </div>
+  

@@ -46,6 +46,7 @@
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
+    "ember-composable-helpers": "^5.0.0",
     "ember-data": "~5.3.8",
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^2.1.2",
@@ -80,6 +81,9 @@
     "edition": "octane"
   },
   "dependencies": {
-    "jwt-decode": "^4.0.0"
+    "chart.js": "^4.4.6",
+    "jspdf": "^2.5.2",
+    "jwt-decode": "^4.0.0",
+    "xml2js": "^0.6.2"
   }
 }

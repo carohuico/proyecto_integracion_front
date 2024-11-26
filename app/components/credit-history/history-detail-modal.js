@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
@@ -54,7 +55,7 @@ export default class CreditHistoryDetailModalComponent extends Component {
 
       console.log("Datos enviados al back", transformedFields);
 
-      let response = await fetch(`http://34.172.213.102:5014/api/historial-credito/${this.args.entry.id}`, {
+      let response = await fetch(`http://35.202.166.109:5014/api/historial-credito/${this.args.entry.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -102,7 +103,7 @@ export default class CreditHistoryDetailModalComponent extends Component {
       if (confirmation) {
         console.log("Confirmo eliminar");
           try {
-              await fetch(`http://34.172.213.102:5015/api/historial-credito/${this.args.entry.id}`, {
+              await fetch(`http://35.202.166.109:5015/api/historial-credito/${this.args.entry.id}`, {
                   method: 'DELETE',
               });
               this.args.onDelete(this.args.entry); // Llama al método para actualizar la lista en el controlador

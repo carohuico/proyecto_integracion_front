@@ -1,0 +1,30 @@
+<div class="report-card">
+  <h3 class="text-white">Créditos Activos</h3>
+  <canvas id="creditosActivosChart"></canvas>
+  <table class="min-w-full divide-y divide-gray-700">
+    <thead class="bg-[#1b2227]">
+      <tr>
+        <th class="text-left text-white px-4 py-2">ID Crédito</th>
+        <th class="text-left text-white px-4 py-2">ID Viaje</th>
+        <th class="text-left text-white px-4 py-2">ID Cliente</th>
+        <th class="text-left text-white px-4 py-2">Nombre</th>
+        <th class="text-left text-white px-4 py-2">Estado</th>
+        <th class="text-left text-white px-4 py-2">Valor Pactado</th>
+        <th class="text-left text-white px-4 py-2">Valor Pagado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @creditosActivos as |cliente|}}
+        <tr>
+          <td class="px-4 py-2">{{cliente.id_credito}}</td>
+          <td class="px-4 py-2">{{cliente.id_viaje}}</td>
+          <td class="px-4 py-2">{{cliente.id_cliente}}</td>
+          <td class="px-4 py-2">{{cliente.nombre}}</td>
+          <td class="px-4 py-2">{{cliente.estado_credito}}</td>
+          <td class="px-4 py-2">{{cliente.valor_pactado}}</td>
+          <td class="px-4 py-2">{{cliente.valor_pagado}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

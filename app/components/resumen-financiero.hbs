@@ -1,0 +1,41 @@
+<div class="report-card">
+  <h3 class="text-white mb-4">Resumen Financiero</h3>
+
+  <!-- Contenedor para las gráficas -->
+<div class="flex space-x-4 mb-6">
+  <!-- Gráfica de Barras: Distribución de Ingresos por Estado General -->
+  <div class="w-1/2">
+    <canvas id="ingresosPorEstadoChart"></canvas>
+  </div>
+
+  <!-- Gráfica de Pastel: Porcentaje de Créditos Pagados vs Activos -->
+  <div class="w-1/2">
+    <canvas id="porcentajeCreditosChart"></canvas>
+  </div>
+</div>
+
+
+  <!-- Tabla de Resumen Financiero -->
+  <table class="min-w-full divide-y divide-gray-700">
+    <thead class="bg-[#1b2227]">
+      <tr>
+        <th class="text-left text-white px-4 py-2">ID Cliente</th>
+        <th class="text-left text-white px-4 py-2">Nombre</th>
+        <th class="text-left text-white px-4 py-2">Total Créditos</th>
+        <th class="text-left text-white px-4 py-2">Total Pagado</th>
+        <th class="text-left text-white px-4 py-2">Estado General</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @resumen as |cliente|}}
+        <tr class="bg-[#23272b]">
+          <td class="px-4 py-2">{{cliente.id_cliente}}</td>
+          <td class="px-4 py-2">{{cliente.nombre}}</td>
+          <td class="px-4 py-2">{{cliente.total_creditos}}</td>
+          <td class="px-4 py-2">{{cliente.total_pagado}}</td>
+          <td class="px-4 py-2">{{cliente.estado_general}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

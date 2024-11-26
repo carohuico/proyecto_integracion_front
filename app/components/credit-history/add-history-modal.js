@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
@@ -71,7 +72,7 @@ export default class AddCreditHistoryModalComponent extends Component {
     console.log('Enviando datos al backend:', newEntry); // Log para depuración
 
     try {
-      let response = await fetch('http://35.188.171.63:5012/api/historial-credito', {
+      let response = await fetch('http://35.202.166.109:5012/api/historial-credito', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

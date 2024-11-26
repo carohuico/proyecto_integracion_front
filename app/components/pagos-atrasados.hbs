@@ -1,0 +1,43 @@
+<div class="report-card">
+  <h2 class="text-white">Créditos con Pagos Atrasados</h2>
+  <div>
+    <h3>Evolución de Créditos con Pagos Atrasados</h3>
+    <canvas id="evolucionPagosAtrasadosChart"></canvas>
+  </div>
+
+  <table class="min-w-full divide-y divide-gray-700">
+    <thead class="bg-[#1b2227]">
+      <tr>
+        <th class="text-left text-white px-4 py-2">ID Crédito</th>
+        <th class="text-left text-white px-4 py-2">ID Cliente</th>
+        <th class="text-left text-white px-4 py-2">Nombre</th>
+        <th class="text-left text-white px-4 py-2">Estado</th>
+        <th class="text-left text-white px-4 py-2">Valor Pactado</th>
+        <th class="text-left text-white px-4 py-2">Valor Pagado</th>
+        <th class="text-left text-white px-4 py-2">Monto Pendiente</th>
+        <th class="text-left text-white px-4 py-2">Fecha de Ultimo Pago</th>
+        <th class="text-left text-white px-4 py-2">Dias Transcurridos</th>
+        <th class="text-left text-white px-4 py-2">Periodos Transcurridos</th>
+        <th class="text-left text-white px-4 py-2">Monto Esperado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @creditos as |credito|}}
+        <tr>
+          <td class="px-4 py-2">{{credito.id_credito}}</td>
+          <td class="px-4 py-2">{{credito.id_cliente}}</td>
+          <td class="px-4 py-2">{{credito.nombre_cliente}}</td>
+          <td class="px-4 py-2">{{credito.estado_credito}}</td>
+          <td class="px-4 py-2">{{credito.valor_pactado}}</td>
+          <td class="px-4 py-2">{{credito.valor_pagado}}</td>
+          <td class="px-4 py-2">{{credito.monto_pendiente}}</td>
+          <td class="px-4 py-2">{{credito.fecha_ultimo_pago}}</td>
+          <td class="px-4 py-2">{{credito.dias_desde_inicio}}</td>
+          <td class="px-4 py-2">{{credito.periodos_transcurridos}}</td>
+          <td class="px-4 py-2">{{credito.monto_esperado}}</td>
+          
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
