@@ -83,9 +83,9 @@
   "dependencies": {
     "chart.js": "^4.4.6",
     "flowbite": "^2.5.2",
-    "chart.js": "^4.4.6",
     "jspdf": "^2.5.2",
     "jwt-decode": "^4.0.0",
+    "leaflet": "^1.9.4",
     "xml2js": "^0.6.2"
   }
 }
