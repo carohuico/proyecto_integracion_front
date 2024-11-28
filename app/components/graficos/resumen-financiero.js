@@ -15,12 +15,15 @@ export default class ResumenFinancieroComponent extends Component {
   @action
   async loadResumenFinanciero() {
     try {
-      const response = await fetch('http://35.202.166.109:5011/api/resumen_financiero', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/xml',
+      const response = await fetch(
+        'http://35.202.166.109:5011/api/resumen_financiero',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/xml',
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`Error al obtener los datos: ${response.status}`);
@@ -31,9 +34,17 @@ export default class ResumenFinancieroComponent extends Component {
       const xmlDoc = parser.parseFromString(xmlText, 'application/xml');
 
       // Extraer datos del XML
-      this.totalCreditos = parseInt(xmlDoc.getElementsByTagName('total_creditos')[0].textContent, 10);
-      this.montoPromedioOtorgado = parseFloat(xmlDoc.getElementsByTagName('monto_promedio_otorgado')[0].textContent);
-      this.porcentajeCreditosEnDemora = parseFloat(xmlDoc.getElementsByTagName('porcentaje_creditos_en_demora')[0].textContent);
+      this.totalCreditos = parseInt(
+        xmlDoc.getElementsByTagName('total_creditos')[0].textContent,
+        10,
+      );
+      this.montoPromedioOtorgado = parseFloat(
+        xmlDoc.getElementsByTagName('monto_promedio_otorgado')[0].textContent,
+      );
+      this.porcentajeCreditosEnDemora = parseFloat(
+        xmlDoc.getElementsByTagName('porcentaje_creditos_en_demora')[0]
+          .textContent,
+      );
 
       console.log('Resumen Financiero cargado:', {
         totalCreditos: this.totalCreditos,

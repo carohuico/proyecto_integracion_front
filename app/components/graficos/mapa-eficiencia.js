@@ -17,11 +17,14 @@ export default class MapaEficienciaComponent extends Component {
 
   @action
   async loadMapaEficiencia() {
-    console.log("Cargando datos del mapa de eficiencia...");
+    console.log('Cargando datos del mapa de eficiencia...');
     try {
-      const response = await fetch('http://35.202.166.109:5023/api/mapa-rutas-eficiencia', {
-        method: 'GET',
-      });
+      const response = await fetch(
+        'http://35.202.166.109:5023/api/mapa-rutas-eficiencia',
+        {
+          method: 'GET',
+        },
+      );
 
       if (!response.ok) {
         throw new Error(`Error al obtener los datos: ${response.status}`);
@@ -35,11 +38,13 @@ export default class MapaEficienciaComponent extends Component {
       }
 
       // Mapear y filtrar los datos relevantes
-      this.mapaData = jsonData.map((data) => ({
-        latitud: data.latitud_destino,
-        longitud: data.longitud_destino,
-        eficiencia: data.eficiencia,
-      })).filter((data) => data.latitud && data.longitud && data.eficiencia);
+      this.mapaData = jsonData
+        .map((data) => ({
+          latitud: data.latitud_destino,
+          longitud: data.longitud_destino,
+          eficiencia: data.eficiencia,
+        }))
+        .filter((data) => data.latitud && data.longitud && data.eficiencia);
       this.isLoading = false;
 
       // Inicializar el mapa después de cargar los datos
@@ -53,7 +58,7 @@ export default class MapaEficienciaComponent extends Component {
 
   initializeMap() {
     if (this.mapa) {
-      console.log("El mapa ya está inicializado");
+      console.log('El mapa ya está inicializado');
       return;
     }
 
@@ -62,7 +67,8 @@ export default class MapaEficienciaComponent extends Component {
 
     // Añadir una capa de mapa base
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.mapa);
 
     // Configurar el mapa de calor

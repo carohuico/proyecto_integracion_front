@@ -27,13 +27,21 @@ export default Component.extend({
   async setupChart(canvasElement) {
     try {
       // Realizar la solicitud al backend
-      const response = await fetch('http://35.202.166.109:5011/api/grafica-analisis-clientes', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('authToken')}` },
-      });
+      const response = await fetch(
+        'http://35.202.166.109:5011/api/grafica-analisis-clientes',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        },
+      );
 
       if (!response.ok) {
-        throw new Error(`Error en la respuesta del servidor: ${response.status}`);
+        throw new Error(
+          `Error en la respuesta del servidor: ${response.status}`,
+        );
       }
 
       const jsonResponse = await response.json();
@@ -45,9 +53,17 @@ export default Component.extend({
 
       // Datos para el gráfico
       const data = [clientesActivos, clientesEnDemora, clientesPagados];
-      const labels = ['Clientes Activos', 'Clientes en Demora', 'Clientes Pagados'];
+      const labels = [
+        'Clientes Activos',
+        'Clientes en Demora',
+        'Clientes Pagados',
+      ];
 
-      console.log('Datos cargados:', { clientesActivos, clientesEnDemora, clientesPagados });
+      console.log('Datos cargados:', {
+        clientesActivos,
+        clientesEnDemora,
+        clientesPagados,
+      });
 
       // Renderizar el gráfico en el canvas
       this.chart = new Chart(canvasElement, {
@@ -70,11 +86,10 @@ export default Component.extend({
               position: 'top',
               labels: {
                 font: {
-                  family: 'Poppins, sans-serif', 
+                  family: 'Poppins, sans-serif',
                   size: 12,
-
                 },
-                color: '#ffffff', 
+                color: '#ffffff',
               },
             },
             title: {

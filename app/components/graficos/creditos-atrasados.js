@@ -31,12 +31,17 @@ export default Component.extend({
   async loadChartData() {
     try {
       // Realizar la solicitud al backend
-      const response = await fetch('http://35.202.166.109:5011/api/grafica-creditos-atrasados', {
-        method: 'GET',
-      });
+      const response = await fetch(
+        'http://35.202.166.109:5011/api/grafica-creditos-atrasados',
+        {
+          method: 'GET',
+        },
+      );
 
       if (!response.ok) {
-        throw new Error(`Error en la respuesta del servidor: ${response.status}`);
+        throw new Error(
+          `Error en la respuesta del servidor: ${response.status}`,
+        );
       }
 
       const xmlText = await response.text();
@@ -45,12 +50,17 @@ export default Component.extend({
 
       // Extraer datos del XML
       const periods = Array.from(xmlDoc.getElementsByTagName('period'));
-      const labels = periods.map((p) => p.getElementsByTagName('periodo')[0].textContent);
+      const labels = periods.map(
+        (p) => p.getElementsByTagName('periodo')[0].textContent,
+      );
       const creditosAtrasados = periods.map((p) =>
-        parseInt(p.getElementsByTagName('creditos_atrasados')[0].textContent, 10)
+        parseInt(
+          p.getElementsByTagName('creditos_atrasados')[0].textContent,
+          10,
+        ),
       );
       const montoAdeudado = periods.map((p) =>
-        parseFloat(p.getElementsByTagName('monto_adeudado')[0].textContent)
+        parseFloat(p.getElementsByTagName('monto_adeudado')[0].textContent),
       );
 
       console.log('Datos cargados:', labels, creditosAtrasados, montoAdeudado);
@@ -83,25 +93,25 @@ export default Component.extend({
           responsive: true,
           plugins: {
             legend: {
-                position: 'top',
-                labels: {
-                  font: {
-                    family: 'Poppins, sans-serif', // Cambia esto a la fuente que estás usando en el resto de la página
-                    size: 12,
-                  },
-                  color: '#ffffff', // Color del texto de la leyenda
-                },
-              },
-            title: {
-                display: false,
-                text: 'Evolución de Créditos Atrasados y Monto Adeudado',
-                color: '#ffffff',
+              position: 'top',
+              labels: {
                 font: {
                   family: 'Poppins, sans-serif', // Cambia esto a la fuente que estás usando en el resto de la página
-                  size: 16,
-                  weight: 'bold',
+                  size: 12,
                 },
+                color: '#ffffff', // Color del texto de la leyenda
               },
+            },
+            title: {
+              display: false,
+              text: 'Evolución de Créditos Atrasados y Monto Adeudado',
+              color: '#ffffff',
+              font: {
+                family: 'Poppins, sans-serif', // Cambia esto a la fuente que estás usando en el resto de la página
+                size: 16,
+                weight: 'bold',
+              },
+            },
           },
           scales: {
             y: {
@@ -129,8 +139,8 @@ export default Component.extend({
                 display: false, // Sin líneas divisorias en el eje X
               },
             },
-            },
-            },
+          },
+        },
       });
     } catch (error) {
       console.error('Error al cargar el gráfico:', error);

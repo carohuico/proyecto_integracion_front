@@ -17,7 +17,9 @@ export default class GraficosCreditosPagosComponent extends Component {
   @action
   async loadData() {
     try {
-      const response = await fetch('http://35.202.166.109:5023/api/creditos-pagos');
+      const response = await fetch(
+        'http://35.202.166.109:5023/api/creditos-pagos',
+      );
       if (!response.ok) {
         throw new Error(`Error al obtener los datos: ${response.status}`);
       }
@@ -159,7 +161,7 @@ export default class GraficosCreditosPagosComponent extends Component {
             borderWidth: 2,
           },
           point: {
-            radius: 4, 
+            radius: 4,
           },
         },
       },

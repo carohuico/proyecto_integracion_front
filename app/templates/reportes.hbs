@@ -10,7 +10,7 @@
           </div>
         </div>
   
-        <!-- Dropdown de Reportes -->
+        {{!-- Dropdown de Reportes --}}
         <div class="mb-4">
           <select class="px-4 py-2 bg-gray-700 text-white rounded" {{on "change" this.cargarReporte}}>
             <option value="pagos-atrasados">Selecciona un reporte</option>
@@ -21,7 +21,7 @@
           </select>
         </div>
   
-        <!-- Componentes de Reportes -->
+        {{!-- Componentes de Reportes --}}
         {{#if (eq this.reporteSeleccionado "pagos-atrasados")}}
           <PagosAtrasados @creditos={{this.pagos}} />
         {{else if (eq this.reporteSeleccionado "creditos-activos")}}

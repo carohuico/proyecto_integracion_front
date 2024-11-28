@@ -4,12 +4,14 @@ import { action } from '@ember/object';
 import L from 'leaflet';
 
 const defaultIcon = L.icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconUrl:
+    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png',
+  shadowUrl:
+    'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
-  shadowSize: [31, 31]
+  shadowSize: [31, 31],
 });
 
 export default class GraficosMapaImpactoComponent extends Component {
@@ -25,18 +27,21 @@ export default class GraficosMapaImpactoComponent extends Component {
 
   @action
   async loadMapaImpacto() {
-    console.log("Iniciando carga de datos del mapa de impacto...");
+    console.log('Iniciando carga de datos del mapa de impacto...');
     try {
-      const response = await fetch('http://35.202.166.109:5023/api/mapa-rutas-impacto', {
-        method: 'GET',
-      });
+      const response = await fetch(
+        'http://35.202.166.109:5023/api/mapa-rutas-impacto',
+        {
+          method: 'GET',
+        },
+      );
 
       if (!response.ok) {
         throw new Error(`Error al obtener los datos: ${response.status}`);
       }
 
       const jsonData = await response.json();
-      console.log("Datos del mapa de impacto:", jsonData);
+      console.log('Datos del mapa de impacto:', jsonData);
       if (!Array.isArray(jsonData)) {
         throw new Error('Formato de datos inválido. Se esperaba un arreglo.');
       }
@@ -56,7 +61,7 @@ export default class GraficosMapaImpactoComponent extends Component {
   initializeMap() {
     // Evita reinicializar el mapa si ya existe
     if (this.mapa) {
-      console.log("El mapa ya está inicializado");
+      console.log('El mapa ya está inicializado');
       return;
     }
 
@@ -65,14 +70,15 @@ export default class GraficosMapaImpactoComponent extends Component {
 
     // Añadir una capa de mapa base
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.mapa);
 
     // Agregar marcadores al mapa
     this.mapaData.forEach((data) => {
-      L.marker([data.latitud, data.longitud], { icon: defaultIcon })
-        .addTo(this.mapa)
-        .bindPopup(`
+      L.marker([data.latitud, data.longitud], { icon: defaultIcon }).addTo(
+        this.mapa,
+      ).bindPopup(`
           <div style="color: black; font-size: 14px;"> 
             <b>Ruta:</b> ${data.via_afectada_evento || 'Desconocida'}<br>
             <b>Impacto Financiero:</b> $${data.impacto_financiero?.toLocaleString() || 'N/A'}<br>

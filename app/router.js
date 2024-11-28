@@ -25,4 +25,5 @@ Router.map(function () {
   this.route('pagos');
   this.route('reportes');
   this.route('analitica');
+  this.route('modulo_analitica');
 });

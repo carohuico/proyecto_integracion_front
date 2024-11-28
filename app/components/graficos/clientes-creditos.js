@@ -37,7 +37,10 @@ export default Component.extend({
 
   async loadChartData() {
     try {
-      let { startDate, endDate } = this || { startDate: '2009-01-01', endDate: '2024-12-31' };
+      let { startDate, endDate } = this || {
+        startDate: '2009-01-01',
+        endDate: '2024-12-31',
+      };
 
       // Validar que las fechas estén disponibles
       if (!startDate || !endDate) {
@@ -56,16 +59,21 @@ export default Component.extend({
       console.log(`Enviando fechas en el XML: ${xmlData}`);
 
       // Realizar la solicitud al backend
-      const response = await fetch('http://35.202.166.109:5011/api/grafica-clientes-creditos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/xml',
+      const response = await fetch(
+        'http://35.202.166.109:5011/api/grafica-clientes-creditos',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/xml',
+          },
+          body: xmlData,
         },
-        body: xmlData,
-      });
+      );
 
       if (!response.ok) {
-        throw new Error(`Error en la respuesta del servidor: ${response.status}`);
+        throw new Error(
+          `Error en la respuesta del servidor: ${response.status}`,
+        );
       }
 
       const xmlText = await response.text();
@@ -76,15 +84,28 @@ export default Component.extend({
 
       // Extraer datos del XML
       const periods = Array.from(xmlDoc.getElementsByTagName('period'));
-      const labels = periods.map(period => period.getElementsByTagName('periodo')[0].textContent);
-      const clientesActivos = periods.map(period =>
-        parseInt(period.getElementsByTagName('clientes_activos')[0].textContent, 10)
+      const labels = periods.map(
+        (period) => period.getElementsByTagName('periodo')[0].textContent,
       );
-      const creditosOtorgados = periods.map(period =>
-        parseInt(period.getElementsByTagName('creditos_otorgados')[0].textContent, 10)
+      const clientesActivos = periods.map((period) =>
+        parseInt(
+          period.getElementsByTagName('clientes_activos')[0].textContent,
+          10,
+        ),
+      );
+      const creditosOtorgados = periods.map((period) =>
+        parseInt(
+          period.getElementsByTagName('creditos_otorgados')[0].textContent,
+          10,
+        ),
       );
 
-      console.log('Datos cargados:', labels, clientesActivos, creditosOtorgados);
+      console.log(
+        'Datos cargados:',
+        labels,
+        clientesActivos,
+        creditosOtorgados,
+      );
 
       // Renderizar el gráfico en el canvas
       if (this.chart) {

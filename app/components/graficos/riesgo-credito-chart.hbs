@@ -1,0 +1,8 @@
+<div>
+  {{#if this.isLoading}}
+    <p>Cargando datos...</p>
+  {{else if this.error}}
+    <p>Error: {{this.error}}</p>
+  {{/if}}
+  <canvas id="riesgo-credito-chart" width="400" height="200"></canvas>
+</div>
