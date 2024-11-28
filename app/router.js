@@ -24,4 +24,5 @@ Router.map(function () {
   this.route('creditos');
   this.route('pagos');
   this.route('reportes');
+  this.route('analitica');
 });

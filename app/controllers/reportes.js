@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-case-declarations */
 /* eslint-disable prettier/prettier */
 // app/controllers/reportes.js
