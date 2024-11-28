@@ -6,52 +6,73 @@ import { inject as service } from '@ember/service';
 import Chart from 'chart.js/auto';
 import fetch from 'fetch';
 
+
+// Función para generar un color aleatorio en formato hexadecimal
+function getRandomColor() {
+  const letters = '0123456789ABCDEF'; // Caracteres válidos para un color hexadecimal
+  let color = '#'; // Inicializar el color con el símbolo de color hexadecimal
+  for (let i = 0; i < 6; i++) { // Generar 6 caracteres (código de color de 6 dígitos)
+    color += letters[Math.floor(Math.random() * 16)]; // Agregar un carácter aleatorio
+  }
+  return color; // Devolver el color generado
+}
+
 export default class IndexController extends Controller {
     @service auth;
-    @tracked impactoEconomicoData = [];
-    @tracked riesgoCreditoData = [];
-    @tracked impactoEconomicoChart = null;
-    @tracked riesgoCreditoChart = null;
+    @service router;
     @tracked cierreVialData = [];
     @tracked cierreVialChart = null;
+    @tracked perdidasProductoFinanciero = [];
+    @tracked perdidasProductoFinancieroChart = null;
 
     @action
     didInsertElement() {
       this._super(...arguments);
-      this.renderImpactoEconomicoChart();
-      this.renderRiesgoCreditoChart();
       this.renderCierreVialChart();
+      this.renderPerdidasProductoFinancieroChart();
     }
   
     @action
-    async fetchImpactoEconomico() {
+    async loadPerdidasProductoFinanciero() {
       try {
-        let response = await fetch('http://35.202.166.109:5025/api/impacto-economico-cierres');
+        const response = await fetch('http://35.202.166.109:5026/api/perdidas-producto-financiero', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/xml',
+          },
+        });
+
         if (!response.ok) {
-          throw new Error('Error al obtener datos de impacto económico');
+          throw new Error(`Error al obtener los datos: ${response.status}`);
         }
-        this.impactoEconomicoData = await response.json();
-        console.log('Datos de impacto económico:', this.impactoEconomicoData);
-        this.renderImpactoEconomicoChart();
+
+        const xmlText = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, 'application/xml');
+
+        // Obtener todos los elementos <producto> dentro de <perdidas_por_producto_financiero>
+        const productos = xmlDoc.getElementsByTagName('producto');
+
+        this.perdidasProductoFinanciero = Array.from(productos).map(producto => {
+          // Aseguramos que los elementos existan
+          const codProducto = producto.getElementsByTagName('cod_producto')[0];
+          const nombreProducto = producto.getElementsByTagName('producto')[0];
+          const perdidasTotales = producto.getElementsByTagName('perdidas_totales')[0];
+
+          return {
+            cod_producto: codProducto ? codProducto.textContent : 'N/A',
+            producto: nombreProducto && nombreProducto.textContent ? nombreProducto.textContent : 'Desconocido', // Verificación más robusta
+            perdidas_totales: perdidasTotales ? parseFloat(perdidasTotales.textContent) : 0, // Valor por defecto
+          };
+        });
+
+        console.log('Datos de Perdidas Producto Financiero:', this.perdidasProductoFinanciero);
+        this.createPieChart(); // Llamamos a la función para crear el gráfico
       } catch (error) {
-        console.error('Error al obtener datos:', error);
+        console.error('Error al cargar las perdidas producto financiero:', error);
       }
     }
-  
-    @action
-    async fetchRiesgoCredito() {
-      try {
-        let response = await fetch('http://35.202.166.109:5025/api/riesgo-credito-rutas');
-        if (!response.ok) {
-          throw new Error('Error al obtener datos de riesgo de crédito');
-        }
-        this.riesgoCreditoData = await response.json();
-        console.log('Datos de riesgo de crédito:', this.riesgoCreditoData);
-        this.renderRiesgoCreditoChart();
-      } catch (error) {
-        console.error('Error al obtener datos:', error);
-      }
-    }
+
 
     @action
     async fetchCierreVialData() {
@@ -74,6 +95,102 @@ export default class IndexController extends Controller {
       } catch (error) {
         console.error('Error al obtener datos de cierres viales:', error);
       }
+    }
+
+    @action
+    createPieChart() {
+      const ctx = document.getElementById('perdidasProductosFinancierosChart');
+    
+      if (!ctx) {
+        console.error('Canvas de Perdidas por Producto Financiero no encontrado');
+        return;
+      }
+    
+      // Filtramos los productos con pérdidas > 0
+      const filteredData = this.perdidasProductoFinanciero.filter(item => item.perdidas_totales > 0);
+    
+      const data = filteredData.map(item => item.perdidas_totales); // Pérdidas totales de cada producto filtrado
+      const labels = filteredData.map(item => item.cod_producto); // Usamos los IDs de los productos para las leyendas
+      const ids = filteredData.map(item => item.cod_producto); // IDs de productos filtrados
+      const nombres = filteredData.map(item => item.producto); // Nombres de los productos filtrados
+    
+      // Generar un color aleatorio para cada producto
+      const colors = filteredData.map(() => getRandomColor());
+    
+      // Crear el gráfico circular
+      new Chart(ctx, {
+        type: 'pie', // Tipo de gráfico
+        data: {
+          labels: labels, // Etiquetas (ahora usamos los IDs de los productos)
+          datasets: [{
+            label: 'Pérdidas Totales por Producto',
+            data: data, // Datos (pérdidas totales)
+            backgroundColor: colors, // Colores generados aleatoriamente
+            hoverOffset: 10, // Efecto de hover (cuando el ratón pasa sobre una sección)
+            borderColor: '#fff', // Borde blanco para cada sección
+            borderWidth: 2, // Grosor del borde
+            hoverBorderColor: '#000', // Borde negro al pasar el ratón
+            hoverBorderWidth: 3, // Grosor del borde en hover
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top', // Colocar la leyenda en la parte superior
+              labels: {
+                font: {
+                  size: 8, // Tamaño de la fuente de la leyenda (más pequeño)
+                  family: 'Arial, sans-serif',
+                  weight: 'bold', // Negrita
+                },
+                padding: 5, // Espaciado entre los elementos de la leyenda
+                boxWidth: 10, // Ancho de las cajas de color en la leyenda
+              },
+              // Organizar las leyendas en varias columnas
+              labels: {
+                filter: function(legendItem, chartData) {
+                  return true;
+                },
+                generateLabels: function(chart) {
+                  const data = chart.data;
+                  return data.labels.map(function(label, index) {
+                    return {
+                      text: `ID: ${data.labels[index]}`, // Usamos el ID como texto
+                      fillStyle: data.datasets[0].backgroundColor[index], // El color del segmento
+                      hidden: false,
+                      index: index
+                    };
+                  });
+                }
+              },
+            },
+            tooltip: {
+              enabled: true,
+              backgroundColor: 'rgba(0, 0, 0, 0.7)', // Fondo oscuro para los tooltips
+              titleFont: {
+                size: 10, // Tamaño de la fuente del título
+                weight: 'bold', // Título en negrita
+              },
+              bodyFont: {
+                size: 10, // Tamaño de la fuente del cuerpo
+              },
+              callbacks: {
+                // Personalización del contenido del tooltip
+                label: function (tooltipItem) {
+                  const index = tooltipItem.dataIndex; // Índice de la sección sobre la que se pasa el mouse
+                  // Mostrar tanto el id del producto como el monto de pérdida
+                  return `Pérdida: $${tooltipItem.raw.toFixed(2)} \nProducto: ${nombres[index]}`;
+                }
+              },
+            },
+          },
+          animation: {
+            animateRotate: true, // Activar la rotación al animar
+            animateScale: true, // Activar el escalado al animar
+          },
+        },
+      });
     }
 
     @action
@@ -138,110 +255,12 @@ export default class IndexController extends Controller {
         }
       });
     }
-
-    @action
-    renderImpactoEconomicoChart() {
-      let canvas = document.getElementById('impacto-economico-chart');
-      if (!canvas) {
-        console.error('Canvas de Impacto Económico no encontrado');
-        return;
-      }
-      let ctx = canvas.getContext('2d'); // Aquí se usa la variable 'canvas' directamente
-    
-      const labels = this.impactoEconomicoData.map(d => d.tipo_cierre);
-      const values = this.impactoEconomicoData.map(d => d.monto_perdida);
-    
-      if (this.impactoEconomicoChart) {
-        this.impactoEconomicoChart.destroy();
-      }
-    
-      this.impactoEconomicoChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Monto de Pérdida por Tipo de Cierre',
-            data: values,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
-    }
-    
-    @action
-    renderRiesgoCreditoChart() {
-      let canvas = document.getElementById('riesgo-credito-chart');
-      if (!canvas) {
-        console.error('Canvas de Riesgo de Crédito no encontrado');
-        return;
-      }
-      let ctx = canvas.getContext('2d'); // Usamos la variable 'canvas' directamente
-    
-      const labels = this.riesgoCreditoData.map(d => d.ruta); // Rutas
-      const values = this.riesgoCreditoData.map(d => d.monto_pendiente); // Monto pendiente
-    
-      console.log('Labels:', labels);
-      console.log('Values:', values);
-    
-      if (this.riesgoCreditoChart) {
-        this.riesgoCreditoChart.destroy();
-      }
-    
-      this.riesgoCreditoChart = new Chart(ctx, {
-        type: 'bar', // Cambiar a 'line' si prefieres una gráfica de líneas
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Monto Pendiente por Ruta',
-            data: values,
-            backgroundColor: 'rgba(153, 102, 255, 0.2)', // Color de las barras
-            borderColor: 'rgba(153, 102, 255, 1)', // Color del borde de las barras
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function(value) {
-                  return value.toLocaleString(); // Formato con comas en los valores
-                }
-              }
-            },
-            x: {
-              ticks: {
-                maxRotation: 45, // Rota las etiquetas del eje X para mayor legibilidad
-                minRotation: 45
-              }
-            }
-          }
-        }
-      });
-    }
-    
-      
+          
     // Llamamos a las acciones cuando el controlador se inicie
     constructor() {
       super(...arguments);
-    
-      if (this.auth.isAuthenticated) {
-        this.fetchImpactoEconomico();
-        this.fetchRiesgoCredito();
-      } else {
         this.fetchCierreVialData();
+        this.loadPerdidasProductoFinanciero();
       }
-    }
     
   }
