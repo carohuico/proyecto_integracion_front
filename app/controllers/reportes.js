@@ -71,7 +71,7 @@ export default class ReportesController extends Controller {
 
       case 'creditos-activos':
         console.log("Solictud al endpoint /api/creditos-activos en formato JSON");
-        const responsecreditosActivos = await fetch('http://35.202.166.109:5018');
+        const responsecreditosActivos = await fetch('http://35.202.166.109:5018/api/creditos-activos');
         if (responsecreditosActivos.ok) {
           this.creditosActivos = await responsecreditosActivos.json();
 
