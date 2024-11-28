@@ -26,30 +26,28 @@ export default class ReportesController extends Controller {
 
   // Acción para manejar el envío del formulario del reporte del cliente
   @action
-    obtenerReporteCliente() {
+  obtenerReporteCliente() {
     const clienteId = 92625; // ID estático
     fetch("http://35.202.166.109:5020/api/reportes/creditos", {
-        method: "POST",
-        headers: {
+      method: "POST",
+      headers: {
         "Content-Type": "application/json",
         "Origin": "http://localhost:4200", 
-        },
-        body: JSON.stringify({ cliente_id: clienteId }),
+      },
+      body: JSON.stringify({ cliente_id: clienteId }),
     })
-        .then((response) => {
-        if (!response.ok) {
-            throw new Error(`Error en la solicitud: ${response.status}`);
-        }
-        return response.json();
-        })
-        .then((data) => {
-        console.log("Reporte del cliente recibido:", data);
-        this.reporteCliente = data; // Asigna los datos al tracked property
-        })
-        .catch((error) => console.error("Error al obtener el reporte:", error));
-    }
-
-
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Reporte del cliente recibido:", data);
+      this.reporteCliente = data; // Asigna los datos al tracked property
+    })
+    .catch((error) => console.error("Error al obtener el reporte:", error));
+  }
 
   // Acción para manejar la selección del reporte
   @action
@@ -64,8 +62,8 @@ export default class ReportesController extends Controller {
           this.pagos = await responseCredit.json();
           this.crearGraficaEvolucionPagosAtrasados();
         } else {
-        console.error('Error al obtener créditos atrasados:', responseCredit.statusText);
-        this.pagos = [];
+          console.error('Error al obtener créditos atrasados:', responseCredit.statusText);
+          this.pagos = [];
         }
         break;
 
@@ -84,7 +82,6 @@ export default class ReportesController extends Controller {
 
       case 'reporte-cliente':
         this.obtenerReporteCliente();
-
         break;
 
       case 'resumen-financiero':
@@ -104,7 +101,7 @@ export default class ReportesController extends Controller {
   }
 
   // Crear gráfica de Créditos Activos
-crearGraficaCreditosActivos() {
+  crearGraficaCreditosActivos() {
     const ctx = document.getElementById('creditosActivosChart').getContext('2d');
   
     // Calcular datos
@@ -119,8 +116,8 @@ crearGraficaCreditosActivos() {
         {
           label: 'Distribución de Créditos',
           data: [creditosActivos, creditosPagados],
-          backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)'],
-          borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+          backgroundColor: ['rgba(249, 115, 22, 0.2)', 'rgba(236, 72, 153, 0.2)'],
+          borderColor: ['#f97316', '#ec4899'],
           borderWidth: 1,
         },
       ],
@@ -135,14 +132,19 @@ crearGraficaCreditosActivos() {
           text: 'Créditos Activos y Pagados',
           font: {
             size: 18,
+            family: 'Poppins, sans-serif',
           },
-          color: '#333',
+          color: '#ffffff',
         },
         legend: {
           display: true,
           position: 'top',
           labels: {
-            color: '#333',
+            color: '#ffffff',
+            font: {
+              family: 'Poppins, sans-serif',
+              size: 12,
+            },
           },
         },
       },
@@ -153,8 +155,16 @@ crearGraficaCreditosActivos() {
             text: 'Estado de Créditos',
             font: {
               size: 14,
+              family: 'Poppins, sans-serif',
             },
-            color: '#333',
+            color: '#ffffff',
+          },
+          ticks: {
+            color: '#ffffff',
+            font: {
+              family: 'Poppins, sans-serif',
+              size: 12,
+            },
           },
         },
         y: {
@@ -163,8 +173,16 @@ crearGraficaCreditosActivos() {
             text: 'Cantidad de Créditos',
             font: {
               size: 14,
+              family: 'Poppins, sans-serif',
             },
-            color: '#333',
+            color: '#ffffff',
+          },
+          ticks: {
+            color: '#ffffff',
+            font: {
+              family: 'Poppins, sans-serif',
+              size: 12,
+            },
           },
           beginAtZero: true,
         },
@@ -183,78 +201,86 @@ crearGraficaCreditosActivos() {
   crearGraficasResumenFinanciero() {
     // Gráfica 1: Distribución de Ingresos por Estado General
     const ingresosPorEstadoCtx = document.getElementById('ingresosPorEstadoChart')?.getContext('2d');
-if (ingresosPorEstadoCtx) {
-  const estados = ['Completado', 'En Proceso', 'Pendiente'];
+    if (ingresosPorEstadoCtx) {
+      const estados = ['Completado', 'En Proceso', 'Pendiente'];
 
-  // Calcular datos
-  const ingresosPorEstado = estados.map(estado => ({
-    estado,
-    total_creditos: this.resumen
-      .filter(cliente => cliente.estado_general === estado)
-      .reduce((sum, cliente) => sum + (cliente.total_creditos || 0), 0),
-    total_pagado: this.resumen
-      .filter(cliente => cliente.estado_general === estado)
-      .reduce((sum, cliente) => sum + (cliente.total_pagado || 0), 0),
-  }));
+      // Calcular datos
+      const ingresosPorEstado = estados.map(estado => ({
+        estado,
+        total_creditos: this.resumen
+          .filter(cliente => cliente.estado_general === estado)
+          .reduce((sum, cliente) => sum + (cliente.total_creditos || 0), 0),
+        total_pagado: this.resumen
+          .filter(cliente => cliente.estado_general === estado)
+          .reduce((sum, cliente) => sum + (cliente.total_pagado || 0), 0),
+      }));
 
-  const data = {
-    labels: estados,
-    datasets: [
-      {
-        label: 'Total Créditos',
-        data: ingresosPorEstado.map(item => item.total_creditos),
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
-      },
-      {
-        label: 'Total Pagado',
-        data: ingresosPorEstado.map(item => item.total_pagado),
-        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
-      },
-    ],
-  };
+      const data = {
+        labels: estados,
+        datasets: [
+          {
+            label: 'Total Créditos',
+            data: ingresosPorEstado.map(item => item.total_creditos),
+            backgroundColor: 'rgba(249, 115, 22, 0.2)',
+            borderColor: '#f97316',
+            borderWidth: 1,
+          },
+          {
+            label: 'Total Pagado',
+            data: ingresosPorEstado.map(item => item.total_pagado),
+            backgroundColor: 'rgba(236, 72, 153, 0.2)',
+            borderColor: '#ec4899',
+            borderWidth: 1,
+          },
+        ],
+      };
 
-  const options = {
-    responsive: true,
-    plugins: {
-      title: {
-        display: true,
-        text: 'Distribución de Ingresos por Estado General',
-        font: { size: 18 },
-        color: '#333',
-      },
-      legend: {
-        display: true,
-        position: 'top',
-        labels: { color: '#333' },
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: 'Estado General',
-          font: { size: 14 },
-          color: '#333',
+      const options = {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Distribución de Ingresos por Estado General',
+            font: { size: 18, family: 'Poppins, sans-serif' },
+            color: '#ffffff',
+          },
+          legend: {
+            display: true,
+            position: 'top',
+            labels: { color: '#ffffff', font: { family: 'Poppins, sans-serif', size: 12 } },
+          },
         },
-      },
-      y: {
-        title: {
-          display: true,
-          text: 'Monto ($)',
-          font: { size: 14 },
-          color: '#333',
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Estado General',
+              font: { size: 14, family: 'Poppins, sans-serif' },
+              color: '#ffffff',
+            },
+            ticks: {
+              color: '#ffffff',
+              font: { family: 'Poppins, sans-serif', size: 12 },
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Monto ($)',
+              font: { size: 14, family: 'Poppins, sans-serif' },
+              color: '#ffffff',
+            },
+            ticks: {
+              color: '#ffffff',
+              font: { family: 'Poppins, sans-serif', size: 12 },
+            },
+            beginAtZero: true,
+          },
         },
-        beginAtZero: true,
-      },
-    },
-  };
+      };
 
-  new Chart(ingresosPorEstadoCtx, { type: 'bar', data, options });
-}
+      new Chart(ingresosPorEstadoCtx, { type: 'bar', data, options });
+    }
 
     // Gráfica 2: Porcentaje de Créditos Pagados vs Activos
     const porcentajeCreditosCtx = document.getElementById('porcentajeCreditosChart')?.getContext('2d');
@@ -269,8 +295,8 @@ if (ingresosPorEstadoCtx) {
           {
             label: 'Cantidad de Créditos',
             data: [totalPagados, totalActivos],
-            backgroundColor: ['rgba(54, 162, 235, 0.6)', 'rgba(255, 99, 132, 0.6)'],
-            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+            backgroundColor: ['rgba(249, 115, 22, 0.2)', 'rgba(236, 72, 153, 0.2)'],
+            borderColor: ['#f97316', '#ec4899'],
             borderWidth: 1,
           },
         ],
@@ -282,13 +308,13 @@ if (ingresosPorEstadoCtx) {
           title: {
             display: true,
             text: 'Porcentaje de Créditos Pagados vs Activos',
-            font: { size: 18 },
-            color: '#333',
+            font: { size: 18, family: 'Poppins, sans-serif' },
+            color: '#ffffff',
           },
           legend: {
             display: true,
             position: 'top',
-            labels: { color: '#333' },
+            labels: { color: '#ffffff', font: { family: 'Poppins, sans-serif', size: 12 } },
           },
         },
         scales: {
@@ -296,16 +322,24 @@ if (ingresosPorEstadoCtx) {
             title: {
               display: true,
               text: 'Estado de Créditos',
-              font: { size: 14 },
-              color: '#333',
+              font: { size: 14, family: 'Poppins, sans-serif' },
+              color: '#ffffff',
+            },
+            ticks: {
+              color: '#ffffff',
+              font: { family: 'Poppins, sans-serif', size: 12 },
             },
           },
           y: {
             title: {
               display: true,
               text: 'Cantidad de Créditos',
-              font: { size: 14 },
-              color: '#333',
+              font: { size: 14, family: 'Poppins, sans-serif' },
+              color: '#ffffff',
+            },
+            ticks: {
+              color: '#ffffff',
+              font: { family: 'Poppins, sans-serif', size: 12 },
             },
             beginAtZero: true,
           },
@@ -314,7 +348,6 @@ if (ingresosPorEstadoCtx) {
     
       new Chart(porcentajeCreditosCtx, { type: 'bar', data, options });
     }    
-
   }
   
   //Graficas de Pagos Atrasados
@@ -356,8 +389,8 @@ if (ingresosPorEstadoCtx) {
           {
             label: 'Pagos Atrasados',
             data: conteoPorFecha,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(236, 72, 153, 0.2)',
+            borderColor: '#ec4899',
             borderWidth: 1,
             tension: 0.4,
           },
@@ -370,6 +403,13 @@ if (ingresosPorEstadoCtx) {
           title: {
             display: true,
             text: 'Evolución de Pagos Atrasados',
+            font: { size: 18, family: 'Poppins, sans-serif' },
+            color: '#ffffff',
+          },
+          legend: {
+            display: true,
+            position: 'top',
+            labels: { color: '#ffffff', font: { family: 'Poppins, sans-serif', size: 12 } },
           },
         },
         scales: {
@@ -377,12 +417,24 @@ if (ingresosPorEstadoCtx) {
             title: {
               display: true,
               text: 'Fecha',
+              font: { size: 14, family: 'Poppins, sans-serif' },
+              color: '#ffffff',
+            },
+            ticks: {
+              color: '#ffffff',
+              font: { family: 'Poppins, sans-serif', size: 12 },
             },
           },
           y: {
             title: {
               display: true,
               text: 'Número de Créditos',
+              font: { size: 14, family: 'Poppins, sans-serif' },
+              color: '#ffffff',
+            },
+            ticks: {
+              color: '#ffffff',
+              font: { family: 'Poppins, sans-serif', size: 12 },
             },
           },
         },
@@ -397,6 +449,4 @@ if (ingresosPorEstadoCtx) {
       console.warn('No hay datos suficientes para crear la gráfica.');
     }
   }
-  
-  
 }

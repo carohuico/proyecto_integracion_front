@@ -81,6 +81,25 @@ export default class CierreVialChartComponent extends Component {
                 const label = `Evento ${labels[context.dataIndex]}`;
                 return `${label}: (${context.raw.x}, ${context.raw.y})`;
               }
+            },
+            titleFont: {
+              family: 'Poppins, sans-serif',
+              size: 12,
+              color: '#ffffff'
+            },
+            bodyFont: {
+              family: 'Poppins, sans-serif',
+              size: 12,
+              color: '#ffffff'
+            }
+          },
+          legend: {
+            labels: {
+              font: {
+                family: 'Poppins, sans-serif',
+                size: 12,
+                color: '#ffffff'
+              }
             }
           }
         },
@@ -89,13 +108,37 @@ export default class CierreVialChartComponent extends Component {
             type: 'linear',
             title: {
               display: true,
-              text: 'Duración del Cierre (horas)'
+              text: 'Duración del Cierre (horas)',
+              color: '#ffffff',
+              font: {
+                family: 'Poppins, sans-serif',
+                size: 12
+              }
+            },
+            ticks: {
+              color: '#ffffff',
+              font: {
+                family: 'Poppins, sans-serif',
+                size: 12
+              }
             }
           },
           y: {
             title: {
               display: true,
-              text: 'Impacto Económico Total ($)'
+              text: 'Impacto Económico Total ($)',
+              color: '#ffffff',
+              font: {
+                family: 'Poppins, sans-serif',
+                size: 12
+              }
+            },
+            ticks: {
+              color: '#ffffff',
+              font: {
+                family: 'Poppins, sans-serif',
+                size: 12
+              }
             }
           }
         }

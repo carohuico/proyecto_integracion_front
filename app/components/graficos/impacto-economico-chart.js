@@ -57,8 +57,8 @@ export default class ImpactoEconomicoChartComponent extends Component {
         datasets: [{
           label: 'Impacto Económico',
           data: values,
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(249, 115, 22, 0.2)',
+          borderColor: '#f97316',
           borderWidth: 1
         }]
       },
