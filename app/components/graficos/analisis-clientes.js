@@ -26,6 +26,7 @@ export default Component.extend({
 
   async setupChart(canvasElement) {
     try {
+      console.log("Solictud al endpoint /api/grafica-analisis-clientes en formato JSON");
       // Realizar la solicitud al backend
       const response = await fetch(
         'http://35.202.166.109:5011/api/grafica-analisis-clientes',

@@ -17,7 +17,7 @@ export default class MapaEficienciaComponent extends Component {
 
   @action
   async loadMapaEficiencia() {
-    console.log('Cargando datos del mapa de eficiencia...');
+    console.log('Solicitud al endpoint /api/mapa-rutas-eficiencia en formato JSON');
     try {
       const response = await fetch(
         'http://35.202.166.109:5023/api/mapa-rutas-eficiencia',

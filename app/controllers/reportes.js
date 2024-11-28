@@ -28,6 +28,7 @@ export default class ReportesController extends Controller {
   @action
   obtenerReporteCliente() {
     const clienteId = 92625; // ID estático
+    console.log("Solictud al endpoint /api/reportes/creditos en formato JSON");
     fetch("http://35.202.166.109:5020/api/reportes/creditos", {
       method: "POST",
       headers: {
@@ -57,6 +58,7 @@ export default class ReportesController extends Controller {
 
     switch (tipoReporte) {
       case 'pagos-atrasados':
+        console.log("Solictud al endpoint /api/pagos-atrasados en formato JSON");
         const responseCredit = await fetch('http://35.202.166.109:5019/api/pagos-atrasados');
         if (responseCredit.ok) {
           this.pagos = await responseCredit.json();
@@ -68,10 +70,12 @@ export default class ReportesController extends Controller {
         break;
 
       case 'creditos-activos':
-        const responsecreditosActivos = await fetch('http://35.202.166.109:5018/api/creditos-activos');
+        console.log("Solictud al endpoint /api/creditos-activos en formato JSON");
+        const responsecreditosActivos = await fetch('http://35.202.166.109:5018');
         if (responsecreditosActivos.ok) {
           this.creditosActivos = await responsecreditosActivos.json();
 
+          console.log("Solictud al endpoint /api/creditos-totales en formato JSON");
           const responseCreditosTotales = await fetch('http://35.202.166.109:5022/api/creditos-totales');
           if (responseCreditosTotales.ok) {
             this.creditosTotales = await responseCreditosTotales.json();
@@ -85,6 +89,7 @@ export default class ReportesController extends Controller {
         break;
 
       case 'resumen-financiero':
+        console.log("Solictud al endpoint /api/resumen-financiero en formato JSON");
         const responseResumen = await fetch('http://35.202.166.109:5021/api/resumen-financiero');
         if (responseResumen.ok) {
           this.resumen = await responseResumen.json();

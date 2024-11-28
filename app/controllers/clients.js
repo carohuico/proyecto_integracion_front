@@ -40,6 +40,7 @@ export default class ClientsController extends Controller {
 
     console.log('token:', token);
     try {
+      console.log("Solictud al endpoint /get_clientes en formato JSON");
       this.isLoading = true;
       this.progress = 0;
       let response = await fetch('http://35.202.166.109:5002/get_clientes', {
@@ -136,7 +137,7 @@ export default class ClientsController extends Controller {
     }
 
     try {
-      console.log(newClient);
+      console.log("Solictud al endpoint /create_cliente en formato JSON");
       let response = await fetch('http://35.202.166.109:5001/create_cliente', {
         method: 'POST',
         headers: {
@@ -168,6 +169,7 @@ export default class ClientsController extends Controller {
     const token = localStorage.getItem('authToken');
     console.log('token', token);
     try {
+      console.log("Solictud al endpoint /update_cliente/{id} en formato JSON");
       let response = await fetch(
         `http://35.202.166.109:5003/update_cliente/${updatedClient.id}`,
         {
@@ -208,6 +210,7 @@ export default class ClientsController extends Controller {
   async deleteClient(client) {
     this.clients = this.clients.filter((c) => c.id !== client.id);
     try {
+      console.log("Solictud al endpoint /delete_cliente/{id} en formato JSON");
       let response = await fetch(
         `http://35.202.166.109:5004/delete_cliente/${client.id}`,
         {

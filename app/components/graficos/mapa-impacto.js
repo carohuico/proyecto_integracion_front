@@ -27,7 +27,7 @@ export default class GraficosMapaImpactoComponent extends Component {
 
   @action
   async loadMapaImpacto() {
-    console.log('Iniciando carga de datos del mapa de impacto...');
+    console.log("Solictud al endpoint /api/mapa-rutas-impacto en formato JSON");
     try {
       const response = await fetch(
         'http://35.202.166.109:5023/api/mapa-rutas-impacto',

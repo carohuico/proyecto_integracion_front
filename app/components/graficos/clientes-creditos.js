@@ -56,7 +56,7 @@ export default Component.extend({
         </request>
       `;
 
-      console.log(`Enviando fechas en el XML: ${xmlData}`);
+      console.log(`Solicitud al endpoint /api/grafica-clientes-creditos, enviando fechas en el XML: ${xmlData}`);
 
       // Realizar la solicitud al backend
       const response = await fetch(

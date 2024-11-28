@@ -23,6 +23,7 @@ export default class PagosRoute extends Route {
         url = `${url}?id_cliente=`;
       }
 
+      console.log("Solictud al endpoint /api/pagos/{id} en formato JSON");
       const response = await fetch(url,
         {
           method: 'GET',

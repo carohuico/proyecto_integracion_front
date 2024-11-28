@@ -23,6 +23,7 @@ export default class CreditosRoute extends Route {
         url = `${url}?id_cliente=`;
       }
 
+      console.log("Solictud al endpoint /api/creditos/{id} en formato JSON");
       let response = await fetch(url, {
         method: 'GET',
         headers: {

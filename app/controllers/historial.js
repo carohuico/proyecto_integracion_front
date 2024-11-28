@@ -48,6 +48,7 @@ export default class HistoryController extends Controller {
         url = 'http://35.202.166.109:5013/api/historial-credito'; 
       }
 
+      console.log("Solictud al endpoint /api/historial-credito/{id} en formato JSON");
       let response = await fetch(url);
       if (!response.ok) {
         throw new Error('Error al cargar el historial crediticio');
@@ -81,8 +82,8 @@ export default class HistoryController extends Controller {
   @action
   async saveNewCredit(event) {
     event.preventDefault();
-    console.log("token", token);
     try {
+      console.log("Solictud al endpoint /api/historial-credito en formato JSON");
       let response = await fetch('http://35.202.166.109:5012/api/historial-credito', {
         method: 'POST',
         headers: {
@@ -172,7 +173,7 @@ export default class HistoryController extends Controller {
   @action
   async searchHistory(clienteId) {
     try {
-      console.log('Buscando historial para el cliente con ID:', clienteId);
+      console.log("Solictud al endpoint /api/historial-credito/{id} en formato JSON");
       let response = await fetch(`http://35.202.166.109:5013/api/historial-credito/${clienteId}`);
       if (!response.ok) {
         if (response.status === 404) {
@@ -210,7 +211,6 @@ export default class HistoryController extends Controller {
         }
       }
     } catch (error) {
-      console.error('Error fetching history:', error);
       this.errorMessage = 'Hubo un problema al buscar el historial. Intente nuevamente.';
     }
   }
@@ -275,6 +275,7 @@ export default class HistoryController extends Controller {
   @action
   async deleteEntry(entry) {
       try {
+          console.log("Solictud al endpoint /api/historial-credito/{id} en formato JSON");
           let response = await fetch(`http://35.202.166.109:5015/api/historial-credito/${entry.id}`, {
               method: 'DELETE',
               Authorization: `Bearer ${token}`,

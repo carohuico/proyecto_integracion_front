@@ -57,7 +57,6 @@ export default class CreditHistoryDetailModalComponent extends Component {
     }
 
     try {
-      console.log('tokennnnn', token);
       //Transformar los nombres de los campos para que coincidan con los de la API
       const transformedFields = {
         id_cliente: parseInt(this.editableFields.clienteId, 10),
@@ -67,8 +66,7 @@ export default class CreditHistoryDetailModalComponent extends Component {
         fecha_creacion: this.editableFields.fecha,
       };
 
-      console.log('Datos enviados al back', transformedFields);
-
+      console.log("Solicitud hacia el endpoint /api/historial-credito/{id} en formato JSON");
       let response = await fetch(
         `http://35.202.166.109:5014/api/historial-credito/${this.args.entry.id}`,
         {
@@ -133,9 +131,8 @@ export default class CreditHistoryDetailModalComponent extends Component {
       '¿Estás seguro de que deseas eliminar este crédito y todos los pagos asociados?',
     );
     if (confirmation) {
-      console.log('Confirmo eliminar');
-      console.log('tokeeeeeeeeen', token);
       try {
+        console.log("Solicitud hacia el endpoint /api/historial-credito/{id} en formato JSON");
         const response = await fetch(
           `http://35.202.166.109:5015/api/historial-credito/${this.args.entry.id}`,
           {

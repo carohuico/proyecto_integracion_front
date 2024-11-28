@@ -20,6 +20,7 @@ export default class ClientDetailModalComponent extends Component {
     this.isLoadingHistorial = true;
     this.error = null;
     try {
+      console.log("Solicitud hacia el endpoint /api/historial-credito/{id} en formato JSON");
       let response = await fetch(
         `http://35.202.166.109:5013/api/historial-credito/${this.args.client.id}`,
       );

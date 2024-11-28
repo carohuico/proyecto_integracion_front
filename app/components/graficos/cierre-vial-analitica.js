@@ -17,6 +17,7 @@ export default class CierreVialChartComponent extends Component {
   @action
   async loadData() {
     try {
+      console.log("Solictud al endpoint /api/cierre-vial-analitica en formato XML");
       const response = await fetch('http://35.202.166.109:5026/api/cierre-vial-analitica');
       if (!response.ok) {
         throw new Error('Error al obtener datos de cierres viales');

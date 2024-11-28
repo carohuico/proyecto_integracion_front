@@ -18,6 +18,7 @@ export default class ReportesRoute extends Route {
       const { tipo_reporte, id_cliente } = params;
   
       if (tipo_reporte === 'reporte-cliente') {
+        console.log("Solictud al endpoint /api/reportes/creditos en formato JSON");
         const response = await fetch('http://35.202.166.109:5020/api/reportes/creditos', {
           method: 'POST',
           headers: {
