@@ -55,16 +55,48 @@ export default class IndexController extends Controller {
           datasets: [{
             label: 'Monto de Pérdida por Tipo de Cierre',
             data: values,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(236, 72, 153, 0.3)',
+            borderColor: '#ec4899',
             borderWidth: 1
           }]
         },
         options: {
           responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                font: {
+                  family: 'Poppins, sans-serif',
+                  size: 12,
+                },
+                color: '#ffffff'
+              }
+            }
+          },
           scales: {
             y: {
-              beginAtZero: true
+              beginAtZero: true,
+              ticks: {
+                color: '#ffffff', font: {
+                  family: 'Poppins, sans-serif', // Cambia esto a la fuente que estás usando en el resto de la página
+                  size: 12,
+                  maxRotation: 45, // Rota las etiquetas del eje X para mayor legibilidad
+                  minRotation: 45,
+                },
+              }
+            },
+            x: {
+              title: { display: true, text: 'Tipo de Cierre', color: '#ffffff', font: {
+                family: 'Poppins, sans-serif', // Cambia esto a la fuente que estás usando en el resto de la página
+                size: 12,
+              }, },
+              ticks: { color: '#ffffff', font: {
+                family: 'Poppins, sans-serif', // Cambia esto a la fuente que estás usando en el resto de la página
+                size: 12,
+                maxRotation: 45, // Rota las etiquetas del eje X para mayor legibilidad
+                minRotation: 45,
+              }, },
             }
           }
         }
@@ -91,28 +123,52 @@ export default class IndexController extends Controller {
             datasets: [{
               label: 'Monto Pendiente por Ruta',
               data: values,
-              backgroundColor: 'rgba(153, 102, 255, 0.2)', // Color de las barras
-              borderColor: 'rgba(153, 102, 255, 1)', // Color del borde de las barras
-              borderWidth: 1
+              backgroundColor: 'rgba(249, 115, 22, 0.3)', // Color de las barras
+              borderColor: '#f97316', // Color del borde de las barras
+              borderWidth: 1,
             }]
           },
           options: {
             responsive: true,
+            plugins: {
+              legend: {
+                position: 'top',
+                labels: {
+                  font: {
+                    family: 'Poppins, sans-serif', 
+                    size: 12,
+  
+                  },
+                  color: '#ffffff', 
+                },
+              },
+            },
             scales: {
               y: {
                 beginAtZero: true,
                 ticks: {
-                  
+                  color: '#ffffff', font: {
+                    family: 'Poppins, sans-serif', 
+                    size: 12,
+                    maxRotation: 45, 
+                    minRotation: 45,
+                  },
                   callback: function(value) {
                     return value.toLocaleString(); 
                   }
                 }
               },
               x: {
-                ticks: {
-                  maxRotation: 45, // Rota las etiquetas del eje X para mayor legibilidad
-                  minRotation: 45
-                }
+                title: { display: true, text: 'Grupo de Cliente', color: '#ffffff', font: {
+                  family: 'Poppins, sans-serif', 
+                  size: 12,
+                }, },
+                ticks: { color: '#ffffff', font: {
+                  family: 'Poppins, sans-serif', 
+                  size: 12,
+                  maxRotation: 45, 
+                  minRotation: 45,
+                }, },
               }
             }
           }

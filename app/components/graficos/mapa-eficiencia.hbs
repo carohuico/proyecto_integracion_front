@@ -1,0 +1,22 @@
+<div class="map-container">
+  {{#if this.isLoading}}
+    <div class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+    <div role="status">
+      <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin m-5" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08157 50.5908C9.08157 73.419 27.1718 91.5092 50 91.5092C72.8282 91.5092 90.9184 73.419 90.9184 50.5908C90.9184 27.7626 72.8282 9.67241 50 9.67241C27.1718 9.67241 9.08157 27.7626 9.08157 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5538C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.723 75.2124 7.41289C69.5422 4.10285 63.2754 1.94025 56.7221 1.05127C51.7661 0.367181 46.7343 0.446843 41.806 1.27873C39.325 1.69328 37.861 4.19778 38.4981 6.62326C39.1353 9.04874 41.6305 10.4717 44.098 10.1071C47.8511 9.5046 51.6815 9.5267 55.4165 10.1693C60.864 11.0781 65.9921 13.1375 70.3966 16.1752C74.801 19.2129 78.3898 23.1565 80.8624 27.742C83.1155 31.986 84.684 36.6201 85.4952 41.444C85.9307 44.0108 88.4373 45.4781 90.863 44.841C93.2886 44.2039 94.756 41.7117 93.9676 39.0409Z" fill="url(#gradient)"/>
+      </svg>
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  {{else if this.error}}
+    <p class="text-red-500">Error al cargar el mapa: {{this.error}}</p>
+  {{/if}}
+  <div id="mapa-eficiencia" style="height: 250px; width: 100%" class="rounded-lg shadow-md"></div>
+</div>

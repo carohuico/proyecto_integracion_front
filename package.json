@@ -82,10 +82,12 @@
   },
   "dependencies": {
     "chart.js": "^4.4.6",
+    "ember-composability-tools": "^2.0.0",
     "flowbite": "^2.5.2",
     "jspdf": "^2.5.2",
     "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
+    "leaflet.heat": "^0.2.0",
     "xml2js": "^0.6.2"
   }
 }
