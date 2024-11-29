@@ -1,56 +1,59 @@
-# proyecto
+# Proyecto final
+# Arturo Daniel Melchor Aranda - 585292
+# Carolina Huicochea Romo - 582950
+# Eva María Solís Sánchez - 627264
+# Paso a paso para replicación
+Frontend
+Con Github
+Tener instalado lo siguiente en su computadora:
+Ember CLI: npm install -g ember-cli
+Git: https://git-scm.com/ 
+Node.js: https://nodejs.org/ 
+Visual Studio Code: https://code.visualstudio.com/ 
+Obtener el enlace del repositorio: https://github.com/carohuico/proyecto_integracion_front.git 
+Clonar el repositorio:
+En Visual Studio Code abrir una terminal
+Ir al directorio donde se quiera guardar el proyecto usando cd ruta/del/directorio.
+Escribir el comando: git clone <URL_DEL_REPOSITORIO>
+Navegar al directorio clonado con cd
+Instalar las dependencias, como se usa Node.js, el comando es: npm install
+Ejecutar el proyecto: ember s o npm start
+Visita la URL especificada, como http://localhost:4200.
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Con archivo comprimido
+Tener instalado lo siguiente en su computadora:
+Ember CLI: npm install -g ember-cli
+Git: https://git-scm.com/ 
+Node.js: https://nodejs.org/ 
+Visual Studio Code: https://code.visualstudio.com/ 
+Localizar el archivo comprimido.
+Extraer el contenido en la ubicación deseada.
+Instalar dependencias: npm install
+Navegar a la carpeta del proyecto con cd
+Instalar dependencias: 
+Ejecutar el proyecto: ember s o npm start
+	Backend
+Prerrequisitos:
+Datos de la cuenta de Google: 
+correo: finalintegracioncea@gmail.com
+contraseña: ProyectoFinalOt24.
+Acceso a la VM: 
+gcloud auth login
 
-## Prerequisites
+gcloud config set project proyecto-final-440821
 
-You will need the following things properly installed on your computer.
+gcloud compute ssh finalintegracioncea@proyecto-integracion-final --zone=us-central1-a
+Base de datos Cloud SQL:
+mysql -u root -p -h 34.136.73.133
+Contraseña 444
+Configuración de la VM:
+gcloud auth login
 
-- [Git](https://git-scm.com/)
-- [Node.js](https://nodejs.org/) (with npm)
-- [Ember CLI](https://cli.emberjs.com/release/)
-- [Google Chrome](https://google.com/chrome/)
+gcloud config set project proyecto-final-440821
 
-## Installation
+gcloud compute ssh finalintegracioncea@proyecto-integracion-final --zone=us-central1-a
+Una vez estando dentro, acceder la carpeta de backend: cd backend
+Correr el archivo main.py: python main.py
+Finalmente los servicios se habrán desplegado.
 
-- `git clone <repository-url>` this repository
-- `cd proyecto`
-- `npm install`
-
-## Running / Development
-
-- `npm run start`
-- Visit your app at [http://localhost:4200](http://localhost:4200).
-- Visit your tests at [http://localhost:4200/tests](http://localhost:4200/tests).
-
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
-
-### Running Tests
-
-- `npm run test`
-- `npm run test:ember -- --server`
-
-### Linting
-
-- `npm run lint`
-- `npm run lint:fix`
-
-### Building
-
-- `npm exec ember build` (development)
-- `npm run build` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
-
-## Further Reading / Useful Links
-
-- [ember.js](https://emberjs.com/)
-- [ember-cli](https://cli.emberjs.com/release/)
-- Development Browser Extensions
-  - [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  - [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+# Damos nuestra palabra de que hemos realizado esta actividad con integridad académica
