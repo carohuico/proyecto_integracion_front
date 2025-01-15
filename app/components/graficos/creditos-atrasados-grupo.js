@@ -20,7 +20,7 @@ export default class GraficosCreditosAtrasadosGrupoComponent extends Component {
       console.log("Solicitud al endpoint /api/creditos-atrasados-grupo en formato JSON");
       // Realizar la solicitud al backend
       const response = await fetch(
-        'http://35.202.166.109:5011/api/creditos-atrasados-grupo',
+        'http://localhost:5011/api/creditos-atrasados-grupo',
         {
           method: 'GET',
           headers: {

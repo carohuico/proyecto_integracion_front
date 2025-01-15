@@ -52,7 +52,7 @@ export default class CreditosController extends Controller {
 
     try {
       console.log("Solictud al endpoint /api/creditos/{id} en formato JSON");
-      const response = await fetch(`http://35.202.166.109:5006/api/creditos/${searchId}`,
+      const response = await fetch(`http://localhost:5006/api/creditos/${searchId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -105,7 +105,7 @@ export default class CreditosController extends Controller {
 
     try {
       console.log("Solictud al endpoint /api/pagos/{id} en formato JSON");
-      const response = await fetch(`http://35.202.166.109:5007/api/pagos/${creditoSeleccionado.id_cliente}`, 
+      const response = await fetch(`http://localhost:5007/api/pagos/${creditoSeleccionado.id_cliente}`, 
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -169,7 +169,7 @@ export default class CreditosController extends Controller {
       }
       console.log("Solictud al endpoint /api/creditos/{id}/actualizar en formato JSON");
       // Hacemos una solicitud PUT para actualizar el crédito
-      const response = await fetch(`http://35.202.166.109:5005/api/creditos/${idCredito}/actualizar`, {
+      const response = await fetch(`http://localhost:5005/api/creditos/${idCredito}/actualizar`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -300,7 +300,7 @@ actualizarCampo(campo, event) {
   async verificarCliente(id_cliente) {
     try {
       console.log("Solictud al endpoint /get_cliente/{id} en formato JSON");
-      const response = await fetch(`http://35.202.166.109:5002/get_cliente/${id_cliente}`,
+      const response = await fetch(`http://localhost:5002/get_cliente/${id_cliente}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -360,7 +360,7 @@ actualizarCampo(campo, event) {
 
     try {
       console.log("Solictud al endpoint /api/creditos en formato JSON");
-      const response = await fetch('http://35.202.166.109:5008/api/creditos', {
+      const response = await fetch('http://localhost:5008/api/creditos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

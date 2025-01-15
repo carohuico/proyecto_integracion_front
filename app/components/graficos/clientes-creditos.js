@@ -60,7 +60,7 @@ export default Component.extend({
 
       // Realizar la solicitud al backend
       const response = await fetch(
-        'http://35.202.166.109:5011/api/grafica-clientes-creditos',
+        'http://localhost:5011/api/grafica-clientes-creditos',
         {
           method: 'POST',
           headers: {

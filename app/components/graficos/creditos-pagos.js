@@ -19,7 +19,7 @@ export default class GraficosCreditosPagosComponent extends Component {
     try {
       console.log("Solictud al endpoint /api/creditos-pagos en formato JSON");
       const response = await fetch(
-        'http://35.202.166.109:5023/api/creditos-pagos',
+        'http://localhost:5023/api/creditos-pagos',
       );
       if (!response.ok) {
         throw new Error(`Error al obtener los datos: ${response.status}`);

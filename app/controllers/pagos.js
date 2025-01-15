@@ -57,7 +57,7 @@ export default class PagosController extends Controller {
         }
       }
       console.log("Solictud al endpoint /api/pagos/{id} en formato JSON");
-      const response = await fetch(`http://35.202.166.109:5017/api/pagos/${searchId}`,
+      const response = await fetch(`http://localhost:5017/api/pagos/${searchId}`,
       {
         headers: {
           Accept: 'application/json',
@@ -121,7 +121,7 @@ export default class PagosController extends Controller {
       console.log('Payload:', payload);
 
       console.log("Solictud al endpoint /api/pagos en formato JSON");
-      const response = await fetch('http://35.202.166.109:5009/api/pagos', {
+      const response = await fetch('http://localhost:5009/api/pagos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

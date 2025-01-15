@@ -68,7 +68,7 @@ export default class RegisterController extends Controller {
       };
 
       console.log("Solictud al endpoint /register en formato JSON");
-      const response = await fetch('http://35.202.166.109:5100/register', {
+      const response = await fetch('http://localhost:5100/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export default class RegisterController extends Controller {
       let id = Math.floor(Math.random() * (90000 - 10000 + 1)) + 10000;
 
       console.log("Solictud al endpoint /create_cliente en formato JSON");
-      let response2 = await fetch('http://35.202.166.109:5001/create_cliente', {
+      let response2 = await fetch('http://localhost:5001/create_cliente', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

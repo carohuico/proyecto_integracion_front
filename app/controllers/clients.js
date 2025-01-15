@@ -43,7 +43,7 @@ export default class ClientsController extends Controller {
       console.log("Solictud al endpoint /get_clientes en formato JSON");
       this.isLoading = true;
       this.progress = 0;
-      let response = await fetch('http://35.202.166.109:5002/get_clientes', {
+      let response = await fetch('http://localhost:5002/get_clientes', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ export default class ClientsController extends Controller {
 
     try {
       console.log("Solictud al endpoint /create_cliente en formato JSON");
-      let response = await fetch('http://35.202.166.109:5001/create_cliente', {
+      let response = await fetch('http://localhost:5001/create_cliente', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ export default class ClientsController extends Controller {
     try {
       console.log("Solictud al endpoint /update_cliente/{id} en formato JSON");
       let response = await fetch(
-        `http://35.202.166.109:5003/update_cliente/${updatedClient.id}`,
+        `http://localhost:5003/update_cliente/${updatedClient.id}`,
         {
           method: 'PATCH',
           headers: {
@@ -212,7 +212,7 @@ export default class ClientsController extends Controller {
     try {
       console.log("Solictud al endpoint /delete_cliente/{id} en formato JSON");
       let response = await fetch(
-        `http://35.202.166.109:5004/delete_cliente/${client.id}`,
+        `http://localhost:5004/delete_cliente/${client.id}`,
         {
           // URL del servicio de eliminación
           method: 'DELETE',

@@ -29,7 +29,7 @@ export default class ReportesController extends Controller {
   obtenerReporteCliente() {
     const clienteId = 92625; // ID estático
     console.log("Solictud al endpoint /api/reportes/creditos en formato JSON");
-    fetch("http://35.202.166.109:5020/api/reportes/creditos", {
+    fetch("http://localhost:5020/api/reportes/creditos", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export default class ReportesController extends Controller {
     switch (tipoReporte) {
       case 'pagos-atrasados':
         console.log("Solictud al endpoint /api/pagos-atrasados en formato JSON");
-        const responseCredit = await fetch('http://35.202.166.109:5019/api/pagos-atrasados');
+        const responseCredit = await fetch('http://localhost:5019/api/pagos-atrasados');
         if (responseCredit.ok) {
           this.pagos = await responseCredit.json();
           this.crearGraficaEvolucionPagosAtrasados();
@@ -71,12 +71,12 @@ export default class ReportesController extends Controller {
 
       case 'creditos-activos':
         console.log("Solictud al endpoint /api/creditos-activos en formato JSON");
-        const responsecreditosActivos = await fetch('http://35.202.166.109:5018/api/creditos-activos');
+        const responsecreditosActivos = await fetch('http://localhost:5018/api/creditos-activos');
         if (responsecreditosActivos.ok) {
           this.creditosActivos = await responsecreditosActivos.json();
 
           console.log("Solictud al endpoint /api/creditos-totales en formato JSON");
-          const responseCreditosTotales = await fetch('http://35.202.166.109:5022/api/creditos-totales');
+          const responseCreditosTotales = await fetch('http://localhost:5022/api/creditos-totales');
           if (responseCreditosTotales.ok) {
             this.creditosTotales = await responseCreditosTotales.json();
             this.crearGraficaCreditosActivos();
@@ -90,7 +90,7 @@ export default class ReportesController extends Controller {
 
       case 'resumen-financiero':
         console.log("Solictud al endpoint /api/resumen-financiero en formato JSON");
-        const responseResumen = await fetch('http://35.202.166.109:5021/api/resumen-financiero');
+        const responseResumen = await fetch('http://localhost:5021/api/resumen-financiero');
         if (responseResumen.ok) {
           this.resumen = await responseResumen.json();
           this.crearGraficasResumenFinanciero();

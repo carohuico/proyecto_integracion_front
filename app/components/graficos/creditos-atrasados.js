@@ -33,7 +33,7 @@ export default Component.extend({
       console.log("Solictud al endpoint /api/grafica-creditos-atrasados en formato XML");
       // Realizar la solicitud al backend
       const response = await fetch(
-        'http://35.202.166.109:5011/api/grafica-creditos-atrasados',
+        'http://localhost:5011/api/grafica-creditos-atrasados',
         {
           method: 'GET',
         },

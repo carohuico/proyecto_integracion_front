@@ -21,7 +21,7 @@ export default class LoginComponent extends Component {
         password: this.password,
       };
       console.log("Solictud al endpoint /login en formato JSON");
-      const response = await fetch('http://35.202.166.109:5000/login', {
+      const response = await fetch('http://localhost:5000/login', {
         // Asegúrate de que la URL sea correcta
         method: 'POST',
         headers: {

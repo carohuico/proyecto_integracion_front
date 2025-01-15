@@ -18,7 +18,7 @@ export default class PerdidasProductoFinancieroChartComponent extends Component 
   async loadData() {
     try {
       console.log("Solictud al endpoint /api/perdidas-producto-financiero en formato XML");
-      const response = await fetch('http://35.202.166.109:5026/api/perdidas-producto-financiero', {
+      const response = await fetch('http://localhost:5026/api/perdidas-producto-financiero', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/xml',

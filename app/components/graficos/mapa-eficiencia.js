@@ -20,7 +20,7 @@ export default class MapaEficienciaComponent extends Component {
     console.log('Solicitud al endpoint /api/mapa-rutas-eficiencia en formato JSON');
     try {
       const response = await fetch(
-        'http://35.202.166.109:5023/api/mapa-rutas-eficiencia',
+        'http://localhost:5023/api/mapa-rutas-eficiencia',
         {
           method: 'GET',
         },

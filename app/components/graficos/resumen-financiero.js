@@ -17,7 +17,7 @@ export default class ResumenFinancieroComponent extends Component {
     try {
       console.log("Solictud al endpoint /api/resumen_financiero en formato XML");
       const response = await fetch(
-        'http://35.202.166.109:5011/api/resumen_financiero',
+        'http://localhost:5011/api/resumen_financiero',
         {
           method: 'GET',
           headers: {

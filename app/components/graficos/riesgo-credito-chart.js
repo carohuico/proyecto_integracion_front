@@ -18,7 +18,7 @@ export default class RiesgoCreditoChartComponent extends Component {
   async loadData() {
     try {
       console.log("Solictud al endpoint /api/riesgo-credito-rutas en formato JSON");
-      const response = await fetch('http://35.202.166.109:5025/api/riesgo-credito-rutas');
+      const response = await fetch('http://localhost:5025/api/riesgo-credito-rutas');
       if (!response.ok) {
         throw new Error(`Error al obtener los datos: ${response.status}`);
       }

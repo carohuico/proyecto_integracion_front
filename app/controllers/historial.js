@@ -43,9 +43,9 @@ export default class HistoryController extends Controller {
     try {
       this.isLoading = true;
       this.progress = 0;
-      let url = `http://35.202.166.109:5013/api/historial-credito/${idCliente}`;
+      let url = `http://localhost:5013/api/historial-credito/${idCliente}`;
       if (this.auth.userRole === 'admin') {
-        url = 'http://35.202.166.109:5013/api/historial-credito'; 
+        url = 'http://localhost:5013/api/historial-credito'; 
       }
 
       console.log("Solictud al endpoint /api/historial-credito/{id} en formato JSON");
@@ -84,7 +84,7 @@ export default class HistoryController extends Controller {
     event.preventDefault();
     try {
       console.log("Solictud al endpoint /api/historial-credito en formato JSON");
-      let response = await fetch('http://35.202.166.109:5012/api/historial-credito', {
+      let response = await fetch('http://localhost:5012/api/historial-credito', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -174,7 +174,7 @@ export default class HistoryController extends Controller {
   async searchHistory(clienteId) {
     try {
       console.log("Solictud al endpoint /api/historial-credito/{id} en formato JSON");
-      let response = await fetch(`http://35.202.166.109:5013/api/historial-credito/${clienteId}`);
+      let response = await fetch(`http://localhost:5013/api/historial-credito/${clienteId}`);
       if (!response.ok) {
         if (response.status === 404) {
           this.searchResults = [];
@@ -276,7 +276,7 @@ export default class HistoryController extends Controller {
   async deleteEntry(entry) {
       try {
           console.log("Solictud al endpoint /api/historial-credito/{id} en formato JSON");
-          let response = await fetch(`http://35.202.166.109:5015/api/historial-credito/${entry.id}`, {
+          let response = await fetch(`http://localhost:5015/api/historial-credito/${entry.id}`, {
               method: 'DELETE',
               Authorization: `Bearer ${token}`,
           });

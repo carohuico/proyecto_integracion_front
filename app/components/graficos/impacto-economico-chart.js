@@ -17,7 +17,7 @@ export default class ImpactoEconomicoChartComponent extends Component {
   @action
   async loadData() {
     try {
-      const response = await fetch('http://35.202.166.109:5025/api/impacto-economico-cierres');
+      const response = await fetch('http://localhost:5025/api/impacto-economico-cierres');
       if (!response.ok) {
         throw new Error(`Error al obtener los datos: ${response.status}`);
       }

@@ -14,7 +14,7 @@ export default class PagosRoute extends Route {
   async model(params) {
     try {
       const clienteId = params.id_cliente; // Obtén el ID del cliente desde los parámetros de la URL
-      let url = 'http://35.202.166.109:5016/api/pagos'; // URL del servicio para pagos
+      let url = 'http://localhost:5016/api/pagos'; // URL del servicio para pagos
 
       // Si se pasa un ID de cliente, agrega un parámetro de consulta
       if (clienteId) {

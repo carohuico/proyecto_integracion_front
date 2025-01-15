@@ -88,7 +88,7 @@ export default class AddCreditHistoryModalComponent extends Component {
     try {
       console.log("Solicitud hacia el endpoint /api/historial-credito en formato JSON");
       let response = await fetch(
-        'http://35.202.166.109:5012/api/historial-credito',
+        'http://localhost:5012/api/historial-credito',
         {
           method: 'POST',
           headers: {
@@ -144,7 +144,7 @@ export default class AddCreditHistoryModalComponent extends Component {
       try {
         console.log("Solicitud hacia el endpoint /api/historial-credito/{id} en formato JSON");
         await fetch(
-          `http://35.202.166.109:5015/api/historial-credito/${this.args.entry.id}`,
+          `http://localhost:5015/api/historial-credito/${this.args.entry.id}`,
           {
             method: 'DELETE',
             headers: {
